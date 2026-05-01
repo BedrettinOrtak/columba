@@ -8,17 +8,23 @@ import kotlinx.coroutines.flow.map
 import network.columba.desktop.data.db.ColumbaDatabase
 import network.columba.desktop.data.db.dao.LocalIdentityDao
 import network.columba.desktop.data.db.entity.LocalIdentityEntity
+import network.columba.desktop.data.reticulum.DesktopReticulumService
 import network.columba.shared.domain.model.Identity
 import network.columba.shared.domain.repository.IdentityRepository
+import network.reticulum.crypto.BouncyCastleProvider
+import network.reticulum.identity.Identity as RnsIdentity
 import org.slf4j.LoggerFactory
 import java.util.Base64
 
 /**
  * Desktop implementation of IdentityRepository.
- * Uses SQLite JDBC for data persistence.
+ * Uses SQLite JDBC for data persistence and reticulum-kt for the actual
+ * Reticulum identity primitives — keys generated here are interoperable
+ * with the Android client and any reference Python RNS peer.
  */
 class DesktopIdentityRepository(
     private val database: ColumbaDatabase,
+    private val reticulumService: DesktopReticulumService? = null,
 ) : IdentityRepository {
     private val logger = LoggerFactory.getLogger(DesktopIdentityRepository::class.java)
     private val localIdentityDao = LocalIdentityDao { database.getConnection() }
@@ -48,16 +54,19 @@ class DesktopIdentityRepository(
     }
 
     override suspend fun createIdentity(displayName: String): Identity {
-        // Generate identity keys using Java security APIs
-        // Note: In production, use proper Reticulum identity generation
-        val keyPair = generateKeyPair()
-        val identityHash = generateIdentityHash(keyPair.public)
+        // Generate a real Reticulum identity. The Identity class wraps an
+        // Ed25519 signing key + X25519 exchange key in the exact byte layout
+        // expected on the wire by both Python RNS and the Android client.
+        // Using anything else (e.g. JCA Ed25519) would produce hashes that
+        // wouldn't resolve on the Reticulum mesh.
+        val rnsIdentity = RnsIdentity.Companion.create(reticulumService?.cryptoProvider ?: BouncyCastleProvider())
+        val identityHash = rnsIdentity.hexHash
 
         val identity = LocalIdentityEntity(
             identityHash = identityHash,
             displayName = displayName,
-            publicKey = encodeBytes(keyPair.public.encoded),
-            privateKey = encodeBytes(keyPair.private.encoded),
+            publicKey = encodeBytes(rnsIdentity.getPublicKey()),
+            privateKey = encodeBytes(rnsIdentity.getPrivateKey()),
             isActive = true,
             createdAt = System.currentTimeMillis(),
         )
@@ -149,25 +158,5 @@ class DesktopIdentityRepository(
 
     private fun decodeBytes(base64: String): ByteArray {
         return Base64.getDecoder().decode(base64)
-    }
-
-    /**
-     * Generate a simple key pair for demonstration.
-     * In production, use Reticulum's identity generation.
-     */
-    private fun generateKeyPair(): java.security.KeyPair {
-        val keyGen = java.security.KeyPairGenerator.getInstance("Ed25519")
-        keyGen.initialize(256)
-        return keyGen.generateKeyPair()
-    }
-
-    /**
-     * Generate a simple identity hash from public key.
-     * In production, use Reticulum's identity hash calculation.
-     */
-    private fun generateIdentityHash(publicKey: java.security.PublicKey): String {
-        val digest = java.security.MessageDigest.getInstance("SHA-256")
-        val hash = digest.digest(publicKey.encoded)
-        return hash.take(8).joinToString("") { "%02x".format(it) }
     }
 }

@@ -1,28 +1,40 @@
 package network.columba.desktop.data.repository
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import network.columba.desktop.data.db.ColumbaDatabase
 import network.columba.desktop.data.db.dao.ConversationDao
 import network.columba.desktop.data.db.dao.LocalIdentityDao
 import network.columba.desktop.data.db.dao.MessageDao
 import network.columba.desktop.data.db.entity.ConversationEntity
 import network.columba.desktop.data.db.entity.MessageEntity
+import network.columba.desktop.data.reticulum.DesktopReticulumService
 import network.columba.shared.domain.model.Conversation
 import network.columba.shared.domain.model.Message
 import network.columba.shared.domain.repository.ConversationRepository
+import network.reticulum.lxmf.LXMessage
 import org.slf4j.LoggerFactory
 import java.util.Base64
+import java.util.UUID
 
 /**
  * Desktop implementation of ConversationRepository.
- * Uses SQLite JDBC for data persistence.
+ *
+ * Persists messages locally to SQLite and routes outbound messages through
+ * the Reticulum LXMF stack so they reach the network. Inbound LXMF messages
+ * delivered by [DesktopReticulumService] are written back to the same SQLite
+ * tables so the UI's reactive flows pick them up automatically.
  */
 class DesktopConversationRepository(
     private val database: ColumbaDatabase,
+    private val reticulumService: DesktopReticulumService? = null,
 ) : ConversationRepository {
     private val logger = LoggerFactory.getLogger(DesktopConversationRepository::class.java)
     private val conversationDao = ConversationDao { database.getConnection() }
@@ -31,6 +43,23 @@ class DesktopConversationRepository(
 
     /** Bumped on every write so observers re-query the DAO. */
     private val refreshTrigger = MutableStateFlow(0L)
+
+    private val inboundScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+    init {
+        // Subscribe to inbound LXMF messages from the Reticulum service. Each
+        // delivered message gets persisted as if the user had received it via
+        // any other transport — the UI flow then surfaces it without any
+        // additional plumbing.
+        reticulumService?.let { svc ->
+            inboundScope.launch {
+                svc.inbound.filterNotNull().collect { lxmf ->
+                    runCatching { ingestInbound(lxmf) }
+                        .onFailure { e -> logger.warn("Failed to ingest inbound LXMF", e) }
+                }
+            }
+        }
+    }
 
     private fun notifyChanged() {
         refreshTrigger.value = System.nanoTime()
@@ -127,6 +156,102 @@ class DesktopConversationRepository(
             }
         }
         notifyChanged()
+
+        // For outgoing messages, hand off to the Reticulum LXMF router so the
+        // peer actually gets it. We only do this for messages we authored
+        // (incoming ones come from the network already).
+        if (message.isFromMe) {
+            reticulumService?.let { svc ->
+                runCatching {
+                    val recipientBytes = hexStringToBytes(peerHash)
+                    val sentHash = svc.sendMessage(recipientBytes, message.content)
+                    logger.info(
+                        "Sent LXMF message to {} (router hash={})",
+                        peerHash,
+                        sentHash.joinToString("") { "%02x".format(it) },
+                    )
+                }.onFailure { e ->
+                    logger.warn("Failed to dispatch outbound LXMF to {}: {}", peerHash, e.message)
+                    // Mark the persisted message as failed so the UI can show it.
+                    runCatching {
+                        messageDao.updateMessageStatus(
+                            message.id,
+                            localIdentityDao.getActiveIdentity()?.identityHash ?: return@runCatching,
+                            "failed",
+                        )
+                        notifyChanged()
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Persist an inbound LXMF message. Called from the Reticulum service
+     * subscription. Source hash becomes the conversation key.
+     */
+    private suspend fun ingestInbound(lxmf: LXMessage) {
+        val sourceHash = lxmf.sourceHash ?: return
+        val peerHash = sourceHash.joinToString("") { "%02x".format(it) }
+        val activeIdentity = localIdentityDao.getActiveIdentity() ?: return
+        val identityHash = activeIdentity.identityHash
+        val messageId = lxmf.hash?.joinToString("") { "%02x".format(it) }
+            ?: UUID.randomUUID().toString()
+        val timestampMs = (lxmf.timestamp?.let { (it * 1000).toLong() })
+            ?: System.currentTimeMillis()
+        val content = lxmf.content ?: ""
+        // Best-effort peer name. Source-side announces populate this elsewhere;
+        // for first contact we fall back to a hash prefix so the user sees
+        // something rather than a blank row.
+        val peerName = peerHash.take(12)
+
+        database.withConnection { _ ->
+            if (messageDao.messageExists(messageId, identityHash)) return@withConnection
+            val existing = conversationDao.getConversation(peerHash, identityHash)
+            if (existing != null) {
+                conversationDao.updateConversation(
+                    existing.copy(
+                        lastMessage = content,
+                        lastMessageTimestamp = timestampMs,
+                        unreadCount = existing.unreadCount + 1,
+                    ),
+                )
+            } else {
+                conversationDao.insertConversation(
+                    ConversationEntity(
+                        peerHash = peerHash,
+                        identityHash = identityHash,
+                        peerName = peerName,
+                        peerPublicKey = null,
+                        lastMessage = content,
+                        lastMessageTimestamp = timestampMs,
+                        unreadCount = 1,
+                    ),
+                )
+            }
+            messageDao.insertMessage(
+                MessageEntity(
+                    id = messageId,
+                    conversationHash = peerHash,
+                    identityHash = identityHash,
+                    content = content,
+                    timestamp = timestampMs,
+                    isFromMe = false,
+                    status = "delivered",
+                    isRead = false,
+                    receivedAt = System.currentTimeMillis(),
+                ),
+            )
+        }
+        notifyChanged()
+    }
+
+    private fun hexStringToBytes(hex: String): ByteArray {
+        val clean = hex.removePrefix("0x").lowercase()
+        require(clean.length % 2 == 0) { "Hex string must have even length: $hex" }
+        return ByteArray(clean.length / 2) { i ->
+            ((Character.digit(clean[i * 2], 16) shl 4) + Character.digit(clean[i * 2 + 1], 16)).toByte()
+        }
     }
 
     override suspend fun markConversationAsRead(peerHash: String) {

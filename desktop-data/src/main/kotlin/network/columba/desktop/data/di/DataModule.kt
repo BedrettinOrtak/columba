@@ -4,9 +4,9 @@ import network.columba.desktop.data.db.ColumbaDatabase
 import network.columba.desktop.data.preference.AppPreferences
 import network.columba.desktop.data.repository.DesktopConversationRepository
 import network.columba.desktop.data.repository.DesktopIdentityRepository
+import network.columba.desktop.data.reticulum.DesktopReticulumService
 import network.columba.shared.domain.repository.ConversationRepository
 import network.columba.shared.domain.repository.IdentityRepository
-import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import java.io.File
 
@@ -17,7 +17,7 @@ import java.io.File
 val desktopDataModule = module {
     // Config directory
     single<File> {
-        File(System.getProperty("user.home"), ".columba")
+        File(System.getProperty("user.home"), ".columba").apply { mkdirs() }
     }
 
     // Preferences
@@ -28,13 +28,17 @@ val desktopDataModule = module {
         ColumbaDatabase.getInstance(get())
     }
 
+    // Reticulum networking service. Held as a singleton so identity, router,
+    // and interfaces all live for the lifetime of the desktop process.
+    single { DesktopReticulumService(get()) }
+
     // Repositories
     single<ConversationRepository> {
-        DesktopConversationRepository(get())
+        DesktopConversationRepository(get(), get())
     }
 
     single<IdentityRepository> {
-        DesktopIdentityRepository(get())
+        DesktopIdentityRepository(get(), get())
     }
 }
 

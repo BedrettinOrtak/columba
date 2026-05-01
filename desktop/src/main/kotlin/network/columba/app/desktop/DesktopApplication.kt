@@ -27,8 +27,12 @@ import network.columba.app.desktop.ui.screens.SettingsScreen
 import network.columba.app.desktop.ui.theme.ColumbaTheme
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
+import org.koin.java.KoinJavaComponent.getKoin
 import network.columba.desktop.data.di.desktopDataModule
 import network.columba.desktop.data.preference.AppPreferences
+import network.columba.desktop.data.reticulum.DesktopReticulumService
+import network.columba.desktop.data.repository.DesktopIdentityRepository
+import network.columba.shared.domain.repository.IdentityRepository
 import androidx.compose.runtime.getValue
 
 // State for language
@@ -135,10 +139,26 @@ fun main() = application {
     val savedLanguage = preferences.getLanguage()
     appState.setLanguage(Language.fromCode(savedLanguage))
 
+    // Boot the Reticulum networking stack. We pull the active identity
+    // (creating one on first run) and hand its display name to the service so
+    // outgoing announces carry it. Failures here shouldn't crash the UI; the
+    // user can retry from settings once they fix their network config.
+    val rnsService = getKoin().get<DesktopReticulumService>()
+    runCatching {
+        val identityRepo = getKoin().get<IdentityRepository>() as DesktopIdentityRepository
+        val active = kotlinx.coroutines.runBlocking { identityRepo.getActiveIdentitySync() }
+            ?: kotlinx.coroutines.runBlocking { identityRepo.createIdentity("Columba User") }
+        rnsService.start(active.displayName)
+    }.onFailure { e ->
+        System.err.println("Failed to start Reticulum service: ${e.message}")
+        e.printStackTrace()
+    }
+
     val windowState = rememberWindowState(width = 1280.dp, height = 800.dp)
 
     Window(
         onCloseRequest = {
+            runCatching { rnsService.stop() }
             stopKoin()
             exitApplication()
         },
