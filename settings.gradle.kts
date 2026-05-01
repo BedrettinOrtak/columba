@@ -12,6 +12,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url = uri("https://jitpack.io") } // Reticulum-kt / LXMF-kt / LXST-kt + usb-serial-for-android
+        maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") } // Compose Multiplatform
     }
 }
 
@@ -56,3 +57,6 @@ include(":micron")
 include(":reticulum")
 include(":detekt-rules")
 include(":screenshot-tests")
+include(":desktop")
+include(":shared")
+include(":desktop-data")

@@ -8,6 +8,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version "2.3.20" apply false
     id("io.sentry.android.gradle") version "6.1.0" apply false
     id("app.cash.paparazzi") version "1.3.5" apply false
+    id("org.jetbrains.compose") version "1.7.1" apply false
     id("jacoco")
     id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
     id("io.gitlab.arturbosch.detekt") version "1.23.8"

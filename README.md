@@ -4,7 +4,9 @@
 
 # Columba
 
-Columba is a simple messaging and voice app for the [Reticulum](https://github.com/markqvist/Reticulum) network on Android. Send [LXMF](https://github.com/markqvist/LXMF) messages and make [LXST](https://github.com/markqvist/LXST/tree/master/LXST) voice calls without relying on the internet, cell towers, or any central servers.
+Columba is a simple messaging and voice app for the [Reticulum](https://github.com/markqvist/Reticulum) network. Send [LXMF](https://github.com/markqvist/LXMF) messages and make [LXST](https://github.com/markqvist/LXST/tree/master/LXST) voice calls without relying on the internet, cell towers, or any central servers.
+
+**Available on Android and Desktop (Linux, Windows)**
 
 Built with a native Android interface and Material Design 3, Columba brings mesh networking to your pocket in a familiar, easy-to-use package.
 
@@ -27,7 +29,28 @@ Built with a native Android interface and Material Design 3, Columba brings mesh
 
 ## Getting Started
 
+### Android
+
 Download the latest release from [Releases](https://github.com/torlando-tech/columba/releases) and install on your Android device. See [SECURITY.md](./SECURITY.md) for APK verification instructions.
+
+### Desktop (Linux, Windows)
+
+A desktop version is currently in development. Build and run it locally:
+
+```bash
+# Run (Linux/Mac)
+./scripts/run-desktop.sh
+
+# Run (Windows)
+scripts\run-desktop.bat
+
+# Build distributables
+./scripts/build-desktop.sh
+```
+
+See [desktop/README.md](./desktop/README.md) for more information.
+
+**Note:** The desktop version is in early development and doesn't have full feature parity with the Android app yet.
 
 <a href="https://apps.obtainium.imranr.dev/redirect.html?r=obtainium://add/https://github.com/torlando-tech/columba"><img src="https://raw.githubusercontent.com/ImranR98/Obtainium/main/assets/graphics/badge_obtainium.png" height="60" alt="Get it on Obtainium"></a>
 
