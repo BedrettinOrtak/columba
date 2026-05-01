@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Columba</string>
+
+    <!-- صفحه تماس ورودی -->
+    <string name="incoming_voice_call">تماس صوتی ورودی</string>
+    <string name="call_answer">پاسخ</string>
+    <string name="call_decline">رد</string>
+    <string name="call_answer_content_description">پاسخ به تماس</string>
+    <string name="call_decline_content_description">رد تماس</string>
+    <string name="error_no_file_manager">برنامه مدیریت فایل در این دستگاه پیدا نشد</string>
+
+    <!-- یافتن روی نقشه -->
+    <string name="locate_on_map">یافتن روی نقشه</string>
+
+    <!-- بنر راه‌اندازی مجدد سرویس -->
+    <string name="service_restart_banner">سرویس Reticulum در حال راه‌اندازی مجدد است\u2026</string>
+
+    <!-- بنر حالت آفلاین -->
+    <string name="offline_banner_shutdown">Columba آفلاین است</string>
+    <string name="offline_banner_error">خطای اتصال</string>
+    <string name="offline_banner_reconnecting">در حال اتصال مجدد\u2026</string>
+    <string name="offline_banner_reconnect">اتصال مجدد</string>
+    <string name="offline_banner_reconnecting_description">اتصال مجدد در جریان است</string>
+
+    <!-- صفحه رابط‌های شبکه -->
+    <string name="delete_interface">حذف رابط</string>
+    <string name="view_interface_details">مشاهده جزئیات رابط</string>
+    <string name="interface_actions">عملیات رابط</string>
+    <string name="edit_interface">ویرایش رابط</string>
+</resources>

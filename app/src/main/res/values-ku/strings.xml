@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Columba</string>
+
+    <!-- Dîmena bangê ya têketî -->
+    <string name="incoming_voice_call">Banga Dengî ya Têketî</string>
+    <string name="call_answer">Bersiv bide</string>
+    <string name="call_decline">Red bike</string>
+    <string name="call_answer_content_description">Bersiva bangê bide</string>
+    <string name="call_decline_content_description">Bangê red bike</string>
+    <string name="error_no_file_manager">Li ser vê amûrê serlêdana rêveberê pelan nehat dîtin</string>
+
+    <!-- Li ser nexşeyê bibîne -->
+    <string name="locate_on_map">Li ser Nexşeyê Bibîne</string>
+
+    <!-- Banera ji nû ve destpêkirina servîsê -->
+    <string name="service_restart_banner">Servîsa Reticulum ji nû ve tê destpêkirin\u2026</string>
+
+    <!-- Banera moda offlînê -->
+    <string name="offline_banner_shutdown">Columba offlîne ye</string>
+    <string name="offline_banner_error">Çewtiya girêdanê</string>
+    <string name="offline_banner_reconnecting">Ji nû ve tê girêdan\u2026</string>
+    <string name="offline_banner_reconnect">Ji Nû Ve Girê Bide</string>
+    <string name="offline_banner_reconnecting_description">Girêdana ji nû ve tê kirin</string>
+
+    <!-- Dîmena Navrûyên Torê -->
+    <string name="delete_interface">Navrûyê jê bibe</string>
+    <string name="view_interface_details">Hûragahiyên navrûyê nîşan bide</string>
+    <string name="interface_actions">Karên navrûyê</string>
+    <string name="edit_interface">Navrûyê biguhêre</string>
+</resources>

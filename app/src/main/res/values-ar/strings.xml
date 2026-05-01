@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Columba</string>
+
+    <!-- شاشة المكالمة الواردة -->
+    <string name="incoming_voice_call">مكالمة صوتية واردة</string>
+    <string name="call_answer">رد</string>
+    <string name="call_decline">رفض</string>
+    <string name="call_answer_content_description">الرد على المكالمة</string>
+    <string name="call_decline_content_description">رفض المكالمة</string>
+    <string name="error_no_file_manager">لم يتم العثور على تطبيق مدير ملفات على هذا الجهاز</string>
+
+    <!-- تحديد الموقع على الخريطة -->
+    <string name="locate_on_map">تحديد الموقع على الخريطة</string>
+
+    <!-- شريط إعادة تشغيل الخدمة -->
+    <string name="service_restart_banner">جارٍ إعادة تشغيل خدمة Reticulum\u2026</string>
+
+    <!-- شريط الوضع غير المتصل -->
+    <string name="offline_banner_shutdown">Columba غير متصل</string>
+    <string name="offline_banner_error">خطأ في الاتصال</string>
+    <string name="offline_banner_reconnecting">جارٍ إعادة الاتصال\u2026</string>
+    <string name="offline_banner_reconnect">إعادة الاتصال</string>
+    <string name="offline_banner_reconnecting_description">إعادة الاتصال قيد التقدم</string>
+
+    <!-- شاشة واجهات الشبكة -->
+    <string name="delete_interface">حذف الواجهة</string>
+    <string name="view_interface_details">عرض تفاصيل الواجهة</string>
+    <string name="interface_actions">إجراءات الواجهة</string>
+    <string name="edit_interface">تعديل الواجهة</string>
+</resources>

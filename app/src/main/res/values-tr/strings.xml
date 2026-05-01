@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Columba</string>
+
+    <!-- Gelen arama ekranı -->
+    <string name="incoming_voice_call">Gelen Sesli Arama</string>
+    <string name="call_answer">Cevapla</string>
+    <string name="call_decline">Reddet</string>
+    <string name="call_answer_content_description">Aramayı cevapla</string>
+    <string name="call_decline_content_description">Aramayı reddet</string>
+    <string name="error_no_file_manager">Bu cihazda dosya yöneticisi uygulaması bulunamadı</string>
+
+    <!-- Haritada Bul -->
+    <string name="locate_on_map">Haritada Bul</string>
+
+    <!-- Servis yeniden başlatma bildirimi -->
+    <string name="service_restart_banner">Reticulum servisi yeniden başlatılıyor\u2026</string>
+
+    <!-- Çevrimdışı mod bildirimi -->
+    <string name="offline_banner_shutdown">Columba çevrimdışı</string>
+    <string name="offline_banner_error">Bağlantı hatası</string>
+    <string name="offline_banner_reconnecting">Yeniden bağlanılıyor\u2026</string>
+    <string name="offline_banner_reconnect">Yeniden Bağlan</string>
+    <string name="offline_banner_reconnecting_description">Yeniden bağlanma sürüyor</string>
+
+    <!-- Ağ Arayüzleri ekranı -->
+    <string name="delete_interface">Arayüzü sil</string>
+    <string name="view_interface_details">Arayüz detaylarını göster</string>
+    <string name="interface_actions">Arayüz işlemleri</string>
+    <string name="edit_interface">Arayüzü düzenle</string>
+</resources>
