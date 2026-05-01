@@ -10,6 +10,8 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import network.columba.app.R
 import network.columba.app.ui.components.CollapsibleSettingsCard
 
 @Composable
@@ -21,7 +23,7 @@ fun NotificationSettingsCard(
     onManageClick: () -> Unit,
 ) {
     CollapsibleSettingsCard(
-        title = "Notifications",
+        title = stringResource(R.string.notification_settings_notifications),
         icon = Icons.Default.Notifications,
         isExpanded = isExpanded,
         onExpandedChange = onExpandedChange,
@@ -53,7 +55,7 @@ fun NotificationSettingsCard(
                     containerColor = MaterialTheme.colorScheme.primary,
                 ),
         ) {
-            Text("Manage Notifications")
+            Text(stringResource(R.string.notification_settings_card_manage_notifications))
         }
     }
 }

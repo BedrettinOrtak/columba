@@ -175,19 +175,19 @@ fun ChatsScreen(
     Scaffold(
         topBar = {
             SearchableTopAppBar(
-                title = "Chats",
+                title = stringResource(R.string.chats_chats),
                 subtitle = "${chatsState.conversations.size} ${if (chatsState.conversations.size == 1) "conversation" else "conversations"}",
                 isSearching = isSearching,
                 searchQuery = searchQuery,
                 onSearchQueryChange = { viewModel.searchQuery.value = it },
                 onSearchToggle = { isSearching = !isSearching },
-                searchPlaceholder = "Search conversations...",
+                searchPlaceholder = stringResource(R.string.chats_search_conversations),
                 additionalActions = {
                     // QR Code button
                     IconButton(onClick = { showQrBottomSheet = true }) {
                         Icon(
                             imageVector = Icons.Default.QrCode2,
-                            contentDescription = "QR Code",
+                            contentDescription = stringResource(R.string.chats_qr_code),
                         )
                     }
                     // Sync button - shows spinner during sync, tapping opens status sheet
@@ -208,7 +208,7 @@ fun ChatsScreen(
                         } else {
                             Icon(
                                 imageVector = Icons.Default.Refresh,
-                                contentDescription = "Sync messages",
+                                contentDescription = stringResource(R.string.chats_sync_messages),
                             )
                         }
                     }
@@ -505,7 +505,7 @@ fun ConversationCard(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Star,
-                                contentDescription = "Saved contact",
+                                contentDescription = stringResource(R.string.chats_saved_contact),
                                 tint = MaterialTheme.colorScheme.onTertiaryContainer,
                                 modifier =
                                     Modifier
@@ -630,7 +630,7 @@ fun ConversationContextMenu(
                 )
             },
             text = {
-                Text(if (isSaved) "Remove from Contacts" else "Save to Contacts")
+                Text(if (isSaved) stringResource(R.string.chats_remove_from_contacts) else stringResource(R.string.chats_save_to_contacts))
             },
             onClick = {
                 if (isSaved) {
@@ -652,7 +652,7 @@ fun ConversationContextMenu(
                 )
             },
             text = {
-                Text("Mark as Unread")
+                Text(stringResource(R.string.chats_mark_as_unread))
             },
             onClick = onMarkAsUnread,
         )
@@ -666,7 +666,7 @@ fun ConversationContextMenu(
                 )
             },
             text = {
-                Text("View Peer Details")
+                Text(stringResource(R.string.chats_view_peer_details))
             },
             onClick = onViewDetails,
         )
@@ -701,7 +701,7 @@ fun ConversationContextMenu(
             },
             text = {
                 Text(
-                    text = "Delete Conversation",
+                    text = stringResource(R.string.chats_delete_conversation),
                     color = MaterialTheme.colorScheme.error,
                 )
             },
@@ -719,7 +719,7 @@ fun ConversationContextMenu(
             },
             text = {
                 Text(
-                    text = "Block User",
+                    text = stringResource(R.string.chats_block_user),
                     color = MaterialTheme.colorScheme.error,
                 )
             },
@@ -744,10 +744,10 @@ fun DeleteConversationDialog(
             )
         },
         title = {
-            Text("Delete Conversation?")
+            Text(stringResource(R.string.chats_delete_conversation_0663))
         },
         text = {
-            Text("Are you sure you want to delete your conversation with $peerName? This will permanently delete all messages.")
+            Text(stringResource(R.string.chats_delete_conversation_confirm, peerName))
         },
         confirmButton = {
             TextButton(
@@ -757,12 +757,12 @@ fun DeleteConversationDialog(
                         contentColor = MaterialTheme.colorScheme.error,
                     ),
             ) {
-                Text("Delete")
+                Text(stringResource(R.string.chats_delete))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.action_cancel))
             }
         },
     )
@@ -788,11 +788,11 @@ fun BlockUserDialog(
             )
         },
         title = {
-            Text("Block $peerName?")
+            Text(stringResource(R.string.chats_block_peer_confirm_title, peerName))
         },
         text = {
             Column {
-                Text("They won't be able to send you messages. Their conversation will be hidden from the chat list.")
+                Text(stringResource(R.string.chats_they_won_t_be_able_to))
                 Spacer(modifier = Modifier.height(16.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -804,7 +804,7 @@ fun BlockUserDialog(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Also delete conversation and messages",
+                        text = stringResource(R.string.chats_also_delete_conversation_and_messages),
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 }
@@ -818,13 +818,13 @@ fun BlockUserDialog(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Also blackhole (don't relay their announces)",
+                        text = stringResource(R.string.chats_also_blackhole_don_t_relay_their),
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 }
                 if (blackholeEnabled && !isTransportEnabled) {
                     Text(
-                        text = "Transport is currently disabled. This identity will be blackholed whenever transport is later enabled.",
+                        text = stringResource(R.string.chats_transport_is_currently_disabled_this_identity),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(start = 48.dp, top = 4.dp),
@@ -840,12 +840,12 @@ fun BlockUserDialog(
                         contentColor = MaterialTheme.colorScheme.error,
                     ),
             ) {
-                Text("Block")
+                Text(stringResource(R.string.chats_block))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.action_cancel))
             }
         },
     )
@@ -863,7 +863,7 @@ fun LoadingConversationsState(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "Loading conversations...",
+            text = stringResource(R.string.chats_loading_conversations),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -885,13 +885,13 @@ fun EmptyChatsState(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "No conversations yet",
+            text = stringResource(R.string.chats_no_conversations_yet),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Messages from peers will appear here",
+            text = stringResource(R.string.chats_messages_from_peers_will_appear_here),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
         )

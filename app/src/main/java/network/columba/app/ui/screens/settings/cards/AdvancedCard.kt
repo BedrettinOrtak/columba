@@ -13,8 +13,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import network.columba.app.R
 import network.columba.app.ui.components.CollapsibleSettingsCard
 
 /**
@@ -35,7 +37,7 @@ fun AdvancedCard(
     onTransportNodeToggle: (Boolean) -> Unit = {},
 ) {
     CollapsibleSettingsCard(
-        title = "Advanced",
+        title = stringResource(R.string.interface_management_advanced),
         icon = Icons.Default.Tune,
         isExpanded = isExpanded,
         onExpandedChange = onExpandedChange,
@@ -56,7 +58,7 @@ fun AdvancedCard(
                     tint = MaterialTheme.colorScheme.primary,
                 )
                 Text(
-                    text = "Transport Node",
+                    text = stringResource(R.string.advanced_card_transport_node),
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Medium,
                 )

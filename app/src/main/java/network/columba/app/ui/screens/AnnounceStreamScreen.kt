@@ -55,6 +55,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
@@ -62,6 +63,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.launch
+import network.columba.app.R
 import network.columba.app.data.repository.Announce
 import network.columba.app.reticulum.model.NodeType
 import network.columba.app.ui.components.AnnounceFilterChips
@@ -154,13 +156,13 @@ fun AnnounceStreamScreen(
     Scaffold(
         topBar = {
             SearchableTopAppBar(
-                title = "Discovered Nodes",
+                title = stringResource(R.string.announce_stream_discovered_nodes),
                 subtitle = "$reachableCount nodes in range (active paths)",
                 isSearching = isSearching,
                 searchQuery = searchQuery,
                 onSearchQueryChange = { viewModel.searchQuery.value = it },
                 onSearchToggle = { isSearching = !isSearching },
-                searchPlaceholder = "Search by name or hash...",
+                searchPlaceholder = stringResource(R.string.announce_stream_search_by_name_or_hash),
                 additionalActions = {
                     // Announce button
                     IconButton(
@@ -176,7 +178,7 @@ fun AnnounceStreamScreen(
                         } else {
                             Icon(
                                 imageVector = Icons.Default.Campaign,
-                                contentDescription = "Announce now",
+                                contentDescription = stringResource(R.string.announce_stream_announce_now),
                                 tint = MaterialTheme.colorScheme.onPrimaryContainer,
                             )
                         }
@@ -186,7 +188,7 @@ fun AnnounceStreamScreen(
                         IconButton(onClick = { showOverflowMenu = true }) {
                             Icon(
                                 imageVector = Icons.Default.MoreVert,
-                                contentDescription = "More options",
+                                contentDescription = stringResource(R.string.announce_stream_more_options),
                                 tint = MaterialTheme.colorScheme.onPrimaryContainer,
                             )
                         }
@@ -204,7 +206,7 @@ fun AnnounceStreamScreen(
                                 },
                                 text = {
                                     Text(
-                                        text = "Clear All Announces",
+                                        text = stringResource(R.string.announce_stream_clear_all_announces),
                                         color = MaterialTheme.colorScheme.error,
                                     )
                                 },
@@ -326,7 +328,7 @@ fun AnnounceStreamScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.KeyboardArrowUp,
-                                    contentDescription = "Scroll to top",
+                                    contentDescription = stringResource(R.string.announce_stream_scroll_to_top),
                                 )
                                 Text(
                                     text = "$newAnnouncesCount",
@@ -424,7 +426,7 @@ fun PeerContextMenu(
                 )
             },
             text = {
-                Text(if (announce.isFavorite) "Remove from Saved" else "Save Peer")
+                Text(if (announce.isFavorite) stringResource(R.string.announce_stream_remove_from_saved) else stringResource(R.string.announce_stream_save_peer))
             },
             onClick = {
                 onToggleFavorite()
@@ -444,7 +446,7 @@ fun PeerContextMenu(
                     )
                 },
                 text = {
-                    Text("Start Chat")
+                    Text(stringResource(R.string.announce_stream_start_chat))
                 },
                 onClick = {
                     onStartChat()
@@ -462,7 +464,7 @@ fun PeerContextMenu(
                 )
             },
             text = {
-                Text("View Details")
+                Text(stringResource(R.string.announce_stream_view_details))
             },
             onClick = {
                 onViewDetails()
@@ -483,7 +485,7 @@ fun PeerContextMenu(
             },
             text = {
                 Text(
-                    text = "Delete",
+                    text = stringResource(R.string.announce_stream_delete),
                     color = MaterialTheme.colorScheme.error,
                 )
             },
@@ -676,7 +678,7 @@ fun LoadingNetworkState(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "Loading network...",
+            text = stringResource(R.string.announce_stream_loading_network),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -698,13 +700,13 @@ fun EmptyAnnounceState(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "No nodes discovered yet",
+            text = stringResource(R.string.announce_stream_no_nodes_discovered_yet),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Listening for announces...",
+            text = stringResource(R.string.announce_stream_listening_for_announces),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
         )
@@ -734,10 +736,10 @@ fun DeleteAnnounceDialog(
             )
         },
         title = {
-            Text("Delete Announce?")
+            Text(stringResource(R.string.announce_stream_delete_announce))
         },
         text = {
-            Text("Remove $peerName from the list? They will reappear when they announce again.")
+            Text(stringResource(R.string.announce_stream_remove_peer_confirm, peerName))
         },
         confirmButton = {
             TextButton(
@@ -747,12 +749,12 @@ fun DeleteAnnounceDialog(
                         contentColor = MaterialTheme.colorScheme.error,
                     ),
             ) {
-                Text("Delete")
+                Text(stringResource(R.string.announce_stream_delete_f2a6))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.action_cancel))
             }
         },
     )
@@ -773,10 +775,10 @@ fun ClearAllAnnouncesDialog(
             )
         },
         title = {
-            Text("Clear All Announces?")
+            Text(stringResource(R.string.announce_stream_clear_all_announces_1a70))
         },
         text = {
-            Text("This will remove all discovered nodes from the list, except those saved in My Contacts. Nodes will reappear when they announce again.")
+            Text(stringResource(R.string.announce_stream_this_will_remove_all_discovered_nodes))
         },
         confirmButton = {
             TextButton(
@@ -786,12 +788,12 @@ fun ClearAllAnnouncesDialog(
                         contentColor = MaterialTheme.colorScheme.error,
                     ),
             ) {
-                Text("Clear All")
+                Text(stringResource(R.string.announce_stream_clear_all))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.action_cancel))
             }
         },
     )

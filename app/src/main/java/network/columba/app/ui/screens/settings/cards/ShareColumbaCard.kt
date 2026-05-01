@@ -12,7 +12,9 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import network.columba.app.R
 import network.columba.app.ui.components.CollapsibleSettingsCard
 
 @Composable
@@ -22,13 +24,13 @@ fun ShareColumbaCard(
     onNavigateToApkSharing: () -> Unit,
 ) {
     CollapsibleSettingsCard(
-        title = "Share Columba",
+        title = stringResource(R.string.apk_sharing_share_columba),
         icon = Icons.Default.Share,
         isExpanded = isExpanded,
         onExpandedChange = onExpandedChange,
     ) {
         Text(
-            text = "Share the Columba app with someone nearby. " +
+            text = stringResource(R.string.share_columba_card_share_the_columba_app_with_someone) +
                 "The other person scans a QR code to download and install the app directly from your phone.",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -44,7 +46,7 @@ fun ShareColumbaCard(
                 modifier = Modifier.size(18.dp),
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Share Columba APK")
+            Text(stringResource(R.string.share_columba_card_share_columba_apk))
         }
     }
 }

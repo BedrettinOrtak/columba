@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -67,7 +68,7 @@ fun IdentityPage(
 
         // Title
         Text(
-            text = "Your Identity",
+            text = stringResource(R.string.identity_your_identity_a7bc),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground,
@@ -78,7 +79,7 @@ fun IdentityPage(
 
         // Subtitle
         Text(
-            text = "Choose a display name others will see:",
+            text = stringResource(R.string.identity_page_choose_a_display_name_others_will),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
@@ -90,8 +91,8 @@ fun IdentityPage(
         OutlinedTextField(
             value = displayName,
             onValueChange = onDisplayNameChange,
-            label = { Text("Display Name") },
-            placeholder = { Text("Anonymous Peer") },
+            label = { Text(stringResource(R.string.welcome_name_label)) },
+            placeholder = { Text(stringResource(R.string.welcome_anonymous_placeholder)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions =
@@ -112,7 +113,7 @@ fun IdentityPage(
 
         // Helper text
         Text(
-            text = "You can change this anytime, or create multiple identities for different contexts.",
+            text = stringResource(R.string.identity_page_you_can_change_this_anytime_or),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
@@ -133,7 +134,7 @@ fun IdentityPage(
                         .height(56.dp),
                 shape = RoundedCornerShape(12.dp),
             ) {
-                Text("Back")
+                Text(stringResource(R.string.action_back))
             }
 
             Button(
@@ -147,10 +148,11 @@ fun IdentityPage(
                         .height(56.dp),
                 shape = RoundedCornerShape(12.dp),
             ) {
-                Text("Continue")
+                Text(stringResource(R.string.action_continue))
             }
         }
 
         Spacer(modifier = Modifier.height(24.dp))
     }
 }
+import network.columba.app.R

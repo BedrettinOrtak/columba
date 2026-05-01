@@ -12,7 +12,9 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import network.columba.app.R
 import network.columba.app.ui.components.CollapsibleSettingsCard
 
 @Composable
@@ -22,7 +24,7 @@ fun DataMigrationCard(
     onNavigateToMigration: () -> Unit,
 ) {
     CollapsibleSettingsCard(
-        title = "Data Migration",
+        title = stringResource(R.string.migration_data_migration),
         icon = Icons.Default.ImportExport,
         isExpanded = isExpanded,
         onExpandedChange = onExpandedChange,
@@ -47,7 +49,7 @@ fun DataMigrationCard(
                 modifier = Modifier.size(18.dp),
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Export / Import Data")
+            Text(stringResource(R.string.data_migration_card_export_import_data))
         }
     }
 }

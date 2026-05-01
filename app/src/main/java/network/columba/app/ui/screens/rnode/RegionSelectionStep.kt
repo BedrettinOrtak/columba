@@ -35,8 +35,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import network.columba.app.R
 import network.columba.app.data.model.FrequencyRegion
 import network.columba.app.data.model.RNodeRegionalPreset
 import network.columba.app.ui.components.CustomSettingsCard
@@ -66,14 +68,14 @@ fun RegionSelectionStep(viewModel: RNodeWizardViewModel) {
     ) {
         // Header
         Text(
-            text = "Select Frequency Region",
+            text = stringResource(R.string.region_selection_step_select_frequency_region),
             style = MaterialTheme.typography.headlineSmall,
         )
 
         Spacer(Modifier.height(8.dp))
 
         Text(
-            text = "Choose your region to set the correct frequency band and power limits.",
+            text = stringResource(R.string.region_selection_step_choose_your_region_to_set_the),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -98,7 +100,7 @@ fun RegionSelectionStep(viewModel: RNodeWizardViewModel) {
             // Custom option
             item {
                 CustomSettingsCard(
-                    title = "Custom Settings",
+                    title = stringResource(R.string.region_selection_step_custom_settings),
                     description = "Configure all parameters manually",
                     isSelected = state.isCustomMode,
                     onClick = { viewModel.enableCustomMode() },
@@ -129,7 +131,7 @@ fun RegionSelectionStep(viewModel: RNodeWizardViewModel) {
                         OutlinedTextField(
                             value = state.searchQuery,
                             onValueChange = { viewModel.updateSearchQuery(it) },
-                            label = { Text("Search countries") },
+                            label = { Text(stringResource(R.string.region_selection_step_search_countries)) },
                             leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                             modifier = Modifier.fillMaxWidth(),
                             singleLine = true,
@@ -156,7 +158,7 @@ fun RegionSelectionStep(viewModel: RNodeWizardViewModel) {
                             IconButton(onClick = { viewModel.selectCountry(null) }) {
                                 Icon(
                                     Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = "Back to countries",
+                                    contentDescription = stringResource(R.string.region_selection_step_back_to_countries),
                                 )
                             }
                             Icon(
@@ -267,7 +269,7 @@ private fun FrequencyRegionCard(
             if (isSelected) {
                 Icon(
                     imageVector = Icons.Default.Check,
-                    contentDescription = "Selected",
+                    contentDescription = stringResource(R.string.region_selection_step_selected),
                     tint = MaterialTheme.colorScheme.primary,
                 )
             }
@@ -290,13 +292,13 @@ private fun PopularPresetsHeader(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "Popular Local Presets",
+                text = stringResource(R.string.region_selection_step_popular_local_presets),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Icon(
                 imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                contentDescription = if (expanded) "Collapse" else "Expand",
+                contentDescription = if (expanded) stringResource(R.string.interface_management_collapse) else stringResource(R.string.interface_management_expand),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
@@ -383,7 +385,7 @@ private fun PopularPresetCard(
                 if (isSelected) {
                     Icon(
                         Icons.Default.Check,
-                        contentDescription = "Selected",
+                        contentDescription = stringResource(R.string.region_selection_step_selected_91b4),
                         tint = MaterialTheme.colorScheme.primary,
                     )
                 }

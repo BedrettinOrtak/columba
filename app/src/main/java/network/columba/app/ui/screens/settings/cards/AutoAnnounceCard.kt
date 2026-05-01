@@ -37,9 +37,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import network.columba.app.R
 import network.columba.app.ui.components.CollapsibleSettingsCard
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -64,7 +66,7 @@ fun AutoAnnounceCard(
     val presetIntervals = listOf(1, 3, 6, 12)
 
     CollapsibleSettingsCard(
-        title = "Auto Announce",
+        title = stringResource(R.string.auto_announce_card_auto_announce),
         icon = Icons.Default.Sensors,
         isExpanded = isExpanded,
         onExpandedChange = onExpandedChange,
@@ -205,7 +207,7 @@ private fun AnnounceStatus(
             )
         } else {
             Text(
-                text = "No announces sent yet",
+                text = stringResource(R.string.auto_announce_card_no_announces_sent_yet),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -272,12 +274,12 @@ private fun ManualAnnounceSection(
                 } else {
                     Icon(
                         imageVector = Icons.Default.Send,
-                        contentDescription = "Announce Now",
+                        contentDescription = stringResource(R.string.auto_announce_card_announce_now),
                         modifier = Modifier.size(18.dp),
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                 }
-                Text(text = if (isManualAnnouncing) "Announcing..." else "Announce Now")
+                Text(text = if (isManualAnnouncing) stringResource(R.string.auto_announce_card_announcing) else stringResource(R.string.auto_announce_card_announce_now_9ac4))
             }
         }
 
@@ -292,13 +294,13 @@ private fun ManualAnnounceSection(
             ) {
                 Icon(
                     imageVector = Icons.Default.CheckCircle,
-                    contentDescription = "Success",
+                    contentDescription = stringResource(R.string.main_state_success),
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(16.dp),
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "Announce sent!",
+                    text = stringResource(R.string.auto_announce_card_announce_sent),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.primary,
                 )
@@ -316,7 +318,7 @@ private fun ManualAnnounceSection(
             ) {
                 Icon(
                     imageVector = Icons.Default.Info,
-                    contentDescription = "Error",
+                    contentDescription = stringResource(R.string.main_state_error),
                     tint = MaterialTheme.colorScheme.error,
                     modifier = Modifier.size(16.dp),
                 )
@@ -340,7 +342,7 @@ private fun CustomIntervalDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Custom Interval") },
+        title = { Text(stringResource(R.string.auto_announce_card_custom_interval)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(
@@ -354,13 +356,13 @@ private fun CustomIntervalDialog(
                             onInputChange(it)
                         }
                     },
-                    label = { Text("Hours") },
+                    label = { Text(stringResource(R.string.auto_announce_card_hours)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
                     isError = customIntervalInput.toIntOrNull()?.let { it < 1 || it > 12 } ?: false,
                     supportingText = {
                         if (customIntervalInput.toIntOrNull()?.let { it < 1 || it > 12 } == true) {
-                            Text("Value must be between 1 and 12")
+                            Text(stringResource(R.string.auto_announce_card_value_must_be_between_1_and))
                         }
                     },
                 )
@@ -376,12 +378,12 @@ private fun CustomIntervalDialog(
                 },
                 enabled = customIntervalInput.toIntOrNull()?.let { it in 1..12 } ?: false,
             ) {
-                Text("Confirm")
+                Text(stringResource(R.string.auto_announce_card_confirm))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.action_cancel))
             }
         },
     )

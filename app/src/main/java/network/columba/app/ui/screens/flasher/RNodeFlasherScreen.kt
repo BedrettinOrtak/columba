@@ -33,8 +33,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import network.columba.app.R
 import network.columba.app.ui.screens.flasher.components.FlasherStepIndicator
 import network.columba.app.ui.screens.flasher.steps.DeviceDetectionStep
 import network.columba.app.ui.screens.flasher.steps.DeviceSelectionStep
@@ -159,7 +161,7 @@ fun RNodeFlasherScreen(
                             IconButton(onClick = onNavigateBack) {
                                 Icon(
                                     Icons.Default.Close,
-                                    contentDescription = "Close",
+                                    contentDescription = stringResource(R.string.nomad_net_browser_close),
                                 )
                             }
                         }
@@ -177,7 +179,7 @@ fun RNodeFlasherScreen(
                             ) {
                                 Icon(
                                     Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = "Back",
+                                    contentDescription = stringResource(R.string.action_back),
                                 )
                             }
                         }
@@ -352,7 +354,7 @@ fun RNodeFlasherScreen(
     state.error?.let { error ->
         AlertDialog(
             onDismissRequest = { viewModel.clearError() },
-            title = { Text("Error") },
+            title = { Text(stringResource(R.string.main_state_error)) },
             text = { Text(error) },
             confirmButton = {
                 TextButton(onClick = { viewModel.clearError() }) {
@@ -366,8 +368,8 @@ fun RNodeFlasherScreen(
     if (showExitConfirmation) {
         AlertDialog(
             onDismissRequest = { showExitConfirmation = false },
-            title = { Text("Exit Flasher?") },
-            text = { Text("Are you sure you want to exit? Any unsaved progress will be lost.") },
+            title = { Text(stringResource(R.string.rnode_flasher_exit_flasher)) },
+            text = { Text(stringResource(R.string.rnode_flasher_are_you_sure_you_want_to)) },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -375,12 +377,12 @@ fun RNodeFlasherScreen(
                         onNavigateBack()
                     },
                 ) {
-                    Text("Exit")
+                    Text(stringResource(R.string.rnode_flasher_exit))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showExitConfirmation = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.action_cancel))
                 }
             },
         )

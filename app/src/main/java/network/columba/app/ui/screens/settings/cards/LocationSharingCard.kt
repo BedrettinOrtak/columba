@@ -50,9 +50,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import network.columba.app.R
 import network.columba.app.data.model.EnrichedContact
 import network.columba.app.service.SharingSession
 import network.columba.app.ui.components.CollapsibleSettingsCard
@@ -125,7 +127,7 @@ fun LocationSharingCard(
     var showPrecisionPicker by remember { mutableStateOf(false) }
 
     CollapsibleSettingsCard(
-        title = "Location Sharing",
+        title = stringResource(R.string.location_sharing_card_location_sharing),
         icon = Icons.Default.LocationOn,
         isExpanded = isExpanded,
         onExpandedChange = onExpandedChange,
@@ -198,7 +200,7 @@ fun LocationSharingCard(
             }
             Icon(
                 imageVector = Icons.Default.ChevronRight,
-                contentDescription = "Change",
+                contentDescription = stringResource(R.string.location_sharing_card_change),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.size(20.dp),
             )
@@ -217,14 +219,14 @@ fun LocationSharingCard(
 
         // Default duration picker
         SettingsRow(
-            label = "Default duration",
+            label = stringResource(R.string.location_sharing_card_default_duration),
             value = getDurationDisplayText(defaultDuration),
             onClick = { showDurationPicker = true },
         )
 
         // Location precision picker
         SettingsRow(
-            label = "Location precision",
+            label = stringResource(R.string.location_sharing_card_location_precision),
             value = getPrecisionRadiusDisplayText(locationPrecisionRadius),
             onClick = { showPrecisionPicker = true },
         )
@@ -301,7 +303,7 @@ private fun ActiveSessionsSection(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Text(
-            text = "Currently sharing with:",
+            text = stringResource(R.string.location_sharing_card_currently_sharing_with),
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Medium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -320,7 +322,7 @@ private fun ActiveSessionsSection(
                 onClick = onStopAllSharing,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Text("Stop All Sharing")
+                Text(stringResource(R.string.location_sharing_card_stop_all_sharing))
             }
         }
     }
@@ -353,7 +355,7 @@ private fun ActiveSessionRow(
             )
         }
         TextButton(onClick = onStopSharing) {
-            Text("Stop")
+            Text(stringResource(R.string.location_sharing_card_stop))
         }
     }
 }
@@ -387,7 +389,7 @@ private fun SettingsRow(
         }
         Icon(
             imageVector = Icons.Default.ChevronRight,
-            contentDescription = "Select",
+            contentDescription = stringResource(R.string.location_sharing_card_select),
             tint = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.size(24.dp),
         )
@@ -403,7 +405,7 @@ private fun DurationPickerDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Default Duration") },
+        title = { Text(stringResource(R.string.location_sharing_card_default_duration_f6a9)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(
@@ -432,7 +434,7 @@ private fun DurationPickerDialog(
         },
         confirmButton = {
             TextButton(onClick = onDismiss) {
-                Text("Done")
+                Text(stringResource(R.string.location_sharing_card_done))
             }
         },
     )
@@ -461,7 +463,7 @@ private fun PrecisionRadiusPickerDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Location Precision") },
+        title = { Text(stringResource(R.string.location_sharing_card_location_precision_519e)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text(
@@ -482,7 +484,7 @@ private fun PrecisionRadiusPickerDialog(
         },
         confirmButton = {
             TextButton(onClick = onDismiss) {
-                Text("Done")
+                Text(stringResource(R.string.location_sharing_card_done_f929))
             }
         },
     )
@@ -630,12 +632,12 @@ private fun TelemetryCollectorSection(
         ) {
             Icon(
                 imageVector = Icons.Default.CloudUpload,
-                contentDescription = "Group Tracker",
+                contentDescription = stringResource(R.string.location_sharing_card_group_tracker),
                 tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(20.dp),
             )
             Text(
-                text = "Group Tracker",
+                text = stringResource(R.string.location_sharing_card_group_tracker_3b04),
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Medium,
             )
@@ -643,7 +645,7 @@ private fun TelemetryCollectorSection(
 
         // Description
         Text(
-            text = "Share your location with a group and see where everyone is",
+            text = stringResource(R.string.location_sharing_card_share_your_location_with_a_group),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -662,12 +664,12 @@ private fun TelemetryCollectorSection(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Share with group",
+                    text = stringResource(R.string.location_sharing_card_share_with_group),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium,
                 )
                 Text(
-                    text = "Automatically share your location",
+                    text = stringResource(R.string.location_sharing_card_automatically_share_your_location),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -681,7 +683,7 @@ private fun TelemetryCollectorSection(
         // Select from contacts
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text(
-                text = "Group Host",
+                text = stringResource(R.string.location_sharing_card_group_host),
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Medium,
             )
@@ -836,7 +838,7 @@ private fun TelemetryCollectorSection(
                         color = MaterialTheme.colorScheme.onSecondary,
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Sending...")
+                    Text(stringResource(R.string.location_sharing_card_sending))
                 } else {
                     Icon(
                         imageVector = Icons.Default.Send,
@@ -844,7 +846,7 @@ private fun TelemetryCollectorSection(
                         modifier = Modifier.size(16.dp),
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Send Now")
+                    Text(stringResource(R.string.map_send_now))
                 }
             }
             // Last send timestamp with periodic refresh
@@ -879,7 +881,7 @@ private fun TelemetryCollectorSection(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Receive locations from group",
+                    text = stringResource(R.string.location_sharing_card_receive_locations_from_group),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium,
                     color =
@@ -890,7 +892,7 @@ private fun TelemetryCollectorSection(
                         },
                 )
                 Text(
-                    text = "Get everyone's location periodically",
+                    text = stringResource(R.string.location_sharing_card_get_everyone_s_location_periodically),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -967,7 +969,7 @@ private fun TelemetryCollectorSection(
                         color = MaterialTheme.colorScheme.primary,
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Requesting...")
+                    Text(stringResource(R.string.location_sharing_card_requesting))
                 } else {
                     Icon(
                         imageVector = Icons.Default.CloudDownload,
@@ -975,7 +977,7 @@ private fun TelemetryCollectorSection(
                         modifier = Modifier.size(16.dp),
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Request Now")
+                    Text(stringResource(R.string.map_request_now))
                 }
             }
             // Last request timestamp with periodic refresh
@@ -1009,12 +1011,12 @@ private fun TelemetryCollectorSection(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Host Group",
+                    text = stringResource(R.string.location_sharing_card_host_group),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium,
                 )
                 Text(
-                    text = "Let others use you as their group tracker",
+                    text = stringResource(R.string.location_sharing_card_let_others_use_you_as_their),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -1068,14 +1070,14 @@ private fun AllowedRequestersSection(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
-                text = "Allowed Requesters",
+                text = stringResource(R.string.location_sharing_card_allowed_requesters),
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Medium,
             )
             IconButton(onClick = onEditClick) {
                 Icon(
                     imageVector = Icons.Default.Edit,
-                    contentDescription = "Edit allowed requesters",
+                    contentDescription = stringResource(R.string.location_sharing_card_edit_allowed_requesters),
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(20.dp),
                 )
@@ -1095,7 +1097,7 @@ private fun AllowedRequestersSection(
                     modifier = Modifier.size(16.dp),
                 )
                 Text(
-                    text = "No contacts selected - all requests blocked",
+                    text = stringResource(R.string.location_sharing_card_no_contacts_selected_all_requests_blocked),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.error,
                 )
@@ -1119,7 +1121,7 @@ private fun AllowedRequestersSection(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Text(
-                text = "Only selected contacts can request your group's locations",
+                text = stringResource(R.string.location_sharing_card_only_selected_contacts_can_request_your),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
             )
@@ -1154,7 +1156,7 @@ private fun AllowedRequestersDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Select Allowed Requesters") },
+        title = { Text(stringResource(R.string.location_sharing_card_select_allowed_requesters)) },
         text = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -1173,7 +1175,7 @@ private fun AllowedRequestersDialog(
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
-                    label = { Text("Search contacts") },
+                    label = { Text(stringResource(R.string.location_sharing_card_search_contacts)) },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
                 )
@@ -1214,12 +1216,12 @@ private fun AllowedRequestersDialog(
         },
         confirmButton = {
             Button(onClick = { onConfirm(selectedHashes) }) {
-                Text("Done")
+                Text(stringResource(R.string.location_sharing_card_done_f929))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.action_cancel))
             }
         },
     )
@@ -1344,21 +1346,21 @@ private fun GroupHostPickerDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Select Group Host") },
+        title = { Text(stringResource(R.string.location_sharing_card_select_group_host)) },
         text = {
             Column(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 // Caution text
                 Text(
-                    text = "Select yourself to host the group, or choose a contact to send your location to.",
+                    text = stringResource(R.string.location_sharing_card_select_yourself_to_host_the_group),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
 
                 if (contacts.isEmpty() && localDestinationHash == null) {
                     Text(
-                        text = "No contacts available. Add contacts first.",
+                        text = stringResource(R.string.location_sharing_card_no_contacts_available_add_contacts_first),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -1425,7 +1427,7 @@ private fun GroupHostPickerDialog(
                                     )
                                     Spacer(modifier = Modifier.width(12.dp))
                                     Text(
-                                        text = "None",
+                                        text = stringResource(R.string.location_sharing_card_none),
                                         style = MaterialTheme.typography.bodyLarge,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                                     )
@@ -1446,7 +1448,7 @@ private fun GroupHostPickerDialog(
         },
         confirmButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.action_cancel))
             }
         },
     )

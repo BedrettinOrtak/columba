@@ -55,6 +55,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.KeyboardType
@@ -65,6 +66,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.hilt.navigation.compose.hiltViewModel
+import network.columba.app.R
 import network.columba.app.migration.ExportResult
 import network.columba.app.migration.MigrationPreview
 import network.columba.app.viewmodel.MigrationUiState
@@ -182,7 +184,7 @@ fun MigrationScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Data Migration") },
+                title = { Text(stringResource(R.string.migration_data_migration)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.Default.ArrowBack, "Navigate back")
@@ -238,7 +240,7 @@ fun MigrationScreen(
     // Export Password Dialog
     if (showExportPasswordDialog) {
         PasswordDialog(
-            title = "Encrypt Export",
+            title = stringResource(R.string.migration_encrypt_export),
             description = "Choose a password to protect your export file. " +
                 "You will need this password to import the data on another device.",
             isConfirmMode = true,
@@ -263,7 +265,7 @@ fun MigrationScreen(
         }
         if (fileUri != null) {
             PasswordDialog(
-                title = "Encrypted Backup",
+                title = stringResource(R.string.migration_encrypted_backup),
                 description = "This backup file is encrypted. " +
                     "Enter the password that was used during export.",
                 isConfirmMode = false,
@@ -424,7 +426,7 @@ private fun ExportSection(
                             tint = MaterialTheme.colorScheme.primary,
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Export complete! Save dialog opened.")
+                        Text(stringResource(R.string.migration_export_complete_save_dialog_opened))
                     }
                 }
                 else -> {}
@@ -481,7 +483,7 @@ private fun ExportSection(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                 }
-                Text("Export All Data")
+                Text(stringResource(R.string.migration_export_all_data))
             }
         }
     }
@@ -628,7 +630,7 @@ private fun ImportSection(
                     CircularProgressIndicator(modifier = Modifier.size(20.dp))
                     Spacer(modifier = Modifier.width(8.dp))
                 }
-                Text("Select Migration File")
+                Text(stringResource(R.string.migration_select_migration_file))
             }
         }
     }
@@ -644,7 +646,7 @@ private fun ImportConfirmDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Import Data?") },
+        title = { Text(stringResource(R.string.migration_import_data)) },
         text = {
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -706,12 +708,12 @@ private fun ImportConfirmDialog(
         },
         confirmButton = {
             Button(onClick = onConfirm) {
-                Text("Import")
+                Text(stringResource(R.string.migration_import))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.action_cancel))
             }
         },
     )
@@ -728,7 +730,7 @@ private fun RestartingServiceDialog() {
         icon = {
             CircularProgressIndicator(modifier = Modifier.size(48.dp))
         },
-        title = { Text("Restarting Service") },
+        title = { Text(stringResource(R.string.migration_restarting_service)) },
         text = {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -770,7 +772,7 @@ private fun NotificationPermissionDialog(
                 modifier = Modifier.size(48.dp),
             )
         },
-        title = { Text("Enable Notifications?") },
+        title = { Text(stringResource(R.string.migration_enable_notifications)) },
         text = {
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -788,12 +790,12 @@ private fun NotificationPermissionDialog(
         },
         confirmButton = {
             Button(onClick = onConfirm) {
-                Text("Enable")
+                Text(stringResource(R.string.migration_enable))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Not Now")
+                Text(stringResource(R.string.migration_not_now))
             }
         },
     )
@@ -856,7 +858,7 @@ internal fun PasswordDialog(
                         password = it
                         errorMessage = null
                     },
-                    label = { Text("Password") },
+                    label = { Text(stringResource(R.string.migration_password)) },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     visualTransformation =
@@ -864,7 +866,7 @@ internal fun PasswordDialog(
                         else PasswordVisualTransformation(),
                     trailingIcon = {
                         TextButton(onClick = { passwordVisible = !passwordVisible }) {
-                            Text(if (passwordVisible) "Hide" else "Show")
+                            Text(if (passwordVisible) stringResource(R.string.migration_hide) else stringResource(R.string.migration_show))
                         }
                     },
                     isError = errorMessage != null,
@@ -878,7 +880,7 @@ internal fun PasswordDialog(
                             confirmPassword = it
                             errorMessage = null
                         },
-                        label = { Text("Confirm password") },
+                        label = { Text(stringResource(R.string.migration_confirm_password)) },
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                         visualTransformation =
@@ -907,12 +909,12 @@ internal fun PasswordDialog(
                 },
                 enabled = password.isNotEmpty(),
             ) {
-                Text(if (isConfirmMode) "Export" else "Unlock")
+                Text(if (isConfirmMode) stringResource(R.string.migration_export) else stringResource(R.string.migration_unlock))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.action_cancel))
             }
         },
     )

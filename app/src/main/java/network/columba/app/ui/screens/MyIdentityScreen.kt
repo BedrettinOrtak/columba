@@ -70,11 +70,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import network.columba.app.R
 import network.columba.app.ui.components.IconPickerDialog
 import network.columba.app.ui.components.Identicon
 import network.columba.app.ui.components.ProfileIcon
@@ -133,12 +135,12 @@ fun MyIdentityScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("My Identity") },
+                title = { Text(stringResource(R.string.my_identity_my_identity)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = stringResource(R.string.action_back),
                         )
                     }
                 },
@@ -275,11 +277,11 @@ private fun DisplayNameIdentityCard(
             ) {
                 Icon(
                     imageVector = Icons.Default.Person,
-                    contentDescription = "Identity",
+                    contentDescription = stringResource(R.string.my_identity_identity),
                     tint = MaterialTheme.colorScheme.primary,
                 )
                 Text(
-                    text = "Display Name & Identity",
+                    text = stringResource(R.string.my_identity_display_name_identity),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                 )
@@ -287,7 +289,7 @@ private fun DisplayNameIdentityCard(
 
             // Description
             Text(
-                text = "Your display name is shown to other peers when you send announces and messages.",
+                text = stringResource(R.string.my_identity_your_display_name_is_shown_to),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -311,8 +313,8 @@ private fun DisplayNameIdentityCard(
             OutlinedTextField(
                 value = displayNameInput,
                 onValueChange = onDisplayNameChange,
-                label = { Text("Custom Display Name") },
-                placeholder = { Text("Leave empty to use default") },
+                label = { Text(stringResource(R.string.my_identity_custom_display_name)) },
+                placeholder = { Text(stringResource(R.string.my_identity_leave_empty_to_use_default)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 colors =
@@ -344,7 +346,7 @@ private fun DisplayNameIdentityCard(
                         modifier = Modifier.size(18.dp),
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Save")
+                    Text(stringResource(R.string.my_identity_save))
                 }
 
                 // View QR Code button
@@ -358,7 +360,7 @@ private fun DisplayNameIdentityCard(
                         modifier = Modifier.size(18.dp),
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("View QR")
+                    Text(stringResource(R.string.my_identity_view_qr))
                 }
             }
 
@@ -384,7 +386,7 @@ private fun DisplayNameIdentityCard(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Display name saved successfully",
+                        text = stringResource(R.string.my_identity_display_name_saved_successfully),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.primary,
                     )
@@ -396,7 +398,7 @@ private fun DisplayNameIdentityCard(
                 HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
 
                 Text(
-                    text = "Identity Hash",
+                    text = stringResource(R.string.my_identity_identity_hash),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -445,11 +447,11 @@ internal fun ProfileIconCard(
             ) {
                 Icon(
                     imageVector = Icons.Default.Palette,
-                    contentDescription = "Profile Icon",
+                    contentDescription = stringResource(R.string.my_identity_profile_icon),
                     tint = MaterialTheme.colorScheme.primary,
                 )
                 Text(
-                    text = "Profile Icon",
+                    text = stringResource(R.string.my_identity_profile_icon_d5ac),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                 )
@@ -491,7 +493,7 @@ internal fun ProfileIconCard(
                     modifier = Modifier.weight(1f),
                 ) {
                     Text(
-                        text = if (iconName != null) "Custom Icon: $iconName" else "Using Identicon",
+                        text = if (iconName != null) "Custom Icon: $iconName" else stringResource(R.string.my_identity_using_identicon),
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Medium,
                     )
@@ -519,7 +521,7 @@ internal fun ProfileIconCard(
                     modifier = Modifier.size(18.dp),
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(if (iconName != null) "Change Icon" else "Choose Custom Icon")
+                Text(if (iconName != null) stringResource(R.string.my_identity_change_icon) else stringResource(R.string.my_identity_choose_custom_icon))
             }
         }
     }
@@ -561,11 +563,11 @@ private fun QrCodeQuickCard(
             ) {
                 Icon(
                     imageVector = Icons.Default.QrCode,
-                    contentDescription = "QR Code",
+                    contentDescription = stringResource(R.string.my_identity_qr_code),
                     tint = MaterialTheme.colorScheme.primary,
                 )
                 Text(
-                    text = "Share Your Identity",
+                    text = stringResource(R.string.my_identity_share_your_identity),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                 )
@@ -589,7 +591,7 @@ private fun QrCodeQuickCard(
                     modifier = Modifier.size(48.dp),
                 )
                 Text(
-                    text = "Generating QR code...",
+                    text = stringResource(R.string.my_identity_generating_qr_code),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -612,7 +614,7 @@ private fun QrCodeQuickCard(
                         modifier = Modifier.size(18.dp),
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Full Screen")
+                    Text(stringResource(R.string.my_identity_full_screen))
                 }
 
                 // Share button
@@ -638,7 +640,7 @@ private fun QrCodeQuickCard(
                         modifier = Modifier.size(18.dp),
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Share")
+                    Text(stringResource(R.string.my_identity_share))
                 }
             }
         }
@@ -686,12 +688,12 @@ private fun AdvancedIdentityCard(
             ) {
                 Icon(
                     imageVector = if (showAdvanced) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                    contentDescription = if (showAdvanced) "Hide Advanced" else "Show Advanced",
+                    contentDescription = if (showAdvanced) stringResource(R.string.my_identity_hide_advanced) else stringResource(R.string.my_identity_show_advanced),
                     modifier = Modifier.size(20.dp),
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = if (showAdvanced) "Hide Advanced" else "Show Advanced",
+                    text = if (showAdvanced) stringResource(R.string.my_identity_hide_advanced_7e3d) else stringResource(R.string.my_identity_show_advanced_bfef),
                     style = MaterialTheme.typography.titleSmall,
                 )
             }
@@ -708,7 +710,7 @@ private fun AdvancedIdentityCard(
                     // Identity Hash
                     if (identityHash != null) {
                         IdentityHashRow(
-                            label = "Identity Hash",
+                            label = stringResource(R.string.my_identity_identity_hash_eb84),
                             value = identityHash,
                             onCopy = {
                                 clipboardManager.setText(AnnotatedString(identityHash))
@@ -720,7 +722,7 @@ private fun AdvancedIdentityCard(
                     // Destination Hash
                     if (destinationHash != null) {
                         IdentityHashRow(
-                            label = "Destination Hash (LXMF)",
+                            label = stringResource(R.string.my_identity_destination_hash_lxmf),
                             value = destinationHash,
                             onCopy = {
                                 clipboardManager.setText(AnnotatedString(destinationHash))
@@ -733,7 +735,7 @@ private fun AdvancedIdentityCard(
                     if (publicKey != null) {
                         val publicKeyHex = publicKey.joinToString("") { "%02x".format(it) }
                         IdentityHashRow(
-                            label = "Public Key",
+                            label = stringResource(R.string.my_identity_public_key),
                             value = publicKeyHex,
                             onCopy = {
                                 clipboardManager.setText(AnnotatedString(publicKeyHex))
@@ -757,7 +759,7 @@ private fun AdvancedIdentityCard(
                     tint = MaterialTheme.colorScheme.primary,
                 )
             },
-            title = { Text("What is an Identity Hash?") },
+            title = { Text(stringResource(R.string.my_identity_what_is_an_identity_hash)) },
             text = {
                 Text(
                     "Your identity hash is a unique cryptographic fingerprint derived from your public key.\n\n" +
@@ -769,7 +771,7 @@ private fun AdvancedIdentityCard(
             },
             confirmButton = {
                 TextButton(onClick = { showIdentityHashHelp = false }) {
-                    Text("Got it")
+                    Text(stringResource(R.string.my_identity_got_it))
                 }
             },
         )
@@ -785,7 +787,7 @@ private fun AdvancedIdentityCard(
                     tint = MaterialTheme.colorScheme.primary,
                 )
             },
-            title = { Text("What is a Destination Hash?") },
+            title = { Text(stringResource(R.string.my_identity_what_is_a_destination_hash)) },
             text = {
                 Text(
                     "Your LXMF destination hash is derived from your identity and is used for sending and receiving messages.\n\n" +
@@ -797,7 +799,7 @@ private fun AdvancedIdentityCard(
             },
             confirmButton = {
                 TextButton(onClick = { showDestinationHashHelp = false }) {
-                    Text("Got it")
+                    Text(stringResource(R.string.my_identity_got_it_78e9))
                 }
             },
         )
@@ -813,7 +815,7 @@ private fun AdvancedIdentityCard(
                     tint = MaterialTheme.colorScheme.primary,
                 )
             },
-            title = { Text("What is a Public Key?") },
+            title = { Text(stringResource(R.string.my_identity_what_is_a_public_key)) },
             text = {
                 Text(
                     "Your public key is the cryptographic key that enables secure messaging.\n\n" +
@@ -825,7 +827,7 @@ private fun AdvancedIdentityCard(
             },
             confirmButton = {
                 TextButton(onClick = { showPublicKeyHelp = false }) {
-                    Text("Got it")
+                    Text(stringResource(R.string.my_identity_got_it_78e9))
                 }
             },
         )
@@ -941,12 +943,12 @@ private fun IdentityQrCodeDialog(
             Scaffold(
                 topBar = {
                     TopAppBar(
-                        title = { Text("Share Your Identity") },
+                        title = { Text(stringResource(R.string.my_identity_share_your_identity_4129)) },
                         navigationIcon = {
                             IconButton(onClick = onDismiss) {
                                 Icon(
                                     imageVector = Icons.Default.Close,
-                                    contentDescription = "Close",
+                                    contentDescription = stringResource(R.string.my_identity_close),
                                 )
                             }
                         },
@@ -979,7 +981,7 @@ private fun IdentityQrCodeDialog(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Share,
-                                    contentDescription = "Share",
+                                    contentDescription = stringResource(R.string.my_identity_share_5a95),
                                 )
                             }
                         },
@@ -1013,14 +1015,14 @@ private fun IdentityQrCodeDialog(
                         )
 
                         Text(
-                            text = "Scan this QR code to add me as a contact",
+                            text = stringResource(R.string.my_identity_scan_this_qr_code_to_add),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     } else {
                         CircularProgressIndicator()
                         Text(
-                            text = "Generating QR code...",
+                            text = stringResource(R.string.my_identity_generating_qr_code_9fb4),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -1040,7 +1042,7 @@ private fun IdentityQrCodeDialog(
                                 modifier = Modifier.size(18.dp),
                             )
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text("Copy Identity Link")
+                            Text(stringResource(R.string.my_identity_copy_identity_link))
                         }
                     }
 
@@ -1049,7 +1051,7 @@ private fun IdentityQrCodeDialog(
                     // Identity details
                     if (identityHash != null) {
                         DetailRow(
-                            label = "Identity Hash",
+                            label = stringResource(R.string.my_identity_identity_hash_eb84),
                             value = identityHash,
                             onCopy = {
                                 clipboardManager.setText(AnnotatedString(identityHash))
@@ -1059,7 +1061,7 @@ private fun IdentityQrCodeDialog(
 
                     if (destinationHash != null) {
                         DetailRow(
-                            label = "Destination Hash",
+                            label = stringResource(R.string.my_identity_destination_hash),
                             value = destinationHash,
                             onCopy = {
                                 clipboardManager.setText(AnnotatedString(destinationHash))
@@ -1108,7 +1110,7 @@ private fun DetailRow(
             IconButton(onClick = onCopy) {
                 Icon(
                     imageVector = Icons.Default.ContentCopy,
-                    contentDescription = "Copy",
+                    contentDescription = stringResource(R.string.my_identity_copy),
                     tint = MaterialTheme.colorScheme.primary,
                 )
             }

@@ -16,7 +16,9 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import network.columba.app.R
 import network.columba.app.ui.components.CollapsibleSettingsCard
 
 /**
@@ -45,14 +47,14 @@ fun NetworkCard(
     // If shared instance went offline, we're now using our own instance
     val interfacesDisabled = isSharedInstance && sharedInstanceOnline
     CollapsibleSettingsCard(
-        title = "Network",
+        title = stringResource(R.string.map_network),
         icon = Icons.Default.Sensors,
         isExpanded = isExpanded,
         onExpandedChange = onExpandedChange,
     ) {
         // Description for Network Status
         Text(
-            text = "Monitor your Reticulum network status, active interfaces, BLE connections, and connection diagnostics.",
+            text = stringResource(R.string.network_card_monitor_your_reticulum_network_status_active),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -90,7 +92,7 @@ fun NetworkCard(
                 modifier = Modifier.size(18.dp),
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text("View Network Status")
+            Text(stringResource(R.string.network_card_view_network_status))
         }
 
         // Secondary action - Manage Interfaces (disabled when using shared instance)
@@ -105,7 +107,7 @@ fun NetworkCard(
                 modifier = Modifier.size(18.dp),
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Manage Interfaces")
+            Text(stringResource(R.string.network_card_manage_interfaces))
         }
     }
 }

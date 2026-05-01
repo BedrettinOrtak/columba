@@ -35,9 +35,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import network.columba.app.R
 import network.columba.app.ui.screens.onboarding.OnboardingInterfaceType
 import network.columba.app.ui.screens.settings.dialogs.IdentityQrCodeDialog
 
@@ -84,7 +86,7 @@ fun CompletePage(
 
         // Title
         Text(
-            text = "You're all set!",
+            text = stringResource(R.string.complete_page_you_re_all_set),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground,
@@ -110,7 +112,7 @@ fun CompletePage(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 Text(
-                    text = "Summary",
+                    text = stringResource(R.string.complete_page_summary),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface,
@@ -121,12 +123,12 @@ fun CompletePage(
                 )
 
                 SummaryRow(
-                    label = "Identity",
+                    label = stringResource(R.string.my_identity_identity),
                     value = displayName.ifEmpty { "Anonymous Peer" },
                 )
 
                 SummaryRow(
-                    label = "Networks",
+                    label = stringResource(R.string.complete_page_networks),
                     value =
                         if (selectedInterfaces.isEmpty()) {
                             "None selected"
@@ -136,13 +138,13 @@ fun CompletePage(
                 )
 
                 SummaryRow(
-                    label = "Notifications",
+                    label = stringResource(R.string.notification_settings_notifications),
                     value = if (notificationsEnabled) "Enabled" else "Disabled",
                     isEnabled = notificationsEnabled,
                 )
 
                 SummaryRow(
-                    label = "Battery",
+                    label = stringResource(R.string.complete_page_battery),
                     value = if (batteryOptimizationExempt) "Unrestricted" else "Restricted",
                     isEnabled = batteryOptimizationExempt,
                 )
@@ -164,14 +166,14 @@ fun CompletePage(
                 modifier = Modifier.size(18.dp),
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Show QR Code")
+            Text(stringResource(R.string.complete_page_show_qr_code))
         }
 
         Spacer(modifier = Modifier.height(12.dp))
 
         // QR code hint
         Text(
-            text = "Share your identity QR code to let others add you as a contact.",
+            text = stringResource(R.string.complete_page_share_your_identity_qr_code_to),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
@@ -197,7 +199,7 @@ fun CompletePage(
                 )
             } else {
                 Text(
-                    text = if (hasLoRaSelected) "Configure LoRa Radio" else "Start Messaging",
+                    text = if (hasLoRaSelected) stringResource(R.string.complete_page_configure_lora_radio) else stringResource(R.string.complete_page_start_messaging),
                     style = MaterialTheme.typography.titleMedium,
                 )
             }

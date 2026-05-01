@@ -35,8 +35,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import network.columba.app.R
 import network.columba.app.ui.screens.onboarding.pages.CompletePage
 import network.columba.app.ui.screens.onboarding.pages.ConnectivityPage
 import network.columba.app.ui.screens.onboarding.pages.IdentityPage
@@ -293,7 +295,7 @@ private fun TopBar(
                 modifier = Modifier.align(Alignment.CenterEnd),
             ) {
                 Text(
-                    text = "Skip",
+                    text = stringResource(R.string.action_skip),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }

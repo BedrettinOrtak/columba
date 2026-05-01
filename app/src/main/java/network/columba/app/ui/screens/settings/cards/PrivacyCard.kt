@@ -18,7 +18,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import network.columba.app.R
 import network.columba.app.ui.components.CollapsibleSettingsCard
 
 @Composable
@@ -31,7 +33,7 @@ fun PrivacyCard(
     onNavigateToBlockedUsers: () -> Unit = {},
 ) {
     CollapsibleSettingsCard(
-        title = "Privacy",
+        title = stringResource(R.string.privacy_card_privacy),
         icon = Icons.Default.Security,
         isExpanded = isExpanded,
         onExpandedChange = onExpandedChange,
@@ -71,7 +73,7 @@ fun PrivacyCard(
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Text(
-                text = "Blocked Users",
+                text = stringResource(R.string.blocked_users_title),
                 style = MaterialTheme.typography.bodyMedium,
                 modifier =
                     Modifier

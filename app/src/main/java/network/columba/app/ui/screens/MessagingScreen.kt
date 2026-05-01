@@ -890,7 +890,7 @@ fun MessagingScreen(
                                 if (hasActiveLink) {
                                     Icon(
                                         imageVector = Icons.Default.Link,
-                                        contentDescription = "Active link",
+                                        contentDescription = stringResource(R.string.messaging_active_link),
                                         tint = MeshConnected,
                                         modifier = Modifier.size(12.dp),
                                     )
@@ -903,7 +903,7 @@ fun MessagingScreen(
                     IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = stringResource(R.string.action_back),
                         )
                     }
                 },
@@ -928,7 +928,7 @@ fun MessagingScreen(
                         } else {
                             Icon(
                                 imageVector = Icons.Default.Call,
-                                contentDescription = "Voice call",
+                                contentDescription = stringResource(R.string.messaging_voice_call),
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
@@ -959,7 +959,7 @@ fun MessagingScreen(
                                 } else {
                                     Icons.Outlined.LocationOn
                                 },
-                            contentDescription = "Share location",
+                            contentDescription = stringResource(R.string.messaging_share_location),
                             tint =
                                 if (locationSharingState != LocationSharingState.NONE) {
                                     MaterialTheme.colorScheme.primary
@@ -994,7 +994,7 @@ fun MessagingScreen(
                         IconButton(onClick = { showOverflowMenu = true }) {
                             Icon(
                                 imageVector = Icons.Default.MoreVert,
-                                contentDescription = "More options",
+                                contentDescription = stringResource(R.string.messaging_more_options),
                                 tint =
                                     if (isSyncing) {
                                         MaterialTheme.colorScheme.primary
@@ -1023,7 +1023,7 @@ fun MessagingScreen(
                                     }
                                 },
                                 text = {
-                                    Text(if (isSyncing) "Syncing\u2026" else "Sync messages")
+                                    Text(if (isSyncing) stringResource(R.string.messaging_syncing) else stringResource(R.string.messaging_sync_messages))
                                 },
                                 onClick = {
                                     showOverflowMenu = false
@@ -1041,7 +1041,7 @@ fun MessagingScreen(
                                         contentDescription = null,
                                     )
                                 },
-                                text = { Text("Text size") },
+                                text = { Text(stringResource(R.string.messaging_text_size)) },
                                 onClick = {
                                     showOverflowMenu = false
                                     showTextSizeDialog = true
@@ -1350,8 +1350,8 @@ fun MessagingScreen(
                             showDeleteConfirmation = false
                             viewModel.exitReactionMode()
                         },
-                        title = { Text("Delete message") },
-                        text = { Text("This message will be permanently deleted from this device.") },
+                        title = { Text(stringResource(R.string.messaging_delete_message)) },
+                        text = { Text(stringResource(R.string.messaging_this_message_will_be_permanently_deleted)) },
                         confirmButton = {
                             androidx.compose.material3.TextButton(
                                 onClick = {
@@ -1360,7 +1360,7 @@ fun MessagingScreen(
                                     viewModel.exitReactionMode()
                                 },
                             ) {
-                                Text("Delete", color = MaterialTheme.colorScheme.error)
+                                Text(stringResource(R.string.messaging_delete), color = MaterialTheme.colorScheme.error)
                             }
                         },
                         dismissButton = {
@@ -1370,7 +1370,7 @@ fun MessagingScreen(
                                     viewModel.exitReactionMode()
                                 },
                             ) {
-                                Text("Cancel")
+                                Text(stringResource(R.string.action_cancel))
                             }
                         },
                     )
@@ -1567,8 +1567,8 @@ fun MessagingScreen(
                     tint = MaterialTheme.colorScheme.error,
                 )
             },
-            title = { Text("Stop Sharing Location?") },
-            text = { Text("Stop sharing your location with $peerName?") },
+            title = { Text(stringResource(R.string.messaging_stop_sharing_location)) },
+            text = { Text(stringResource(R.string.messaging_stop_sharing_location_confirm, peerName)) },
             confirmButton = {
                 Button(
                     onClick = {
@@ -1580,12 +1580,12 @@ fun MessagingScreen(
                             containerColor = MaterialTheme.colorScheme.error,
                         ),
                 ) {
-                    Text("Stop Sharing")
+                    Text(stringResource(R.string.messaging_stop_sharing))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showStopSharingDialog = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.action_cancel))
                 }
             },
         )
@@ -1813,7 +1813,7 @@ fun MessageBubble(
                             .crossfade(true)
                             .build(),
                     imageLoader = AnimatedImageLoader.getInstance(context),
-                    contentDescription = "Animated GIF",
+                    contentDescription = stringResource(R.string.messaging_animated_gif),
                     modifier =
                         Modifier
                             .fillMaxWidth()
@@ -1952,7 +1952,7 @@ fun MessageBubble(
                                         .crossfade(true)
                                         .build(),
                                 imageLoader = AnimatedImageLoader.getInstance(context),
-                                contentDescription = "Animated image attachment",
+                                contentDescription = stringResource(R.string.messaging_animated_image_attachment),
                                 modifier =
                                     Modifier
                                         .widthIn(max = 268.dp)
@@ -1965,7 +1965,7 @@ fun MessageBubble(
                             // Static image - use pre-decoded bitmap for efficiency
                             Image(
                                 bitmap = imageBitmap,
-                                contentDescription = "Image attachment",
+                                contentDescription = stringResource(R.string.messaging_image_attachment),
                                 modifier =
                                     Modifier
                                         .widthIn(max = 268.dp)
@@ -2004,7 +2004,7 @@ fun MessageBubble(
                                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                     Icon(
                                         imageVector = Icons.Default.BrokenImage,
-                                        contentDescription = "Image unavailable",
+                                        contentDescription = stringResource(R.string.messaging_image_unavailable),
                                         modifier = Modifier.size(32.dp),
                                         tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
                                     )
@@ -2029,7 +2029,7 @@ fun MessageBubble(
                                         contentDescription = null,
                                     )
                                 },
-                                title = { Text("Image Not Available") },
+                                title = { Text(stringResource(R.string.messaging_image_not_available)) },
                                 text = {
                                     Text(
                                         "The original image could not be found. This can happen when " +
@@ -2159,7 +2159,7 @@ fun MessageContextMenu(
                         contentDescription = null,
                     )
                 },
-                text = { Text("Retry") },
+                text = { Text(stringResource(R.string.messaging_retry)) },
                 onClick = onRetry,
             )
         }
@@ -2173,7 +2173,7 @@ fun MessageContextMenu(
                         contentDescription = null,
                     )
                 },
-                text = { Text("Reply") },
+                text = { Text(stringResource(R.string.messaging_reply)) },
                 onClick = onReply,
             )
         }
@@ -2185,7 +2185,7 @@ fun MessageContextMenu(
                     contentDescription = null,
                 )
             },
-            text = { Text("Copy") },
+            text = { Text(stringResource(R.string.messaging_copy)) },
             onClick = onCopy,
         )
 
@@ -2198,7 +2198,7 @@ fun MessageContextMenu(
                         contentDescription = null,
                     )
                 },
-                text = { Text("View Details") },
+                text = { Text(stringResource(R.string.messaging_view_details)) },
                 onClick = onViewDetails,
             )
         }
@@ -2278,7 +2278,7 @@ fun MessageInputBar(
                                     .crossfade(true)
                                     .build(),
                             imageLoader = AnimatedImageLoader.getInstance(context),
-                            contentDescription = "Selected animated image",
+                            contentDescription = stringResource(R.string.messaging_selected_animated_image),
                             modifier =
                                 Modifier
                                     .size(80.dp)
@@ -2296,7 +2296,7 @@ fun MessageInputBar(
                         bitmap?.let { imageBitmap ->
                             Image(
                                 bitmap = imageBitmap,
-                                contentDescription = "Selected image",
+                                contentDescription = stringResource(R.string.messaging_selected_image),
                                 modifier =
                                     Modifier
                                         .size(80.dp)
@@ -2320,7 +2320,7 @@ fun MessageInputBar(
                     IconButton(onClick = onClearImage) {
                         Icon(
                             imageVector = androidx.compose.material.icons.Icons.Default.Close,
-                            contentDescription = "Remove image",
+                            contentDescription = stringResource(R.string.messaging_remove_image),
                         )
                     }
                 }
@@ -2420,7 +2420,7 @@ fun MessageInputBar(
                             Box {
                                 if (textFieldState.text.isEmpty()) {
                                     Text(
-                                        text = "Type a message...",
+                                        text = stringResource(R.string.messaging_type_a_message),
                                         style = MaterialTheme.typography.bodyLarge,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                                     )
@@ -2441,7 +2441,7 @@ fun MessageInputBar(
                 ) {
                     Icon(
                         imageVector = if (isAttachmentPanelActive) Icons.Default.Close else Icons.Default.Add,
-                        contentDescription = if (isAttachmentPanelActive) "Close attachments" else "Attach",
+                        contentDescription = if (isAttachmentPanelActive) stringResource(R.string.messaging_close_attachments) else stringResource(R.string.messaging_attach),
                         modifier = Modifier.size(24.dp),
                     )
                 }
@@ -2468,7 +2468,7 @@ fun MessageInputBar(
                     } else {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.Send,
-                            contentDescription = "Send message",
+                            contentDescription = stringResource(R.string.messaging_send_message),
                         )
                     }
                 }
@@ -2494,12 +2494,12 @@ fun EmptyMessagesState() {
                 tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f),
             )
             Text(
-                text = "No messages yet",
+                text = stringResource(R.string.messaging_no_messages_yet),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Text(
-                text = "Send a message to start the conversation",
+                text = stringResource(R.string.messaging_send_a_message_to_start_the),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
             )
@@ -2566,7 +2566,7 @@ private fun FullscreenImageDialog(
         ) {
             Image(
                 bitmap = bitmap,
-                contentDescription = "Fullscreen image",
+                contentDescription = stringResource(R.string.messaging_fullscreen_image),
                 modifier =
                     Modifier
                         .fillMaxSize()
@@ -2594,7 +2594,7 @@ private fun FullscreenImageDialog(
             ) {
                 Icon(
                     imageVector = Icons.Default.MoreVert,
-                    contentDescription = "More options",
+                    contentDescription = stringResource(R.string.messaging_more_options_4dab),
                 )
             }
         }
@@ -2646,7 +2646,7 @@ private fun FullscreenAnimatedImageDialog(
                         .crossfade(true)
                         .build(),
                 imageLoader = AnimatedImageLoader.getInstance(context),
-                contentDescription = "Fullscreen animated image",
+                contentDescription = stringResource(R.string.messaging_fullscreen_animated_image),
                 modifier =
                     Modifier
                         .fillMaxSize()
@@ -2674,7 +2674,7 @@ private fun FullscreenAnimatedImageDialog(
             ) {
                 Icon(
                     imageVector = Icons.Default.MoreVert,
-                    contentDescription = "More options",
+                    contentDescription = stringResource(R.string.messaging_more_options_4dab),
                 )
             }
         }
@@ -2740,7 +2740,7 @@ fun PendingFileNotificationBubble(
                     }
                     Column {
                         Text(
-                            text = if (isSyncing) "Fetching file..." else "$peerName sent a large file",
+                            text = if (isSyncing) stringResource(R.string.messaging_fetching_file) else "$peerName sent a large file",
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.Medium,
                         )
@@ -2853,12 +2853,12 @@ private fun TextSizeDialog(
                 contentDescription = null,
             )
         },
-        title = { Text("Text size") },
+        title = { Text(stringResource(R.string.messaging_text_size_185d)) },
         text = {
             Column {
                 // Preview text
                 Text(
-                    text = "Preview message text",
+                    text = stringResource(R.string.messaging_preview_message_text),
                     style =
                         MaterialTheme.typography.bodyLarge.copy(
                             fontSize = MaterialTheme.typography.bodyLarge.fontSize * sliderValue,
@@ -2909,7 +2909,7 @@ private fun TextSizeDialog(
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.action_cancel))
             }
         },
     )

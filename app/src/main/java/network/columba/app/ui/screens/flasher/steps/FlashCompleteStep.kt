@@ -32,9 +32,11 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import network.columba.app.R
 import network.columba.app.reticulum.flasher.FrequencyBand
 import network.columba.app.reticulum.flasher.RNodeDeviceInfo
 import network.columba.app.viewmodel.FlashResult
@@ -85,7 +87,7 @@ fun FlashCompleteStep(
                 )
             null -> {
                 // Should not happen
-                Text("Unknown state")
+                Text(stringResource(R.string.flash_complete_step_unknown_state))
             }
         }
     }
@@ -113,14 +115,14 @@ private fun SuccessContent(
         )
 
         Text(
-            text = "Flash Successful!",
+            text = stringResource(R.string.flash_complete_step_flash_successful),
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
         )
 
         Text(
-            text = "Your RNode has been updated successfully",
+            text = stringResource(R.string.flash_complete_step_your_rnode_has_been_updated_successfully),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
@@ -143,7 +145,7 @@ private fun SuccessContent(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Device Information",
+                            text = stringResource(R.string.flash_complete_step_device_information),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Medium,
                         )
@@ -176,7 +178,7 @@ private fun SuccessContent(
                 modifier = Modifier.size(18.dp),
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Configure RNode")
+            Text(stringResource(R.string.usb_device_action_configure_rnode))
         }
 
         OutlinedButton(
@@ -189,13 +191,13 @@ private fun SuccessContent(
                 modifier = Modifier.size(18.dp),
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Flash Another Device")
+            Text(stringResource(R.string.flash_complete_step_flash_another_device))
         }
 
         TextButton(
             onClick = onDone,
         ) {
-            Text("Done")
+            Text(stringResource(R.string.flash_complete_step_done))
         }
     }
 }
@@ -227,7 +229,7 @@ private fun FailureContent(
         )
 
         Text(
-            text = "Flash Failed",
+            text = stringResource(R.string.flash_complete_step_flash_failed),
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.error,
@@ -243,7 +245,7 @@ private fun FailureContent(
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Error Details",
+                    text = stringResource(R.string.message_detail_error_details),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium,
                     color = MaterialTheme.colorScheme.onErrorContainer,
@@ -263,7 +265,7 @@ private fun FailureContent(
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Recovery Tips",
+                    text = stringResource(R.string.flash_complete_step_recovery_tips),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium,
                 )
@@ -293,13 +295,13 @@ private fun FailureContent(
                 modifier = Modifier.size(18.dp),
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Try Again")
+            Text(stringResource(R.string.flash_complete_step_try_again))
         }
 
         TextButton(
             onClick = onDone,
         ) {
-            Text("Done")
+            Text(stringResource(R.string.flash_complete_step_done_f929))
         }
     }
 }
@@ -324,13 +326,13 @@ private fun CancelledContent(
         )
 
         Text(
-            text = "Flash Cancelled",
+            text = stringResource(R.string.flash_complete_step_flash_cancelled),
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold,
         )
 
         Text(
-            text = "The flash operation was cancelled before completion",
+            text = stringResource(R.string.flash_complete_step_the_flash_operation_was_cancelled_before),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
@@ -367,13 +369,13 @@ private fun CancelledContent(
                 modifier = Modifier.size(18.dp),
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Try Again")
+            Text(stringResource(R.string.flash_complete_step_try_again_d876))
         }
 
         TextButton(
             onClick = onDone,
         ) {
-            Text("Done")
+            Text(stringResource(R.string.flash_complete_step_done_f929))
         }
     }
 }

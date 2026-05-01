@@ -30,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -69,7 +70,7 @@ fun PermissionsPage(
 
         // Title
         Text(
-            text = "Stay Connected",
+            text = stringResource(R.string.permissions_page_stay_connected),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground,
@@ -80,7 +81,7 @@ fun PermissionsPage(
 
         // Subtitle
         Text(
-            text = "Columba can notify you when:",
+            text = stringResource(R.string.permissions_page_columba_can_notify_you_when),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
@@ -103,7 +104,7 @@ fun PermissionsPage(
         // Notification permission card
         PermissionCard(
             icon = Icons.Default.Notifications,
-            title = "Notifications",
+            title = stringResource(R.string.notification_settings_notifications),
             description = "Get alerts for new messages",
             isGranted = notificationsGranted,
             onEnable = onEnableNotifications,
@@ -114,7 +115,7 @@ fun PermissionsPage(
         // Battery optimization card
         PermissionCard(
             icon = Icons.Default.BatteryChargingFull,
-            title = "Unrestricted Battery",
+            title = stringResource(R.string.permissions_page_unrestricted_battery),
             description = "Receive messages even when phone is idle",
             secondaryDescription = "Prevents Android from pausing Columba",
             isGranted = batteryOptimizationExempt,
@@ -136,7 +137,7 @@ fun PermissionsPage(
                         .height(56.dp),
                 shape = RoundedCornerShape(12.dp),
             ) {
-                Text("Back")
+                Text(stringResource(R.string.action_back))
             }
 
             Button(
@@ -147,7 +148,7 @@ fun PermissionsPage(
                         .height(56.dp),
                 shape = RoundedCornerShape(12.dp),
             ) {
-                Text("Continue")
+                Text(stringResource(R.string.action_continue))
             }
         }
 
@@ -265,7 +266,7 @@ private fun PermissionCard(
             if (isGranted) {
                 Icon(
                     imageVector = Icons.Default.Check,
-                    contentDescription = "Granted",
+                    contentDescription = stringResource(R.string.permissions_page_granted),
                     modifier = Modifier.size(24.dp),
                     tint = MaterialTheme.colorScheme.primary,
                 )
@@ -274,9 +275,10 @@ private fun PermissionCard(
                     onClick = onEnable,
                     shape = RoundedCornerShape(8.dp),
                 ) {
-                    Text("Enable")
+                    Text(stringResource(R.string.migration_enable))
                 }
             }
         }
     }
 }
+import network.columba.app.R

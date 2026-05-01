@@ -59,11 +59,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import network.columba.app.R
 import network.columba.app.ui.components.NodeTypeBadge
 import network.columba.app.ui.components.ProfileIcon
 import network.columba.app.ui.util.getInterfaceInfo
@@ -109,7 +111,7 @@ fun AnnounceDetailScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Node Details",
+                        text = stringResource(R.string.announce_detail_node_details),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                     )
@@ -118,7 +120,7 @@ fun AnnounceDetailScreen(
                     IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = stringResource(R.string.action_back),
                         )
                     }
                 },
@@ -142,7 +144,7 @@ fun AnnounceDetailScreen(
                         ) {
                             Icon(
                                 imageVector = if (isContact) Icons.Default.Star else Icons.Default.StarBorder,
-                                contentDescription = if (isContact) "Remove from saved" else "Save peer",
+                                contentDescription = if (isContact) stringResource(R.string.announce_detail_remove_from_saved) else stringResource(R.string.announce_detail_save_peer),
                                 tint =
                                     if (isContact) {
                                         MaterialTheme.colorScheme.primary
@@ -177,12 +179,12 @@ fun AnnounceDetailScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
                     Text(
-                        text = "Node not found",
+                        text = stringResource(R.string.announce_detail_node_not_found),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     Button(onClick = onBackClick) {
-                        Text("Go Back")
+                        Text(stringResource(R.string.announce_detail_go_back))
                     }
                 }
             }
@@ -249,7 +251,7 @@ fun AnnounceDetailScreen(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Start Chat",
+                            text = stringResource(R.string.announce_detail_start_chat),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.SemiBold,
                         )
@@ -285,7 +287,7 @@ fun AnnounceDetailScreen(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = if (isMyRelay) "Current Relay" else "Set as My Relay",
+                            text = if (isMyRelay) stringResource(R.string.announce_detail_current_relay) else stringResource(R.string.announce_detail_set_as_my_relay),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.SemiBold,
                         )
@@ -317,7 +319,7 @@ fun AnnounceDetailScreen(
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
                                     Text(
-                                        text = "View messaging destination",
+                                        text = stringResource(R.string.announce_detail_view_messaging_destination),
                                         style = MaterialTheme.typography.titleMedium,
                                         fontWeight = FontWeight.SemiBold,
                                     )
@@ -346,7 +348,7 @@ fun AnnounceDetailScreen(
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
                                     Text(
-                                        text = "View telephony destination",
+                                        text = stringResource(R.string.announce_detail_view_telephony_destination),
                                         style = MaterialTheme.typography.titleMedium,
                                         fontWeight = FontWeight.SemiBold,
                                     )
@@ -379,7 +381,7 @@ fun AnnounceDetailScreen(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Browse Site",
+                            text = stringResource(R.string.announce_detail_browse_site),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.SemiBold,
                         )
@@ -407,7 +409,7 @@ fun AnnounceDetailScreen(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Block",
+                        text = stringResource(R.string.announce_detail_block),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
                     )
@@ -415,7 +417,7 @@ fun AnnounceDetailScreen(
                 // Information cards
                 InfoCard(
                     icon = Icons.Default.Fingerprint,
-                    title = "Destination Hash",
+                    title = stringResource(R.string.announce_detail_destination_hash),
                     content = announceNonNull.destinationHash,
                     isMonospace = true,
                     onLongClick = {
@@ -425,7 +427,7 @@ fun AnnounceDetailScreen(
 
                 InfoCard(
                     icon = Icons.Default.Router,
-                    title = "Network Distance",
+                    title = stringResource(R.string.announce_detail_network_distance),
                     content = "${announceNonNull.hops} ${if (announceNonNull.hops == 1) "hop" else "hops"}",
                     subtitle =
                         when {
@@ -440,9 +442,9 @@ fun AnnounceDetailScreen(
                 if (announceNonNull.nodeType == "PROPAGATION_NODE" && transferLimit != null) {
                     InfoCard(
                         icon = Icons.Default.Storage,
-                        title = "Transfer Size Limit",
+                        title = stringResource(R.string.announce_detail_transfer_size_limit),
                         content = formatSizeLimit(transferLimit),
-                        subtitle = "Maximum message size accepted by this relay",
+                        subtitle = stringResource(R.string.announce_detail_maximum_message_size_accepted_by_this),
                     )
                 }
 
@@ -454,7 +456,7 @@ fun AnnounceDetailScreen(
                     val interfaceInfo = getInterfaceInfo(interfaceName)
                     InfoCard(
                         icon = interfaceInfo.icon,
-                        title = "Received Via",
+                        title = stringResource(R.string.announce_detail_received_via),
                         content = interfaceInfo.text,
                         subtitle = interfaceInfo.subtitle,
                     )
@@ -463,7 +465,7 @@ fun AnnounceDetailScreen(
                 // Show aspect information
                 InfoCard(
                     icon = Icons.Default.Label,
-                    title = "Destination Aspect",
+                    title = stringResource(R.string.announce_detail_destination_aspect),
                     content = announceNonNull.aspect ?: "unknown",
                     subtitle =
                         when (announceNonNull.aspect) {
@@ -479,7 +481,7 @@ fun AnnounceDetailScreen(
 
                 InfoCard(
                     icon = Icons.Default.AccessTime,
-                    title = "Last Seen",
+                    title = stringResource(R.string.announce_detail_last_seen),
                     content = formatTimeSince(announceNonNull.lastSeenTimestamp),
                     subtitle = formatFullTimestamp(announceNonNull.lastSeenTimestamp),
                 )
@@ -490,17 +492,17 @@ fun AnnounceDetailScreen(
                         val flexText = announceNonNull.stampCostFlexibility?.let { " (\u00B1$it)" }.orEmpty()
                         InfoCard(
                             icon = Icons.Default.Lock,
-                            title = "Stamp Cost",
+                            title = stringResource(R.string.announce_detail_stamp_cost),
                             content = "$cost$flexText",
-                            subtitle = "Required proof-of-work difficulty",
+                            subtitle = stringResource(R.string.announce_detail_required_proof_of_work_difficulty),
                         )
                     }
                     announceNonNull.peeringCost?.let { cost ->
                         InfoCard(
                             icon = Icons.Default.Share,
-                            title = "Peering Cost",
+                            title = stringResource(R.string.announce_detail_peering_cost),
                             content = cost.toString(),
-                            subtitle = "Cost for node peering",
+                            subtitle = stringResource(R.string.announce_detail_cost_for_node_peering),
                         )
                     }
                 } else {
@@ -508,9 +510,9 @@ fun AnnounceDetailScreen(
                     announceNonNull.stampCost?.let { cost ->
                         InfoCard(
                             icon = Icons.Default.Lock,
-                            title = "Stamp Cost",
+                            title = stringResource(R.string.announce_detail_stamp_cost_400b),
                             content = cost.toString(),
-                            subtitle = "Required proof-of-work difficulty",
+                            subtitle = stringResource(R.string.announce_detail_required_proof_of_work_difficulty_fb1b),
                         )
                     }
                 }
@@ -589,10 +591,10 @@ private fun RemoveContactConfirmationDialog(
             )
         },
         title = {
-            Text("Remove Contact?")
+            Text(stringResource(R.string.announce_detail_remove_contact))
         },
         text = {
-            Text("Remove $contactName from your contacts? You can re-add them later from the Announce Stream.")
+            Text(stringResource(R.string.announce_detail_remove_contact_confirm, contactName))
         },
         confirmButton = {
             Button(
@@ -602,12 +604,12 @@ private fun RemoveContactConfirmationDialog(
                         containerColor = MaterialTheme.colorScheme.error,
                     ),
             ) {
-                Text("Remove")
+                Text(stringResource(R.string.announce_detail_remove))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.action_cancel))
             }
         },
     )
@@ -630,7 +632,7 @@ private fun UnsetRelayConfirmationDialog(
             )
         },
         title = {
-            Text("Unset as Your Relay?")
+            Text(stringResource(R.string.announce_detail_unset_as_your_relay))
         },
         text = {
             Text("\"$relayName\" will be removed from contacts.")
@@ -641,13 +643,13 @@ private fun UnsetRelayConfirmationDialog(
                 horizontalAlignment = Alignment.End,
             ) {
                 TextButton(onClick = onAutoSelect) {
-                    Text("Remove & Auto-Select New")
+                    Text(stringResource(R.string.announce_detail_remove_auto_select_new))
                 }
                 TextButton(onClick = onRemoveOnly) {
-                    Text("Remove Only")
+                    Text(stringResource(R.string.announce_detail_remove_only))
                 }
                 TextButton(onClick = onDismiss) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.action_cancel))
                 }
             }
         },

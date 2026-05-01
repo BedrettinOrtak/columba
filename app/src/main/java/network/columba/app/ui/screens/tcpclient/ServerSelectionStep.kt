@@ -24,8 +24,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import network.columba.app.R
 import network.columba.app.data.model.TcpCommunityServer
 import network.columba.app.ui.components.CustomSettingsCard
 import network.columba.app.viewmodel.TcpClientWizardViewModel
@@ -48,14 +50,14 @@ fun ServerSelectionStep(viewModel: TcpClientWizardViewModel) {
     ) {
         // Header
         Text(
-            text = "Choose Server",
+            text = stringResource(R.string.server_selection_step_choose_server),
             style = MaterialTheme.typography.headlineSmall,
         )
 
         Spacer(Modifier.height(8.dp))
 
         Text(
-            text = "Select a community server or enter custom connection details.",
+            text = stringResource(R.string.server_selection_step_select_a_community_server_or_enter),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -80,7 +82,7 @@ fun ServerSelectionStep(viewModel: TcpClientWizardViewModel) {
             // Custom option
             item {
                 CustomSettingsCard(
-                    title = "Custom",
+                    title = stringResource(R.string.server_selection_step_custom),
                     description = "Enter server details manually",
                     isSelected = state.isCustomMode,
                     onClick = { viewModel.enableCustomMode() },
@@ -155,7 +157,7 @@ private fun ServerCard(
             if (isSelected) {
                 Icon(
                     imageVector = Icons.Default.Check,
-                    contentDescription = "Selected",
+                    contentDescription = stringResource(R.string.server_selection_step_selected),
                     tint = MaterialTheme.colorScheme.primary,
                 )
             }

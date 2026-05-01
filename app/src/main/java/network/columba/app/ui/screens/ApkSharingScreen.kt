@@ -42,10 +42,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import network.columba.app.R
 import network.columba.app.service.LocalHotspotManager
 import network.columba.app.ui.components.QrCodeImage
 import network.columba.app.viewmodel.ApkSharingViewModel
@@ -81,12 +83,12 @@ fun ApkSharingScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Share Columba") },
+                title = { Text(stringResource(R.string.apk_sharing_share_columba)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = stringResource(R.string.action_back),
                         )
                     }
                 },
@@ -203,7 +205,7 @@ private fun SharingSection(
                 // Hotspot is starting up
                 CircularProgressIndicator(modifier = Modifier.size(32.dp))
                 Text(
-                    text = "Starting WiFi hotspot...",
+                    text = stringResource(R.string.apk_sharing_starting_wifi_hotspot),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -231,7 +233,7 @@ private fun SharingSection(
 
                     // Step 1: WiFi credentials QR code
                     Text(
-                        text = "Step 1: Scan to connect to hotspot",
+                        text = stringResource(R.string.apk_sharing_step_1_scan_to_connect_to),
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
@@ -249,7 +251,7 @@ private fun SharingSection(
 
                     // Step 2: Download URL QR code
                     Text(
-                        text = "Step 2: Scan to download Columba",
+                        text = stringResource(R.string.apk_sharing_step_2_scan_to_download_columba),
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.padding(top = 8.dp),
@@ -262,7 +264,7 @@ private fun SharingSection(
                 } else {
                     // WiFi mode: single QR code
                     Text(
-                        text = "Have the other person scan this QR code",
+                        text = stringResource(R.string.apk_sharing_have_the_other_person_scan_this),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center,
@@ -299,7 +301,7 @@ private fun SharingSection(
                 if (apkSizeBytes > 0) {
                     val sizeMb = apkSizeBytes / (1024.0 * 1024.0)
                     Text(
-                        text = "APK size: ${"%.1f".format(sizeMb)} MB",
+                        text = "APK size: ${"%.1f".format(apkInfo.sizeMB)} MB",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -312,7 +314,7 @@ private fun SharingSection(
             else -> {
                 // Loading / starting
                 Text(
-                    text = "Starting sharing server...",
+                    text = stringResource(R.string.apk_sharing_starting_sharing_server),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -348,7 +350,7 @@ private fun HotspotFallbackSection(onStartHotspot: () -> Unit) {
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Text(
-            text = "No WiFi? Share by creating a temporary hotspot instead.",
+            text = stringResource(R.string.apk_sharing_no_wifi_share_by_creating_a),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
@@ -361,7 +363,7 @@ private fun HotspotFallbackSection(onStartHotspot: () -> Unit) {
                 modifier = Modifier.size(18.dp),
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Start Hotspot")
+            Text(stringResource(R.string.apk_sharing_start_hotspot))
         }
     }
 }
@@ -382,13 +384,13 @@ private fun PermissionRequestSection(onRequestPermissions: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Text(
-                text = "Permission needed to create a WiFi hotspot for sharing.",
+                text = stringResource(R.string.apk_sharing_permission_needed_to_create_a_wifi),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
                 textAlign = TextAlign.Center,
             )
             Button(onClick = onRequestPermissions) {
-                Text("Grant Permission")
+                Text(stringResource(R.string.apk_sharing_grant_permission))
             }
         }
     }
@@ -456,7 +458,7 @@ private fun InstructionsCard(sharingMode: SharingMode) {
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Text(
-                text = "Instructions",
+                text = stringResource(R.string.apk_sharing_instructions),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
             )
@@ -494,13 +496,13 @@ private fun AlternativeSharingSection(onShareViaIntent: () -> Unit) {
         modifier = Modifier.fillMaxWidth(),
     ) {
         Text(
-            text = "Or share another way",
+            text = stringResource(R.string.apk_sharing_or_share_another_way),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
 
         Text(
-            text = "Use Bluetooth, Nearby Share, or any other installed sharing app.",
+            text = stringResource(R.string.apk_sharing_use_bluetooth_nearby_share_or_any),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
@@ -516,7 +518,7 @@ private fun AlternativeSharingSection(onShareViaIntent: () -> Unit) {
                 modifier = Modifier.size(18.dp),
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Share APK via...")
+            Text(stringResource(R.string.apk_sharing_share_apk_via))
         }
     }
 }

@@ -27,8 +27,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import network.columba.app.R
 import network.columba.app.reticulum.flasher.FrequencyBand
 import network.columba.app.reticulum.flasher.RNodeBoard
 import network.columba.app.reticulum.flasher.RNodeDeviceInfo
@@ -55,12 +57,12 @@ fun DeviceDetectionStep(
                 .padding(16.dp),
     ) {
         Text(
-            text = "Device Detection",
+            text = stringResource(R.string.device_detection_step_device_detection),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
         )
         Text(
-            text = "Identifying your RNode device",
+            text = stringResource(R.string.device_detection_step_identifying_your_rnode_device),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -144,7 +146,7 @@ private fun DetectedState(
                 Spacer(modifier = Modifier.width(16.dp))
                 Column {
                     Text(
-                        text = "Device Detected",
+                        text = stringResource(R.string.device_detection_step_device_detected),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -177,7 +179,7 @@ private fun DetectedState(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Device Information",
+                        text = stringResource(R.string.device_detection_step_device_information),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Medium,
                     )
@@ -268,13 +270,13 @@ private fun UnknownBoardState(
                 Spacer(modifier = Modifier.width(16.dp))
                 Column {
                     Text(
-                        text = "Device Detected",
+                        text = stringResource(R.string.device_detection_step_device_detected_fb27),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onTertiaryContainer,
                     )
                     Text(
-                        text = "Board type unknown (EEPROM may be wiped)",
+                        text = stringResource(R.string.device_detection_step_board_type_unknown_eeprom_may_be),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onTertiaryContainer,
                     )
@@ -301,7 +303,7 @@ private fun UnknownBoardState(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Device Information",
+                        text = stringResource(R.string.device_detection_step_device_information_3eb2),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Medium,
                     )
@@ -338,13 +340,13 @@ private fun UnknownBoardState(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Select Board Type",
+                        text = stringResource(R.string.device_detection_step_select_board_type),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Medium,
                     )
                 }
                 Text(
-                    text = "Since the board type couldn't be determined automatically, please select it manually in the next step.",
+                    text = stringResource(R.string.device_detection_step_since_the_board_type_couldn_t),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -352,7 +354,7 @@ private fun UnknownBoardState(
                     onClick = onManualSelection,
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Text("Continue with Manual Selection")
+                    Text(stringResource(R.string.device_detection_step_continue_with_manual_selection))
                 }
             }
         }
@@ -393,7 +395,7 @@ private fun ErrorState(
                 Spacer(modifier = Modifier.width(16.dp))
                 Column {
                     Text(
-                        text = "Detection Failed",
+                        text = stringResource(R.string.device_detection_step_detection_failed),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onErrorContainer,
@@ -425,13 +427,13 @@ private fun ErrorState(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Manual Selection",
+                        text = stringResource(R.string.device_detection_step_manual_selection),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Medium,
                     )
                 }
                 Text(
-                    text = "If your device wasn't detected automatically, you can manually select the board type in the next step.",
+                    text = stringResource(R.string.device_detection_step_if_your_device_wasn_t_detected),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -439,7 +441,7 @@ private fun ErrorState(
                     onClick = onManualSelection,
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Text("Continue with Manual Selection")
+                    Text(stringResource(R.string.device_detection_step_continue_with_manual_selection_2b50))
                 }
             }
         }

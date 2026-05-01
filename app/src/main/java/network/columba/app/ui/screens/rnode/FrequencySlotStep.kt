@@ -42,9 +42,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import network.columba.app.R
 import network.columba.app.data.model.CommunitySlot
 import network.columba.app.data.model.CommunitySlots
 import network.columba.app.data.model.FrequencySlotCalculator
@@ -81,7 +83,7 @@ fun FrequencySlotStep(viewModel: RNodeWizardViewModel) {
     ) {
         // Header
         Text(
-            text = "Select Frequency Slot",
+            text = stringResource(R.string.frequency_slot_step_select_frequency_slot),
             style = MaterialTheme.typography.headlineSmall,
         )
 
@@ -153,7 +155,7 @@ fun FrequencySlotStep(viewModel: RNodeWizardViewModel) {
 
         // Spectrum visualization
         Text(
-            text = "Frequency Spectrum",
+            text = stringResource(R.string.frequency_slot_step_frequency_spectrum),
             style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -194,7 +196,7 @@ fun FrequencySlotStep(viewModel: RNodeWizardViewModel) {
 
         // Slot slider
         Text(
-            text = "Slot Number",
+            text = stringResource(R.string.frequency_slot_step_slot_number),
             style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -212,7 +214,7 @@ fun FrequencySlotStep(viewModel: RNodeWizardViewModel) {
         // Popular RNode presets (recommended)
         if (popularPresets.isNotEmpty()) {
             Text(
-                text = "Popular RNode Frequencies",
+                text = stringResource(R.string.frequency_slot_step_popular_rnode_frequencies),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -220,7 +222,7 @@ fun FrequencySlotStep(viewModel: RNodeWizardViewModel) {
             Spacer(Modifier.height(4.dp))
 
             Text(
-                text = "Community-tested configurations for your region",
+                text = stringResource(R.string.frequency_slot_step_community_tested_configurations_for_your_region),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
             )
@@ -260,7 +262,7 @@ fun FrequencySlotStep(viewModel: RNodeWizardViewModel) {
         // Meshtastic frequencies (to avoid)
         if (meshtasticSlots.isNotEmpty()) {
             Text(
-                text = "Meshtastic Frequencies (Avoid)",
+                text = stringResource(R.string.frequency_slot_step_meshtastic_frequencies_avoid),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.error,
             )
@@ -268,7 +270,7 @@ fun FrequencySlotStep(viewModel: RNodeWizardViewModel) {
             Spacer(Modifier.height(4.dp))
 
             Text(
-                text = "These frequencies are used by Meshtastic networks",
+                text = stringResource(R.string.frequency_slot_step_these_frequencies_are_used_by_meshtastic),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
             )
@@ -482,7 +484,7 @@ private fun FrequencySpectrumBar(
                 )
                 Spacer(Modifier.width(4.dp))
                 Text(
-                    text = "Meshtastic",
+                    text = stringResource(R.string.frequency_slot_step_meshtastic),
                     style = MaterialTheme.typography.labelSmall,
                     color = onSurface.copy(alpha = 0.6f),
                 )
@@ -512,7 +514,7 @@ private fun SlotPicker(
                         containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     ),
             ) {
-                Icon(Icons.Default.Remove, contentDescription = "Decrease slot")
+                Icon(Icons.Default.Remove, contentDescription = stringResource(R.string.frequency_slot_step_decrease_slot))
             }
 
             Spacer(Modifier.width(24.dp))
@@ -535,7 +537,7 @@ private fun SlotPicker(
                         containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     ),
             ) {
-                Icon(Icons.Default.Add, contentDescription = "Increase slot")
+                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.frequency_slot_step_increase_slot))
             }
         }
 
@@ -573,7 +575,7 @@ private fun SlotPicker(
             // Single slot available - show informational message
             Spacer(Modifier.height(8.dp))
             Text(
-                text = "Only one frequency slot available for this region/preset combination",
+                text = stringResource(R.string.frequency_slot_step_only_one_frequency_slot_available_for),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
@@ -647,7 +649,7 @@ private fun PopularPresetCard(
                     Spacer(Modifier.width(12.dp))
                     Icon(
                         imageVector = Icons.Default.Check,
-                        contentDescription = "Selected",
+                        contentDescription = stringResource(R.string.frequency_slot_step_selected),
                         tint = MaterialTheme.colorScheme.primary,
                     )
                 }

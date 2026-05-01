@@ -29,8 +29,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import network.columba.app.R
 import network.columba.app.reticulum.usb.UsbDeviceInfo
 
 /**
@@ -64,12 +66,12 @@ fun DeviceSelectionStep(
         ) {
             Column {
                 Text(
-                    text = "Select USB Device",
+                    text = stringResource(R.string.device_selection_step_select_usb_device),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    text = "Connect your RNode device via USB",
+                    text = stringResource(R.string.device_selection_step_connect_your_rnode_device_via_usb),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -87,7 +89,7 @@ fun DeviceSelectionStep(
                 } else {
                     Icon(
                         imageVector = Icons.Default.Refresh,
-                        contentDescription = "Refresh devices",
+                        contentDescription = stringResource(R.string.device_selection_step_refresh_devices),
                     )
                 }
             }
@@ -141,7 +143,7 @@ fun DeviceSelectionStep(
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     Text(
-                        text = "Waiting for USB permission...",
+                        text = stringResource(R.string.device_selection_step_waiting_for_usb_permission),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
@@ -212,7 +214,7 @@ private fun DeviceCard(
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = device.productName ?: "Unknown Device",
+                    text = device.productName ?: stringResource(R.string.device_selection_step_unknown_device),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium,
                     color =
@@ -249,7 +251,7 @@ private fun DeviceCard(
             if (isSelected) {
                 Icon(
                     imageVector = Icons.Default.Check,
-                    contentDescription = "Selected",
+                    contentDescription = stringResource(R.string.device_selection_step_selected),
                     tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             }
@@ -274,12 +276,12 @@ private fun EmptyDeviceState(modifier: Modifier = Modifier) {
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Text(
-                text = "No USB devices found",
+                text = stringResource(R.string.device_selection_step_no_usb_devices_found),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Text(
-                text = "Connect an RNode device via USB and tap refresh",
+                text = stringResource(R.string.device_selection_step_connect_an_rnode_device_via_usb),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

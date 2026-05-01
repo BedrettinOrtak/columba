@@ -46,8 +46,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import network.columba.app.R
 import network.columba.app.data.model.FrequencySlotCalculator
 import network.columba.app.ui.components.IfacConfigCard
 import network.columba.app.viewmodel.RNodeWizardViewModel
@@ -120,7 +122,7 @@ fun ReviewConfigStep(viewModel: RNodeWizardViewModel) {
             OutlinedTextField(
                 value = state.interfaceName,
                 onValueChange = { viewModel.updateInterfaceName(it) },
-                label = { Text("Interface Name") },
+                label = { Text(stringResource(R.string.review_config_step_interface_name)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 isError = state.nameError != null,
@@ -332,7 +334,7 @@ fun ReviewConfigStep(viewModel: RNodeWizardViewModel) {
                 contentDescription = null,
             )
             Spacer(Modifier.width(8.dp))
-            Text("Advanced Settings")
+            Text(stringResource(R.string.review_config_step_advanced_settings))
         }
 
         // Region limits for validation hints
@@ -360,7 +362,7 @@ fun ReviewConfigStep(viewModel: RNodeWizardViewModel) {
                     OutlinedTextField(
                         value = state.frequency,
                         onValueChange = { viewModel.updateFrequency(it) },
-                        label = { Text("Frequency (Hz)") },
+                        label = { Text(stringResource(R.string.review_config_step_frequency_hz)) },
                         modifier = Modifier.weight(1f),
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -385,7 +387,7 @@ fun ReviewConfigStep(viewModel: RNodeWizardViewModel) {
                     OutlinedTextField(
                         value = state.bandwidth,
                         onValueChange = { viewModel.updateBandwidth(it) },
-                        label = { Text("Bandwidth (Hz)") },
+                        label = { Text(stringResource(R.string.review_config_step_bandwidth_hz)) },
                         modifier = Modifier.weight(1f),
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -427,7 +429,7 @@ fun ReviewConfigStep(viewModel: RNodeWizardViewModel) {
                     OutlinedTextField(
                         value = state.txPower,
                         onValueChange = { viewModel.updateTxPower(it) },
-                        label = { Text("TX (dBm)") },
+                        label = { Text(stringResource(R.string.review_config_step_tx_dbm)) },
                         modifier = Modifier.weight(1f),
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -468,7 +470,7 @@ fun ReviewConfigStep(viewModel: RNodeWizardViewModel) {
                         OutlinedTextField(
                             value = state.stAlock,
                             onValueChange = { viewModel.updateStAlock(it) },
-                            label = { Text("Short-term (%)") },
+                            label = { Text(stringResource(R.string.review_config_step_short_term)) },
                             placeholder = { Text(airtimePlaceholder) },
                             modifier = Modifier.weight(1f),
                             singleLine = true,
@@ -479,7 +481,7 @@ fun ReviewConfigStep(viewModel: RNodeWizardViewModel) {
                         OutlinedTextField(
                             value = state.ltAlock,
                             onValueChange = { viewModel.updateLtAlock(it) },
-                            label = { Text("Long-term (%)") },
+                            label = { Text(stringResource(R.string.review_config_step_long_term)) },
                             placeholder = { Text(airtimePlaceholder) },
                             modifier = Modifier.weight(1f),
                             singleLine = true,

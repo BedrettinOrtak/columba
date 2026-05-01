@@ -49,9 +49,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import network.columba.app.R
 import network.columba.app.service.RelayInfo
 import network.columba.app.ui.components.CollapsibleSettingsCard
 import network.columba.app.ui.util.rememberLifecycleTickerMillis
@@ -114,14 +116,14 @@ fun MessageDeliveryRetrievalCard(
     val presetIntervals = listOf(3600, 10800, 21600, 43200) // 1h, 3h, 6h, 12h
 
     CollapsibleSettingsCard(
-        title = "Message Delivery & Retrieval",
+        title = stringResource(R.string.message_delivery_retrieval_card_message_delivery_retrieval),
         icon = Icons.Default.Send,
         isExpanded = isExpanded,
         onExpandedChange = onExpandedChange,
     ) {
         // Description
         Text(
-            text = "Configure how messages are sent and retrieved via relay.",
+            text = stringResource(R.string.message_delivery_retrieval_card_configure_how_messages_are_sent_and),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -131,7 +133,7 @@ fun MessageDeliveryRetrievalCard(
         // Default delivery method selector
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text(
-                text = "Default Delivery Method",
+                text = stringResource(R.string.message_delivery_retrieval_card_default_delivery_method),
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Medium,
             )
@@ -156,9 +158,9 @@ fun MessageDeliveryRetrievalCard(
                     DropdownMenuItem(
                         text = {
                             Column {
-                                Text("Direct (Link-based)")
+                                Text(stringResource(R.string.message_delivery_retrieval_card_direct_link_based))
                                 Text(
-                                    text = "Establishes a link, unlimited size, with retries",
+                                    text = stringResource(R.string.message_delivery_retrieval_card_establishes_a_link_unlimited_size_with),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
@@ -172,9 +174,9 @@ fun MessageDeliveryRetrievalCard(
                     DropdownMenuItem(
                         text = {
                             Column {
-                                Text("Propagated (Via Relay)")
+                                Text(stringResource(R.string.message_delivery_retrieval_card_propagated_via_relay))
                                 Text(
-                                    text = "Stores message on relay for offline recipients",
+                                    text = stringResource(R.string.message_delivery_retrieval_card_stores_message_on_relay_for_offline),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
@@ -197,12 +199,12 @@ fun MessageDeliveryRetrievalCard(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Retry via Relay on Failure",
+                    text = stringResource(R.string.message_delivery_retrieval_card_retry_via_relay_on_failure),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium,
                 )
                 Text(
-                    text = "If direct delivery fails, retry through relay",
+                    text = stringResource(R.string.message_delivery_retrieval_card_if_direct_delivery_fails_retry_through),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -217,7 +219,7 @@ fun MessageDeliveryRetrievalCard(
 
         // Relay selection section
         Text(
-            text = "My Relay",
+            text = stringResource(R.string.contacts_my_relay_370c),
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Medium,
         )
@@ -238,7 +240,7 @@ fun MessageDeliveryRetrievalCard(
             Spacer(modifier = Modifier.width(8.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Auto-select nearest",
+                    text = stringResource(R.string.message_delivery_retrieval_card_auto_select_nearest),
                     style = MaterialTheme.typography.bodyMedium,
                 )
                 if (isAutoSelect && currentRelayName != null) {
@@ -279,7 +281,7 @@ fun MessageDeliveryRetrievalCard(
             Spacer(modifier = Modifier.width(8.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Use specific relay",
+                    text = stringResource(R.string.message_delivery_retrieval_card_use_specific_relay),
                     style = MaterialTheme.typography.bodyMedium,
                 )
                 if (!isAutoSelect && currentRelayName != null) {
@@ -302,7 +304,7 @@ fun MessageDeliveryRetrievalCard(
                     }
                 } else if (!isAutoSelect) {
                     Text(
-                        text = "No relay selected",
+                        text = stringResource(R.string.message_delivery_retrieval_card_no_relay_selected),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -314,7 +316,7 @@ fun MessageDeliveryRetrievalCard(
         if (currentRelayName != null) {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Tap to select a different relay",
+                text = stringResource(R.string.message_delivery_retrieval_card_tap_to_select_a_different_relay),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -327,7 +329,7 @@ fun MessageDeliveryRetrievalCard(
         } else if (isAutoSelect) {
             // Auto-select mode with no relay yet
             Text(
-                text = "No relay configured. Waiting for propagation node announces...",
+                text = stringResource(R.string.message_delivery_retrieval_card_no_relay_configured_waiting_for_propagation),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -349,11 +351,11 @@ fun MessageDeliveryRetrievalCard(
                         modifier = Modifier.size(20.dp),
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Select from available relays")
+                    Text(stringResource(R.string.message_delivery_retrieval_card_select_from_available_relays))
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Or enter a relay hash manually:",
+                    text = stringResource(R.string.message_delivery_retrieval_card_or_enter_a_relay_hash_manually),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -377,7 +379,7 @@ fun MessageDeliveryRetrievalCard(
 
         // Message Retrieval Section
         Text(
-            text = "MESSAGE RETRIEVAL",
+            text = stringResource(R.string.message_delivery_retrieval_card_message_retrieval),
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
@@ -391,12 +393,12 @@ fun MessageDeliveryRetrievalCard(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Auto-retrieve from relay",
+                    text = stringResource(R.string.message_delivery_retrieval_card_auto_retrieve_from_relay),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium,
                 )
                 Text(
-                    text = "Periodically check for messages",
+                    text = stringResource(R.string.message_delivery_retrieval_card_periodically_check_for_messages),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -487,7 +489,7 @@ fun MessageDeliveryRetrievalCard(
                     color = MaterialTheme.colorScheme.onSecondary,
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Syncing...")
+                Text(stringResource(R.string.message_delivery_retrieval_card_syncing))
             } else {
                 Icon(
                     imageVector = Icons.Default.Refresh,
@@ -495,7 +497,7 @@ fun MessageDeliveryRetrievalCard(
                     modifier = Modifier.size(20.dp),
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Sync Now")
+                Text(stringResource(R.string.message_delivery_retrieval_card_sync_now))
             }
         }
 
@@ -514,14 +516,14 @@ fun MessageDeliveryRetrievalCard(
 
         // Incoming Message Size Limit Section
         Text(
-            text = "INCOMING MESSAGE SIZE",
+            text = stringResource(R.string.message_delivery_retrieval_card_incoming_message_size),
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
         )
 
         Text(
-            text = "Maximum size of messages to accept. Larger messages will be rejected.",
+            text = stringResource(R.string.message_delivery_retrieval_card_maximum_size_of_messages_to_accept),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -541,27 +543,27 @@ fun MessageDeliveryRetrievalCard(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 SizeLimitChip(
-                    label = "1 MB",
+                    label = stringResource(R.string.message_delivery_retrieval_card_1_mb),
                     selected = incomingMessageSizeLimitKb == 1024,
                     onClick = { onIncomingMessageSizeLimitChange(1024) },
                 )
                 SizeLimitChip(
-                    label = "5 MB",
+                    label = stringResource(R.string.message_delivery_retrieval_card_5_mb),
                     selected = incomingMessageSizeLimitKb == 5120,
                     onClick = { onIncomingMessageSizeLimitChange(5120) },
                 )
                 SizeLimitChip(
-                    label = "10 MB",
+                    label = stringResource(R.string.message_delivery_retrieval_card_10_mb),
                     selected = incomingMessageSizeLimitKb == 10240,
                     onClick = { onIncomingMessageSizeLimitChange(10240) },
                 )
                 SizeLimitChip(
-                    label = "25 MB",
+                    label = stringResource(R.string.message_delivery_retrieval_card_25_mb),
                     selected = incomingMessageSizeLimitKb == 25600,
                     onClick = { onIncomingMessageSizeLimitChange(25600) },
                 )
                 SizeLimitChip(
-                    label = "Unlimited",
+                    label = stringResource(R.string.message_delivery_retrieval_card_unlimited),
                     selected = incomingMessageSizeLimitKb == 131072,
                     onClick = { onIncomingMessageSizeLimitChange(131072) },
                 )
@@ -594,7 +596,7 @@ fun MessageDeliveryRetrievalCard(
 
         // Message Sort Order Section
         Text(
-            text = "MESSAGE SORT ORDER",
+            text = stringResource(R.string.message_delivery_retrieval_card_message_sort_order),
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
@@ -607,7 +609,7 @@ fun MessageDeliveryRetrievalCard(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Sort by sender's time",
+                    text = stringResource(R.string.message_delivery_retrieval_card_sort_by_sender_s_time),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium,
                 )
@@ -721,7 +723,7 @@ private fun CurrentRelayInfo(
             ) {
                 Icon(
                     imageVector = Icons.Default.Hub,
-                    contentDescription = "Relay",
+                    contentDescription = stringResource(R.string.message_delivery_retrieval_card_relay),
                     modifier = Modifier.size(24.dp),
                     tint = MaterialTheme.colorScheme.onTertiary,
                 )
@@ -798,7 +800,7 @@ private fun CustomRetrievalIntervalDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Custom Retrieval Interval") },
+        title = { Text(stringResource(R.string.message_delivery_retrieval_card_custom_retrieval_interval)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(
@@ -812,16 +814,16 @@ private fun CustomRetrievalIntervalDialog(
                             onInputChange(it)
                         }
                     },
-                    label = { Text("Seconds") },
+                    label = { Text(stringResource(R.string.message_delivery_retrieval_card_seconds)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
                     isError = customIntervalInput.toIntOrNull()?.let { it < 3600 || it > 43200 } ?: false,
                     supportingText = {
                         val value = customIntervalInput.toIntOrNull()
                         when {
-                            value == null && customIntervalInput.isNotEmpty() -> Text("Enter a valid number")
-                            value != null && value < 3600 -> Text("Minimum is 3600 seconds (1 hour)")
-                            value != null && value > 43200 -> Text("Maximum is 43200 seconds (12 hours)")
+                            value == null && customIntervalInput.isNotEmpty() -> Text(stringResource(R.string.message_delivery_retrieval_card_enter_a_valid_number))
+                            value != null && value < 3600 -> Text(stringResource(R.string.message_delivery_retrieval_card_minimum_is_3600_seconds_1_hour))
+                            value != null && value > 43200 -> Text(stringResource(R.string.message_delivery_retrieval_card_maximum_is_43200_seconds_12_hours))
                             value != null -> Text("= ${formatIntervalDisplay(value)}")
                             else -> {}
                         }
@@ -839,12 +841,12 @@ private fun CustomRetrievalIntervalDialog(
                 },
                 enabled = customIntervalInput.toIntOrNull()?.let { it in 3600..43200 } ?: false,
             ) {
-                Text("Confirm")
+                Text(stringResource(R.string.message_delivery_retrieval_card_confirm))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.action_cancel))
             }
         },
     )
@@ -873,7 +875,7 @@ private fun ManualRelayInput(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Text(
-            text = "Enter relay destination hash:",
+            text = stringResource(R.string.message_delivery_retrieval_card_enter_relay_destination_hash),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -887,8 +889,8 @@ private fun ManualRelayInput(
                     onHashChange(filtered)
                 }
             },
-            label = { Text("Destination Hash") },
-            placeholder = { Text("32-character hex") },
+            label = { Text(stringResource(R.string.my_identity_destination_hash)) },
+            placeholder = { Text(stringResource(R.string.message_delivery_retrieval_card_32_character_hex)) },
             singleLine = true,
             isError = hashInput.isNotEmpty() && !isValid,
             supportingText = {
@@ -906,8 +908,8 @@ private fun ManualRelayInput(
         OutlinedTextField(
             value = nicknameInput,
             onValueChange = onNicknameChange,
-            label = { Text("Nickname (optional)") },
-            placeholder = { Text("e.g., My Home Relay") },
+            label = { Text(stringResource(R.string.contacts_nickname_optional)) },
+            placeholder = { Text(stringResource(R.string.message_delivery_retrieval_card_e_g_my_home_relay)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
         )
@@ -922,7 +924,7 @@ private fun ManualRelayInput(
             enabled = isValid,
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Text("Set as Relay")
+            Text(stringResource(R.string.message_delivery_retrieval_card_set_as_relay))
         }
     }
 }
@@ -940,12 +942,12 @@ private fun RelaySelectionDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Select Relay") },
+        title = { Text(stringResource(R.string.message_delivery_retrieval_card_select_relay)) },
         text = {
             // Skip loading state - query is fast enough. Just show relays or empty message.
             if (availableRelays.isEmpty()) {
                 Text(
-                    text = "No propagation nodes discovered yet. Wait for announces or enter a hash manually.",
+                    text = stringResource(R.string.message_delivery_retrieval_card_no_propagation_nodes_discovered_yet_wait),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -975,7 +977,7 @@ private fun RelaySelectionDialog(
         confirmButton = {},
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.action_cancel))
             }
         },
     )
@@ -1042,7 +1044,7 @@ private fun RelayListItem(
 
             if (isSelected) {
                 Text(
-                    text = "Current",
+                    text = stringResource(R.string.message_delivery_retrieval_card_current),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.primary,
                 )
@@ -1076,7 +1078,7 @@ private fun MoreRelaysItem(onClick: () -> Unit) {
             horizontalArrangement = Arrangement.Center,
         ) {
             Text(
-                text = "View All Relays...",
+                text = stringResource(R.string.message_delivery_retrieval_card_view_all_relays),
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.onTertiaryContainer,
@@ -1124,7 +1126,7 @@ private fun CustomSizeLimitDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Custom Size Limit") },
+        title = { Text(stringResource(R.string.message_delivery_retrieval_card_custom_size_limit)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(
@@ -1145,9 +1147,9 @@ private fun CustomSizeLimitDialog(
                     supportingText = {
                         val value = customSizeLimitInput.toIntOrNull()
                         when {
-                            value == null && customSizeLimitInput.isNotEmpty() -> Text("Enter a valid number")
-                            value != null && value < 1 -> Text("Minimum is 1 MB")
-                            value != null && value > 128 -> Text("Maximum is 128 MB")
+                            value == null && customSizeLimitInput.isNotEmpty() -> Text(stringResource(R.string.message_delivery_retrieval_card_enter_a_valid_number_e4ef))
+                            value != null && value < 1 -> Text(stringResource(R.string.message_delivery_retrieval_card_minimum_is_1_mb))
+                            value != null && value > 128 -> Text(stringResource(R.string.message_delivery_retrieval_card_maximum_is_128_mb))
                             value != null -> Text("= ${value * 1024} KB")
                             else -> {}
                         }
@@ -1165,12 +1167,12 @@ private fun CustomSizeLimitDialog(
                 },
                 enabled = customSizeLimitInput.toIntOrNull()?.let { it in 1..128 } ?: false,
             ) {
-                Text("Confirm")
+                Text(stringResource(R.string.message_delivery_retrieval_card_confirm_70d9))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.action_cancel))
             }
         },
     )

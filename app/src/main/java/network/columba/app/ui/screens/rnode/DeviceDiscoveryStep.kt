@@ -55,8 +55,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import network.columba.app.R
 import network.columba.app.data.model.BluetoothType
 import network.columba.app.data.model.DiscoveredRNode
 import network.columba.app.data.model.DiscoveredUsbDevice
@@ -145,7 +147,7 @@ fun DeviceDiscoveryStep(viewModel: RNodeWizardViewModel) {
             FilterChip(
                 selected = state.connectionType == RNodeConnectionType.BLUETOOTH,
                 onClick = { viewModel.setConnectionType(RNodeConnectionType.BLUETOOTH) },
-                label = { Text("Bluetooth") },
+                label = { Text(stringResource(R.string.device_discovery_step_bluetooth)) },
                 leadingIcon = {
                     Icon(Icons.Default.Bluetooth, contentDescription = null, Modifier.size(18.dp))
                 },
@@ -153,7 +155,7 @@ fun DeviceDiscoveryStep(viewModel: RNodeWizardViewModel) {
             FilterChip(
                 selected = state.connectionType == RNodeConnectionType.TCP_WIFI,
                 onClick = { viewModel.setConnectionType(RNodeConnectionType.TCP_WIFI) },
-                label = { Text("WiFi / TCP") },
+                label = { Text(stringResource(R.string.device_discovery_step_wifi_tcp)) },
                 leadingIcon = {
                     Icon(Icons.Default.Wifi, contentDescription = null, Modifier.size(18.dp))
                 },
@@ -217,8 +219,8 @@ private fun TcpConnectionForm(
         OutlinedTextField(
             value = tcpHost,
             onValueChange = onHostChange,
-            label = { Text("IP Address or Hostname") },
-            placeholder = { Text("e.g., 10.0.0.1 or rnode.local") },
+            label = { Text(stringResource(R.string.device_discovery_step_ip_address_or_hostname)) },
+            placeholder = { Text(stringResource(R.string.device_discovery_step_e_g_10_0_0_1)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
             leadingIcon = {
@@ -244,7 +246,7 @@ private fun TcpConnectionForm(
                     )
                     Spacer(Modifier.width(8.dp))
                 }
-                Text("Test Connection")
+                Text(stringResource(R.string.device_discovery_step_test_connection))
             }
 
             // Validation result
@@ -253,7 +255,7 @@ private fun TcpConnectionForm(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             Icons.Default.CheckCircle,
-                            contentDescription = "Success",
+                            contentDescription = stringResource(R.string.main_state_success),
                             tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(20.dp),
                         )
@@ -269,7 +271,7 @@ private fun TcpConnectionForm(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             Icons.Default.Error,
-                            contentDescription = "Failed",
+                            contentDescription = stringResource(R.string.message_detail_failed),
                             tint = MaterialTheme.colorScheme.error,
                             modifier = Modifier.size(20.dp),
                         )
@@ -374,11 +376,11 @@ private fun BluetoothDeviceDiscovery(
                         modifier = Modifier.fillMaxWidth(),
                     ) {
                         TextButton(onClick = { viewModel.clearPairingError() }) {
-                            Text("Dismiss")
+                            Text(stringResource(R.string.map_dismiss_c8a5))
                         }
                         Spacer(Modifier.width(8.dp))
                         Button(onClick = { viewModel.retryPairing() }) {
-                            Text("Retry")
+                            Text(stringResource(R.string.nomad_net_browser_retry))
                         }
                     }
                 }
@@ -407,14 +409,14 @@ private fun BluetoothDeviceDiscovery(
                         )
                         Spacer(Modifier.width(12.dp))
                         Text(
-                            text = "Pairing...",
+                            text = stringResource(R.string.device_discovery_step_pairing),
                             color = MaterialTheme.colorScheme.onPrimaryContainer,
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }
                     Spacer(Modifier.height(8.dp))
                     Text(
-                        text = "Enter the PIN code shown on your RNode display",
+                        text = stringResource(R.string.device_discovery_step_enter_the_pin_code_shown_on),
                         color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f),
                         style = MaterialTheme.typography.bodySmall,
                     )
@@ -454,7 +456,7 @@ private fun BluetoothDeviceDiscovery(
                         )
                         Spacer(Modifier.width(12.dp))
                         Text(
-                            text = "Waiting for RNode to reconnect...",
+                            text = stringResource(R.string.device_discovery_step_waiting_for_rnode_to_reconnect),
                             color = MaterialTheme.colorScheme.onSecondaryContainer,
                             style = MaterialTheme.typography.bodyMedium,
                         )
@@ -473,7 +475,7 @@ private fun BluetoothDeviceDiscovery(
                         horizontalArrangement = Arrangement.End,
                     ) {
                         TextButton(onClick = { viewModel.cancelReconnectScan() }) {
-                            Text("Cancel")
+                            Text(stringResource(R.string.action_cancel))
                         }
                     }
                 }
@@ -501,7 +503,7 @@ private fun BluetoothDeviceDiscovery(
                         modifier = Modifier.weight(1f),
                     )
                     TextButton(onClick = { viewModel.clearAssociationError() }) {
-                        Text("Dismiss")
+                        Text(stringResource(R.string.map_dismiss_c8a5))
                     }
                 }
             }
@@ -654,7 +656,7 @@ private fun BluetoothDeviceDiscovery(
                     ) {
                         Icon(Icons.Default.Refresh, contentDescription = null)
                         Spacer(Modifier.width(8.dp))
-                        Text("Scan Again")
+                        Text(stringResource(R.string.device_discovery_step_scan_again))
                     }
                 }
             }
@@ -673,8 +675,8 @@ private fun BluetoothDeviceDiscovery(
                 OutlinedTextField(
                     value = state.manualDeviceName,
                     onValueChange = { viewModel.updateManualDeviceName(it) },
-                    label = { Text("Bluetooth Device Name") },
-                    placeholder = { Text("e.g., RNode 1234") },
+                    label = { Text(stringResource(R.string.device_discovery_step_bluetooth_device_name)) },
+                    placeholder = { Text(stringResource(R.string.device_discovery_step_e_g_rnode_1234)) },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
                     isError = state.manualDeviceNameError != null,
@@ -715,7 +717,7 @@ private fun BluetoothDeviceDiscovery(
                     FilterChip(
                         selected = state.manualBluetoothType == BluetoothType.CLASSIC,
                         onClick = { viewModel.updateManualBluetoothType(BluetoothType.CLASSIC) },
-                        label = { Text("Bluetooth Classic") },
+                        label = { Text(stringResource(R.string.device_discovery_step_bluetooth_classic)) },
                         leadingIcon =
                             if (state.manualBluetoothType == BluetoothType.CLASSIC) {
                                 { Icon(Icons.Default.Check, contentDescription = null, Modifier.size(18.dp)) }
@@ -726,7 +728,7 @@ private fun BluetoothDeviceDiscovery(
                     FilterChip(
                         selected = state.manualBluetoothType == BluetoothType.BLE,
                         onClick = { viewModel.updateManualBluetoothType(BluetoothType.BLE) },
-                        label = { Text("Bluetooth LE") },
+                        label = { Text(stringResource(R.string.interface_management_bluetooth_le)) },
                         leadingIcon =
                             if (state.manualBluetoothType == BluetoothType.BLE) {
                                 { Icon(Icons.Default.Check, contentDescription = null, Modifier.size(18.dp)) }
@@ -747,7 +749,7 @@ private fun BluetoothDeviceDiscovery(
                 Spacer(Modifier.height(8.dp))
 
                 TextButton(onClick = { viewModel.hideManualEntry() }) {
-                    Text("Cancel manual entry")
+                    Text(stringResource(R.string.device_discovery_step_cancel_manual_entry))
                 }
             }
         }
@@ -836,7 +838,7 @@ private fun BluetoothDeviceCard(
                                 ) {
                                     Icon(
                                         Icons.Default.Warning,
-                                        contentDescription = "Unknown type",
+                                        contentDescription = stringResource(R.string.device_discovery_step_unknown_type),
                                         modifier = Modifier.size(14.dp),
                                         tint = MaterialTheme.colorScheme.error,
                                     )
@@ -927,7 +929,7 @@ private fun BluetoothDeviceCard(
                     isSelected -> {
                         Icon(
                             Icons.Default.Check,
-                            contentDescription = "Selected",
+                            contentDescription = stringResource(R.string.device_discovery_step_selected),
                             tint = MaterialTheme.colorScheme.primary,
                         )
                     }
@@ -945,7 +947,7 @@ private fun BluetoothDeviceCard(
                             )
                         } else {
                             TextButton(onClick = onPair) {
-                                Text("Pair")
+                                Text(stringResource(R.string.device_discovery_step_pair))
                             }
                         }
                     }
@@ -976,7 +978,7 @@ private fun BluetoothDeviceCard(
                                 onSetType(BluetoothType.CLASSIC)
                                 showTypeSelector = false
                             },
-                            label = { Text("Bluetooth Classic") },
+                            label = { Text(stringResource(R.string.device_discovery_step_bluetooth_classic_b331)) },
                         )
                         FilterChip(
                             selected = false,
@@ -984,7 +986,7 @@ private fun BluetoothDeviceCard(
                                 onSetType(BluetoothType.BLE)
                                 showTypeSelector = false
                             },
-                            label = { Text("Bluetooth LE") },
+                            label = { Text(stringResource(R.string.interface_management_bluetooth_le)) },
                         )
                     }
                     Spacer(Modifier.height(4.dp))
@@ -1051,7 +1053,7 @@ private fun UsbDeviceDiscovery(
                         modifier = Modifier.weight(1f),
                     )
                     TextButton(onClick = { viewModel.clearUsbError() }) {
-                        Text("Dismiss")
+                        Text(stringResource(R.string.map_dismiss_c8a5))
                     }
                 }
             }
@@ -1125,7 +1127,7 @@ private fun UsbDeviceDiscovery(
                     ) {
                         Icon(Icons.Default.Refresh, contentDescription = null)
                         Spacer(Modifier.width(8.dp))
-                        Text("Rescan USB Devices")
+                        Text(stringResource(R.string.device_discovery_step_rescan_usb_devices))
                     }
                 }
             }
@@ -1251,7 +1253,7 @@ private fun UsbDeviceCard(
                 isSelected -> {
                     Icon(
                         Icons.Default.Check,
-                        contentDescription = "Selected",
+                        contentDescription = stringResource(R.string.device_discovery_step_selected_91b4),
                         tint = MaterialTheme.colorScheme.primary,
                     )
                 }
@@ -1263,7 +1265,7 @@ private fun UsbDeviceCard(
                 }
                 !device.hasPermission -> {
                     TextButton(onClick = onSelect) {
-                        Text("Grant")
+                        Text(stringResource(R.string.interface_management_grant))
                     }
                 }
             }
@@ -1349,7 +1351,7 @@ private fun UsbBluetoothPairingCard(
                 OutlinedTextField(
                     value = state.manualPinInput,
                     onValueChange = { viewModel.updateManualPinInput(it) },
-                    label = { Text("PIN Code") },
+                    label = { Text(stringResource(R.string.device_discovery_step_pin_code)) },
                     placeholder = { Text("000000") },
                     singleLine = true,
                     keyboardOptions =
@@ -1368,13 +1370,13 @@ private fun UsbBluetoothPairingCard(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     OutlinedButton(onClick = { viewModel.cancelManualPinEntry() }) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.action_cancel))
                     }
                     Button(
                         onClick = { viewModel.submitManualPin() },
                         enabled = state.manualPinInput.length == 6,
                     ) {
-                        Text("Submit")
+                        Text(stringResource(R.string.device_discovery_step_submit))
                     }
                 }
             } else {
@@ -1396,7 +1398,7 @@ private fun UsbBluetoothPairingCard(
 
             Spacer(Modifier.height(16.dp))
             Button(onClick = { viewModel.exitUsbBluetoothPairingMode() }) {
-                Text("Exit Pairing Mode")
+                Text(stringResource(R.string.device_discovery_step_exit_pairing_mode))
             }
         }
     }

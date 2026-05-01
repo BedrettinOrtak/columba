@@ -20,7 +20,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import network.columba.app.R
 import network.columba.app.data.model.ImageCompressionPreset
 import network.columba.app.ui.components.CollapsibleSettingsCard
 
@@ -47,7 +49,7 @@ fun ImageCompressionCard(
 ) {
     android.util.Log.d("ImageCompressionCard", "Rendering: selected=$selectedPreset, detected=$detectedPreset, hasSlowInterface=$hasSlowInterface")
     CollapsibleSettingsCard(
-        title = "Image Compression",
+        title = stringResource(R.string.image_compression_card_image_compression),
         icon = Icons.Default.Image,
         isExpanded = isExpanded,
         onExpandedChange = onExpandedChange,
@@ -179,7 +181,7 @@ private fun SlowInterfaceWarning() {
         ) {
             Icon(
                 imageVector = Icons.Default.Info,
-                contentDescription = "Warning",
+                contentDescription = stringResource(R.string.image_compression_card_warning),
                 tint = MaterialTheme.colorScheme.onErrorContainer,
             )
             Text(

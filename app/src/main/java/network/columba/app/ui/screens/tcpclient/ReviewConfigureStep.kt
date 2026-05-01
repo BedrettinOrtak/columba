@@ -26,8 +26,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import network.columba.app.R
 import network.columba.app.ui.components.IfacConfigCard
 import network.columba.app.viewmodel.TcpClientWizardViewModel
 
@@ -87,7 +89,7 @@ fun ReviewConfigureStep(viewModel: TcpClientWizardViewModel) {
         OutlinedTextField(
             value = state.interfaceName,
             onValueChange = { viewModel.updateInterfaceName(it) },
-            label = { Text("Interface Name") },
+            label = { Text(stringResource(R.string.review_configure_step_interface_name)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
         )
@@ -98,8 +100,8 @@ fun ReviewConfigureStep(viewModel: TcpClientWizardViewModel) {
         OutlinedTextField(
             value = state.targetHost,
             onValueChange = { viewModel.updateTargetHost(it) },
-            label = { Text("Target Host") },
-            placeholder = { Text("hostname or IP address") },
+            label = { Text(stringResource(R.string.review_configure_step_target_host)) },
+            placeholder = { Text(stringResource(R.string.review_configure_step_hostname_or_ip_address)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
         )
@@ -110,7 +112,7 @@ fun ReviewConfigureStep(viewModel: TcpClientWizardViewModel) {
         OutlinedTextField(
             value = state.targetPort,
             onValueChange = { viewModel.updateTargetPort(it) },
-            label = { Text("Target Port") },
+            label = { Text(stringResource(R.string.review_configure_step_target_port)) },
             placeholder = { Text("4242") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
@@ -211,7 +213,7 @@ fun ReviewConfigureStep(viewModel: TcpClientWizardViewModel) {
                         OutlinedTextField(
                             value = state.socksProxyHost,
                             onValueChange = { viewModel.updateSocksProxyHost(it) },
-                            label = { Text("SOCKS5 Proxy Host") },
+                            label = { Text(stringResource(R.string.review_configure_step_socks5_proxy_host)) },
                             placeholder = { Text("127.0.0.1") },
                             modifier = Modifier.fillMaxWidth(),
                             singleLine = true,
@@ -220,7 +222,7 @@ fun ReviewConfigureStep(viewModel: TcpClientWizardViewModel) {
                         OutlinedTextField(
                             value = state.socksProxyPort,
                             onValueChange = { viewModel.updateSocksProxyPort(it) },
-                            label = { Text("SOCKS5 Proxy Port") },
+                            label = { Text(stringResource(R.string.review_configure_step_socks5_proxy_port)) },
                             placeholder = { Text("9050") },
                             modifier = Modifier.fillMaxWidth(),
                             singleLine = true,

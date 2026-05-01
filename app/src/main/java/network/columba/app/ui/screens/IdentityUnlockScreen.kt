@@ -39,10 +39,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import network.columba.app.R
 import network.columba.app.viewmodel.IdentityUnlockUiState
 import network.columba.app.viewmodel.IdentityUnlockViewModel
 
@@ -107,7 +109,7 @@ fun IdentityUnlockScreen(
             Spacer(Modifier.height(24.dp))
 
             Text(
-                text = "Restore your identity",
+                text = stringResource(R.string.identity_unlock_restore_your_identity),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -171,7 +173,7 @@ fun IdentityUnlockScreen(
                 enabled = uiState !is IdentityUnlockUiState.Loading,
             ) {
                 Text(
-                    text = "Import identity file",
+                    text = stringResource(R.string.identity_unlock_import_identity_file),
                     style = MaterialTheme.typography.titleMedium,
                 )
             }
@@ -188,7 +190,7 @@ fun IdentityUnlockScreen(
                 enabled = uiState !is IdentityUnlockUiState.Loading,
             ) {
                 Text(
-                    text = "Start fresh",
+                    text = stringResource(R.string.identity_unlock_start_fresh),
                     style = MaterialTheme.typography.titleMedium,
                 )
             }
@@ -202,7 +204,7 @@ fun IdentityUnlockScreen(
                     modifier = Modifier.size(16.dp),
                 )
                 Spacer(Modifier.size(4.dp))
-                Text(text = "Why did this happen?")
+                Text(text = stringResource(R.string.identity_unlock_why_did_this_happen))
             }
 
             Spacer(Modifier.height(24.dp))
@@ -212,7 +214,7 @@ fun IdentityUnlockScreen(
     if (showStartFreshConfirm) {
         AlertDialog(
             onDismissRequest = { showStartFreshConfirm = false },
-            title = { Text("Start fresh?") },
+            title = { Text(stringResource(R.string.identity_unlock_start_fresh_dade)) },
             text = {
                 Text(
                     "This removes your old identity and takes you through onboarding to create " +
@@ -226,10 +228,10 @@ fun IdentityUnlockScreen(
                 TextButton(onClick = {
                     showStartFreshConfirm = false
                     viewModel.startFresh()
-                }) { Text("Start fresh") }
+                }) { Text(stringResource(R.string.identity_unlock_start_fresh_baad)) }
             },
             dismissButton = {
-                TextButton(onClick = { showStartFreshConfirm = false }) { Text("Cancel") }
+                TextButton(onClick = { showStartFreshConfirm = false }) { Text(stringResource(R.string.action_cancel)) }
             },
         )
     }
@@ -237,7 +239,7 @@ fun IdentityUnlockScreen(
     if (showExplainer) {
         AlertDialog(
             onDismissRequest = { showExplainer = false },
-            title = { Text("Why this happens") },
+            title = { Text(stringResource(R.string.identity_unlock_why_this_happens)) },
             text = {
                 Text(
                     "Your identity's private key is wrapped with a hardware-backed Android " +
@@ -250,7 +252,7 @@ fun IdentityUnlockScreen(
                 )
             },
             confirmButton = {
-                TextButton(onClick = { showExplainer = false }) { Text("Got it") }
+                TextButton(onClick = { showExplainer = false }) { Text(stringResource(R.string.identity_unlock_got_it)) }
             },
         )
     }
@@ -295,7 +297,7 @@ private fun ErrorBlock(
                 color = MaterialTheme.colorScheme.error,
                 textAlign = TextAlign.Center,
             )
-            TextButton(onClick = onDismiss) { Text("Try again") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.identity_unlock_try_again)) }
         }
     }
 }
@@ -309,7 +311,7 @@ private fun HashMismatchDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Different identity") },
+        title = { Text(stringResource(R.string.identity_unlock_different_identity)) },
         text = {
             Text(
                 "The file you picked holds a different identity than the one on this device.\n\n" +
@@ -319,7 +321,7 @@ private fun HashMismatchDialog(
                     "but won't be usable with this new identity.",
             )
         },
-        confirmButton = { TextButton(onClick = onConfirm) { Text("Replace") } },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
+        confirmButton = { TextButton(onClick = onConfirm) { Text(stringResource(R.string.identity_unlock_replace)) } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) } },
     )
 }

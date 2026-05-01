@@ -40,8 +40,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import network.columba.app.R
 import network.columba.app.reticulum.flasher.FirmwarePackage
 import network.columba.app.reticulum.flasher.FirmwareSource
 import network.columba.app.reticulum.flasher.FrequencyBand
@@ -89,12 +91,12 @@ fun FirmwareSelectionStep(
                 .verticalScroll(rememberScrollState()),
     ) {
         Text(
-            text = "Firmware Selection",
+            text = stringResource(R.string.firmware_selection_step_firmware_selection),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
         )
         Text(
-            text = "Choose the firmware to flash",
+            text = stringResource(R.string.firmware_selection_step_choose_the_firmware_to_flash),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -120,7 +122,7 @@ fun FirmwareSelectionStep(
             ) {
                 Column(modifier = Modifier.padding(12.dp)) {
                     Text(
-                        text = "About microReticulum",
+                        text = stringResource(R.string.firmware_selection_step_about_microreticulum),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Medium,
                         color = MaterialTheme.colorScheme.onTertiaryContainer,
@@ -222,13 +224,13 @@ fun FirmwareSelectionStep(
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = "Already Flashed?",
+                        text = stringResource(R.string.firmware_selection_step_already_flashed),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Medium,
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "If you've already flashed the firmware externally, you can skip to provisioning the EEPROM.",
+                        text = stringResource(R.string.firmware_selection_step_if_you_ve_already_flashed_the),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSecondaryContainer,
                     )
@@ -237,7 +239,7 @@ fun FirmwareSelectionStep(
                         onClick = onProvisionOnly,
                         modifier = Modifier.fillMaxWidth(),
                     ) {
-                        Text("Provision Only (Skip Flashing)")
+                        Text(stringResource(R.string.firmware_selection_step_provision_only_skip_flashing))
                     }
                 }
             }
@@ -270,7 +272,7 @@ private fun BoardSelectionCard(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Board Type",
+                    text = stringResource(R.string.firmware_selection_step_board_type),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium,
                 )
@@ -356,7 +358,7 @@ private fun FrequencyBandCard(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Frequency Band",
+                    text = stringResource(R.string.firmware_selection_step_frequency_band),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium,
                 )
@@ -379,7 +381,7 @@ private fun FrequencyBandCard(
                 FilterChip(
                     selected = bandExplicitlySelected && selectedBand == FrequencyBand.BAND_868_915,
                     onClick = { onBandSelected(FrequencyBand.BAND_868_915) },
-                    label = { Text("868/915 MHz") },
+                    label = { Text(stringResource(R.string.firmware_selection_step_868_915_mhz)) },
                     colors =
                         FilterChipDefaults.filterChipColors(
                             selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -388,7 +390,7 @@ private fun FrequencyBandCard(
                 FilterChip(
                     selected = bandExplicitlySelected && selectedBand == FrequencyBand.BAND_433,
                     onClick = { onBandSelected(FrequencyBand.BAND_433) },
-                    label = { Text("433 MHz") },
+                    label = { Text(stringResource(R.string.firmware_selection_step_433_mhz)) },
                     colors =
                         FilterChipDefaults.filterChipColors(
                             selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -438,7 +440,7 @@ private fun DownloadProgressCard(
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
-                    text = "Downloading firmware...",
+                    text = stringResource(R.string.firmware_selection_step_downloading_firmware),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
@@ -482,7 +484,7 @@ private fun FirmwareVersionCard(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Firmware Version",
+                    text = stringResource(R.string.firmware_selection_step_firmware_version),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium,
                 )
@@ -492,13 +494,13 @@ private fun FirmwareVersionCard(
 
             if (selectedBoard == null) {
                 Text(
-                    text = "Select a board type first",
+                    text = stringResource(R.string.firmware_selection_step_select_a_board_type_first),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             } else if (availableFirmware.isEmpty() && availableVersions.isEmpty()) {
                 Text(
-                    text = "No firmware available. Connect to the internet to download.",
+                    text = stringResource(R.string.firmware_selection_step_no_firmware_available_connect_to_the),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -506,7 +508,7 @@ private fun FirmwareVersionCard(
                 // Show cached firmware
                 if (availableFirmware.isNotEmpty()) {
                     Text(
-                        text = "Cached firmware:",
+                        text = stringResource(R.string.firmware_selection_step_cached_firmware),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -533,7 +535,7 @@ private fun FirmwareVersionCard(
                 // Show available versions for download
                 if (availableVersions.isNotEmpty()) {
                     Text(
-                        text = "Available for download:",
+                        text = stringResource(R.string.firmware_selection_step_available_for_download),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -616,7 +618,7 @@ private fun FirmwareVersionCard(
                                 color = MaterialTheme.colorScheme.onTertiaryContainer,
                             )
                             Text(
-                                text = "Firmware will be downloaded when you proceed",
+                                text = stringResource(R.string.firmware_selection_step_firmware_will_be_downloaded_when_you),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.7f),
                             )
@@ -626,7 +628,7 @@ private fun FirmwareVersionCard(
                 selectedBoard != null && availableFirmware.isNotEmpty() || availableVersions.isNotEmpty() -> {
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "Select a firmware version above to continue",
+                        text = stringResource(R.string.firmware_selection_step_select_a_firmware_version_above_to),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.error,
                     )
@@ -661,7 +663,7 @@ private fun FirmwareSourceCard(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Firmware Source",
+                    text = stringResource(R.string.firmware_selection_step_firmware_source),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium,
                 )
@@ -707,7 +709,7 @@ private fun CustomFirmwareCard(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Custom Firmware",
+                    text = stringResource(R.string.firmware_selection_step_custom_firmware),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium,
                 )
@@ -717,7 +719,7 @@ private fun CustomFirmwareCard(
 
             // URL input
             Text(
-                text = "Download from URL:",
+                text = stringResource(R.string.firmware_selection_step_download_from_url),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -725,7 +727,7 @@ private fun CustomFirmwareCard(
             OutlinedTextField(
                 value = customFirmwareUrl,
                 onValueChange = onCustomUrlChanged,
-                label = { Text("Firmware .zip URL") },
+                label = { Text(stringResource(R.string.firmware_selection_step_firmware_zip_url)) },
                 placeholder = { Text("https://example.com/firmware.zip") },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
@@ -740,7 +742,7 @@ private fun CustomFirmwareCard(
                         ),
                 ) {
                     Text(
-                        text = "Will download when flashing starts",
+                        text = stringResource(R.string.firmware_selection_step_will_download_when_flashing_starts),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onTertiaryContainer,
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
@@ -753,7 +755,7 @@ private fun CustomFirmwareCard(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "Or pick a local file:",
+                text = stringResource(R.string.firmware_selection_step_or_pick_a_local_file),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -763,7 +765,7 @@ private fun CustomFirmwareCard(
                 onClick = onPickFile,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Text("Pick .zip file")
+                Text(stringResource(R.string.firmware_selection_step_pick_zip_file))
             }
 
             if (customFirmwareUri != null) {

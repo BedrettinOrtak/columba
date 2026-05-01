@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -70,7 +71,7 @@ fun WelcomePage(
             )
             Image(
                 painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                contentDescription = "Columba",
+                contentDescription = stringResource(R.string.app_name),
                 modifier =
                     Modifier
                         .fillMaxSize()
@@ -82,7 +83,7 @@ fun WelcomePage(
 
         // Title
         Text(
-            text = "Welcome to Columba",
+            text = stringResource(R.string.welcome_title),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground,
@@ -93,7 +94,7 @@ fun WelcomePage(
 
         // Subtitle
         Text(
-            text = "A private messenger that requires:",
+            text = stringResource(R.string.welcome_page_a_private_messenger_that_requires),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
@@ -102,17 +103,17 @@ fun WelcomePage(
         Spacer(modifier = Modifier.height(24.dp))
 
         // Privacy features
-        PrivacyFeature(text = "No phone number")
+        PrivacyFeature(text = stringResource(R.string.welcome_page_no_phone_number))
         Spacer(modifier = Modifier.height(12.dp))
-        PrivacyFeature(text = "No email address")
+        PrivacyFeature(text = stringResource(R.string.welcome_page_no_email_address))
         Spacer(modifier = Modifier.height(12.dp))
-        PrivacyFeature(text = "No sign-up or accounts")
+        PrivacyFeature(text = stringResource(R.string.welcome_page_no_sign_up_or_accounts))
 
         Spacer(modifier = Modifier.height(32.dp))
 
         // Identity explanation
         Text(
-            text = "Your identity is generated and stored securely on your device. You control it completely.",
+            text = stringResource(R.string.welcome_page_your_identity_is_generated_and_stored),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
@@ -131,7 +132,7 @@ fun WelcomePage(
             shape = RoundedCornerShape(12.dp),
         ) {
             Text(
-                text = "Get Started",
+                text = stringResource(R.string.welcome_page_get_started),
                 style = MaterialTheme.typography.titleMedium,
             )
         }
@@ -143,7 +144,7 @@ fun WelcomePage(
             onClick = onRestoreFromBackup,
         ) {
             Text(
-                text = "Restore from backup",
+                text = stringResource(R.string.welcome_restore_backup),
                 color = MaterialTheme.colorScheme.primary,
             )
         }

@@ -29,8 +29,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import network.columba.app.R
 import network.columba.app.data.model.ModemPreset
 import network.columba.app.viewmodel.RNodeWizardViewModel
 
@@ -53,7 +55,7 @@ fun ModemPresetStep(viewModel: RNodeWizardViewModel) {
     ) {
         // Header
         Text(
-            text = "Select Modem Preset",
+            text = stringResource(R.string.modem_preset_step_select_modem_preset),
             style = MaterialTheme.typography.headlineSmall,
         )
 
@@ -148,7 +150,7 @@ private fun ModemPresetCard(
                             onClick = {},
                             label = {
                                 Text(
-                                    text = "Recommended",
+                                    text = stringResource(R.string.modem_preset_step_recommended),
                                     style = MaterialTheme.typography.labelSmall,
                                 )
                             },
@@ -182,7 +184,7 @@ private fun ModemPresetCard(
             if (isSelected) {
                 Icon(
                     imageVector = Icons.Default.Check,
-                    contentDescription = "Selected",
+                    contentDescription = stringResource(R.string.modem_preset_step_selected),
                     tint = MaterialTheme.colorScheme.primary,
                 )
             }

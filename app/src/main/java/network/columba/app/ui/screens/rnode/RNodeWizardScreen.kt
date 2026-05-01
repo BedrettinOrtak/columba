@@ -23,7 +23,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import network.columba.app.R
 import network.columba.app.ui.components.WizardBottomBar
 import network.columba.app.viewmodel.RNodeWizardViewModel
 import network.columba.app.viewmodel.WizardStep
@@ -147,7 +149,7 @@ fun RNodeWizardScreen(
                     ) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = stringResource(R.string.action_back),
                         )
                     }
                 },
@@ -213,7 +215,7 @@ fun RNodeWizardScreen(
     state.saveError?.let { error ->
         AlertDialog(
             onDismissRequest = { viewModel.clearSaveError() },
-            title = { Text("Error") },
+            title = { Text(stringResource(R.string.main_state_error)) },
             text = { Text(error) },
             confirmButton = {
                 TextButton(onClick = { viewModel.clearSaveError() }) {
@@ -227,7 +229,7 @@ fun RNodeWizardScreen(
     state.transportConfigError?.let { error ->
         AlertDialog(
             onDismissRequest = { viewModel.clearTransportConfigError() },
-            title = { Text("Transport Configuration Failed") },
+            title = { Text(stringResource(R.string.rnode_wizard_transport_configuration_failed)) },
             text = { Text(error) },
             confirmButton = {
                 TextButton(onClick = { viewModel.clearTransportConfigError() }) {

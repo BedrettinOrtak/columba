@@ -72,6 +72,7 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
@@ -82,6 +83,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
+import network.columba.app.R
 import network.columba.app.ui.components.MicronPageContent
 import network.columba.app.viewmodel.NomadNetBrowserViewModel
 import network.columba.app.viewmodel.NomadNetBrowserViewModel.BrowserState
@@ -188,7 +190,7 @@ fun NomadNetBrowserScreen(
                     tint = MaterialTheme.colorScheme.primary,
                 )
             },
-            title = { Text("Identify to Node") },
+            title = { Text(stringResource(R.string.nomad_net_browser_identify_to_node)) },
             text = {
                 Text(
                     "This will reveal your identity to the node operator. " +
@@ -200,12 +202,12 @@ fun NomadNetBrowserScreen(
                     showIdentifyConfirm = false
                     viewModel.identifyToNode()
                 }) {
-                    Text("Identify")
+                    Text(stringResource(R.string.nomad_net_browser_identify))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showIdentifyConfirm = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.action_cancel))
                 }
             },
         )
@@ -278,7 +280,7 @@ fun NomadNetBrowserScreen(
                         )
                     } else {
                         Text(
-                            text = "NomadNet Browser",
+                            text = stringResource(R.string.nomad_net_browser_nomadnet_browser),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                         )
@@ -293,7 +295,7 @@ fun NomadNetBrowserScreen(
                             onBackClick()
                         }
                     }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.action_back))
                     }
                 },
                 actions = {
@@ -304,7 +306,7 @@ fun NomadNetBrowserScreen(
                         ) {
                             Icon(
                                 Icons.Default.Fingerprint,
-                                contentDescription = if (isIdentified) "Identified" else "Identify to node",
+                                contentDescription = if (isIdentified) stringResource(R.string.nomad_net_browser_identified) else stringResource(R.string.nomad_net_browser_identify_to_node_3745),
                                 tint =
                                     if (isIdentified) {
                                         MaterialTheme.colorScheme.primary
@@ -314,12 +316,12 @@ fun NomadNetBrowserScreen(
                             )
                         }
                         IconButton(onClick = { viewModel.refresh() }) {
-                            Icon(Icons.Default.Refresh, contentDescription = "Refresh")
+                            Icon(Icons.Default.Refresh, contentDescription = stringResource(R.string.nomad_net_browser_refresh))
                         }
                     }
                     Box {
                         IconButton(onClick = { showMenu = true }) {
-                            Icon(Icons.Default.MoreVert, contentDescription = "Menu")
+                            Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.nomad_net_browser_menu))
                         }
                         DropdownMenu(
                             expanded = showMenu,
@@ -332,14 +334,14 @@ fun NomadNetBrowserScreen(
                                 }
                             if (shareableUrl != null) {
                                 DropdownMenuItem(
-                                    text = { Text("Copy URL") },
+                                    text = { Text(stringResource(R.string.nomad_net_browser_copy_url)) },
                                     onClick = {
                                         clipboardManager.setText(AnnotatedString(shareableUrl))
                                         showMenu = false
                                     },
                                 )
                                 DropdownMenuItem(
-                                    text = { Text("Share") },
+                                    text = { Text(stringResource(R.string.nomad_net_browser_share)) },
                                     onClick = {
                                         val intent =
                                             Intent(Intent.ACTION_SEND).apply {
@@ -380,7 +382,7 @@ fun NomadNetBrowserScreen(
                             HorizontalDivider()
                             DropdownMenuItem(
                                 text = {
-                                    Text(if (isIdentified) "Identified" else "Identify to node")
+                                    Text(if (isIdentified) stringResource(R.string.nomad_net_browser_identified_1257) else stringResource(R.string.nomad_net_browser_identify_to_node_3745))
                                 },
                                 leadingIcon = {
                                     Icon(
@@ -439,7 +441,7 @@ fun NomadNetBrowserScreen(
                     LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
                     Spacer(modifier = Modifier.height(16.dp))
                     TextButton(onClick = { viewModel.cancelLoading() }) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.action_cancel))
                     }
                 }
             }
@@ -567,7 +569,7 @@ fun NomadNetBrowserScreen(
                     verticalArrangement = Arrangement.Center,
                 ) {
                     Text(
-                        text = "Failed to load page",
+                        text = stringResource(R.string.nomad_net_browser_failed_to_load_page),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.error,
                     )
@@ -581,7 +583,7 @@ fun NomadNetBrowserScreen(
                     Button(onClick = { viewModel.retry() }) {
                         Icon(Icons.Default.Refresh, contentDescription = null)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Retry")
+                        Text(stringResource(R.string.nomad_net_browser_retry))
                     }
                 }
             }
@@ -644,18 +646,18 @@ private fun NomadNetDownloadDialog(
         },
         confirmButton = {
             if (downloadState.isActive) {
-                TextButton(onClick = onCancel) { Text("Cancel") }
+                TextButton(onClick = onCancel) { Text(stringResource(R.string.action_cancel)) }
             } else if (downloadState.filePath != null) {
-                TextButton(onClick = { onOpen(downloadState.filePath) }) { Text("Open") }
+                TextButton(onClick = { onOpen(downloadState.filePath) }) { Text(stringResource(R.string.nomad_net_browser_open)) }
             } else {
                 TextButton(onClick = onDismiss) { Text("OK") }
             }
         },
         dismissButton = {
             if (!downloadState.isActive && downloadState.filePath != null) {
-                TextButton(onClick = { onShare(downloadState.filePath) }) { Text("Share") }
+                TextButton(onClick = { onShare(downloadState.filePath) }) { Text(stringResource(R.string.nomad_net_browser_share_5a95)) }
             } else if (!downloadState.isActive) {
-                TextButton(onClick = onDismiss) { Text("Close") }
+                TextButton(onClick = onDismiss) { Text(stringResource(R.string.nomad_net_browser_close)) }
             }
         },
     )

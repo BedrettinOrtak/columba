@@ -43,12 +43,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import network.columba.app.R
 import network.columba.app.reticulum.model.BatteryProfile
 import network.columba.app.util.BatteryOptimizationManager
 
@@ -131,7 +133,7 @@ fun BatteryOptimizationCard(
                     )
                     Column {
                         Text(
-                            text = "Battery & Background",
+                            text = stringResource(R.string.battery_optimization_card_battery_background),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             color = contentColor,
@@ -146,7 +148,7 @@ fun BatteryOptimizationCard(
 
                 Icon(
                     imageVector = if (isExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                    contentDescription = if (isExpanded) "Collapse" else "Expand",
+                    contentDescription = if (isExpanded) stringResource(R.string.interface_management_collapse) else stringResource(R.string.interface_management_expand),
                     tint = contentColor,
                 )
             }
@@ -158,7 +160,7 @@ fun BatteryOptimizationCard(
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     Text(
-                        text = "Choose how aggressively Columba should run native Reticulum in the background. Changes apply immediately.",
+                        text = stringResource(R.string.battery_optimization_card_choose_how_aggressively_columba_should_run),
                         style = MaterialTheme.typography.bodyMedium,
                         color = contentColor,
                     )
@@ -212,7 +214,7 @@ fun BatteryOptimizationCard(
                         CircularProgressIndicator(modifier = Modifier.size(24.dp))
                     } else if (isExempted) {
                         Text(
-                            text = "Battery optimization exemption granted. Columba can run more reliably in the background during deep idle.",
+                            text = stringResource(R.string.battery_optimization_card_battery_optimization_exemption_granted_columba_can),
                             style = MaterialTheme.typography.bodyMedium,
                             color = contentColor,
                         )
@@ -226,7 +228,7 @@ fun BatteryOptimizationCard(
                         ) {
                             Icon(Icons.Default.Settings, contentDescription = null)
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text("View Battery Settings")
+                            Text(stringResource(R.string.battery_optimization_card_view_battery_settings))
                         }
                     } else {
                         Text(
@@ -248,7 +250,7 @@ fun BatteryOptimizationCard(
                             modifier = Modifier.fillMaxWidth(),
                             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
                         ) {
-                            Text("Request Exemption")
+                            Text(stringResource(R.string.battery_optimization_card_request_exemption))
                         }
 
                         TextButton(
@@ -258,7 +260,7 @@ fun BatteryOptimizationCard(
                             },
                             modifier = Modifier.fillMaxWidth(),
                         ) {
-                            Text("Open Battery Settings Manually")
+                            Text(stringResource(R.string.battery_optimization_card_open_battery_settings_manually))
                         }
                     }
                 }

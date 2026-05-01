@@ -32,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
@@ -153,7 +154,7 @@ fun SharedInstanceBannerCard(
                             } else {
                                 Icons.Default.Link
                             },
-                        contentDescription = "Instance Mode",
+                        contentDescription = stringResource(R.string.shared_instance_banner_card_instance_mode),
                         tint = contentColor,
                     )
                     Text(
@@ -175,7 +176,7 @@ fun SharedInstanceBannerCard(
                         } else {
                             Icons.Default.KeyboardArrowDown
                         },
-                    contentDescription = if (isExpanded) "Collapse" else "Expand",
+                    contentDescription = if (isExpanded) stringResource(R.string.interface_management_collapse) else stringResource(R.string.interface_management_expand),
                     tint = contentColor,
                 )
             }
@@ -230,12 +231,12 @@ fun SharedInstanceBannerCard(
                                 verticalArrangement = Arrangement.spacedBy(4.dp),
                             ) {
                                 Text(
-                                    text = "• Network interfaces are managed by the other app",
+                                    text = stringResource(R.string.shared_instance_banner_card_network_interfaces_are_managed_by_the),
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = contentColor,
                                 )
                                 Text(
-                                    text = "• Your identities and messages remain private to Columba",
+                                    text = stringResource(R.string.shared_instance_banner_card_your_identities_and_messages_remain_private),
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = contentColor,
                                 )
@@ -258,7 +259,7 @@ fun SharedInstanceBannerCard(
                             horizontalArrangement = Arrangement.SpaceBetween,
                         ) {
                             Text(
-                                text = "Use Columba's own instance",
+                                text = stringResource(R.string.shared_instance_banner_card_use_columba_s_own_instance),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = contentColor,
                             )
@@ -288,7 +289,7 @@ fun SharedInstanceBannerCard(
 
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
-                                text = "RPC Key (from Sideband → Connectivity)",
+                                text = stringResource(R.string.shared_instance_banner_card_rpc_key_from_sideband_connectivity),
                                 style = MaterialTheme.typography.labelMedium,
                                 color = contentColor,
                             )
@@ -317,11 +318,11 @@ fun SharedInstanceBannerCard(
                                     },
                                     enabled = rpcKeyInput != rpcKey.orEmpty(),
                                 ) {
-                                    Text("Save")
+                                    Text(stringResource(R.string.theme_editor_save))
                                 }
                             }
                             Text(
-                                text = "Paste full config or just the hex key",
+                                text = stringResource(R.string.shared_instance_banner_card_paste_full_config_or_just_the),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = contentColor.copy(alpha = 0.7f),
                             )
@@ -332,3 +333,4 @@ fun SharedInstanceBannerCard(
         }
     }
 }
+import network.columba.app.R

@@ -32,9 +32,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import network.columba.app.R
 import network.columba.app.ui.screens.onboarding.OnboardingInterfaceType
 
 /**
@@ -72,7 +74,7 @@ fun ConnectivityPage(
 
         // Title
         Text(
-            text = "How will you connect?",
+            text = stringResource(R.string.connectivity_page_how_will_you_connect),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground,
@@ -83,7 +85,7 @@ fun ConnectivityPage(
 
         // Subtitle
         Text(
-            text = "Select the networks you'd like to use:",
+            text = stringResource(R.string.connectivity_page_select_the_networks_you_d_like),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
@@ -137,7 +139,7 @@ fun ConnectivityPage(
 
         // Helper text
         Text(
-            text = "You can configure these later in Settings",
+            text = stringResource(R.string.connectivity_page_you_can_configure_these_later_in),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
@@ -158,7 +160,7 @@ fun ConnectivityPage(
                         .height(56.dp),
                 shape = RoundedCornerShape(12.dp),
             ) {
-                Text("Back")
+                Text(stringResource(R.string.action_back))
             }
 
             Button(
@@ -169,7 +171,7 @@ fun ConnectivityPage(
                         .height(56.dp),
                 shape = RoundedCornerShape(12.dp),
             ) {
-                Text("Continue")
+                Text(stringResource(R.string.action_continue))
             }
         }
 
