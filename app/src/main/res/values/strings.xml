@@ -44,4 +44,38 @@
     <string name="main_state_error">Error</string>
     <string name="main_initial_hint">Click the buttons above to test the Reticulum abstraction layer.</string>
     <string name="main_footer">Powered by Reticulum Network Stack</string>
+
+    <!-- Shared actions -->
+    <string name="action_back">Back</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_unblock">Unblock</string>
+    <string name="action_skip">Skip</string>
+    <string name="action_continue">Continue</string>
+
+    <!-- Saved Peers screen -->
+    <string name="saved_peers_title">Saved Peers</string>
+    <string name="saved_peers_count">%1$d peers saved</string>
+    <string name="saved_peers_search_placeholder">Search by name or hash\u2026</string>
+    <string name="saved_peers_empty_title">No saved peers yet</string>
+    <string name="saved_peers_empty_hint">Tap the star icon on any peer in the Announce Stream to save them here for quick access.</string>
+
+    <!-- Blocked Users screen -->
+    <string name="blocked_users_title">Blocked Users</string>
+    <string name="blocked_users_empty">No blocked users</string>
+    <string name="blocked_users_unblock_title">Unblock %1$s?</string>
+    <string name="blocked_users_unblock_message">They will be able to send you messages again. Their conversation will reappear if it wasn\'t deleted.</string>
+    <string name="blocked_users_unblocked_toast">Unblocked %1$s</string>
+    <string name="blocked_users_blocked_at">Blocked %1$s</string>
+    <string name="blocked_users_blackhole_label">Blackhole (don\'t relay announces)</string>
+
+    <!-- Welcome screen -->
+    <string name="welcome_title">Welcome to Columba</string>
+    <string name="welcome_subtitle">Secure mesh messaging over Reticulum</string>
+    <string name="welcome_choose_name">Choose Your Display Name</string>
+    <string name="welcome_name_hint">This name will be visible to other peers when you send messages and announces.</string>
+    <string name="welcome_name_label">Display Name</string>
+    <string name="welcome_anonymous_placeholder">Anonymous Peer</string>
+    <string name="welcome_continue_anonymous">Continue as Anonymous Peer</string>
+    <string name="welcome_restore_backup">Restore from backup</string>
+    <string name="welcome_footer">You can change this later in Settings</string>
 </resources>

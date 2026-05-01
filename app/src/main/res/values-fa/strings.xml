@@ -44,4 +44,38 @@
     <string name="main_state_error">خطا</string>
     <string name="main_initial_hint">برای آزمایش لایه انتزاعی Reticulum روی دکمه‌های بالا کلیک کنید.</string>
     <string name="main_footer">قدرت گرفته از پشته شبکه Reticulum</string>
+
+    <!-- اقدامات مشترک -->
+    <string name="action_back">بازگشت</string>
+    <string name="action_cancel">لغو</string>
+    <string name="action_unblock">رفع مسدودیت</string>
+    <string name="action_skip">رد کردن</string>
+    <string name="action_continue">ادامه</string>
+
+    <!-- همتاهای ذخیره شده -->
+    <string name="saved_peers_title">همتاهای ذخیره شده</string>
+    <string name="saved_peers_count">%1$d همتا ذخیره شد</string>
+    <string name="saved_peers_search_placeholder">جستجو با نام یا هش\u2026</string>
+    <string name="saved_peers_empty_title">هنوز همتایی ذخیره نشده است</string>
+    <string name="saved_peers_empty_hint">برای دسترسی سریع، روی نماد ستاره در جریان اعلان‌ها برای هر همتا ضربه بزنید تا اینجا ذخیره شود.</string>
+
+    <!-- کاربران مسدود شده -->
+    <string name="blocked_users_title">کاربران مسدود شده</string>
+    <string name="blocked_users_empty">هیچ کاربر مسدودی وجود ندارد</string>
+    <string name="blocked_users_unblock_title">رفع مسدودیت %1$s؟</string>
+    <string name="blocked_users_unblock_message">آن‌ها دوباره قادر خواهند بود برای شما پیام بفرستند. اگر مکالمه حذف نشده باشد، دوباره ظاهر خواهد شد.</string>
+    <string name="blocked_users_unblocked_toast">%1$s از مسدودیت خارج شد</string>
+    <string name="blocked_users_blocked_at">در %1$s مسدود شد</string>
+    <string name="blocked_users_blackhole_label">سیاه‌چاله (اعلان‌ها را بازپخش نکن)</string>
+
+    <!-- صفحه خوشامدگویی -->
+    <string name="welcome_title">به Columba خوش آمدید</string>
+    <string name="welcome_subtitle">پیام‌رسانی مش امن بر بستر Reticulum</string>
+    <string name="welcome_choose_name">نام نمایشی خود را انتخاب کنید</string>
+    <string name="welcome_name_hint">این نام در هنگام ارسال پیام و اعلان برای سایر همتاها قابل مشاهده خواهد بود.</string>
+    <string name="welcome_name_label">نام نمایشی</string>
+    <string name="welcome_anonymous_placeholder">همتای ناشناس</string>
+    <string name="welcome_continue_anonymous">ادامه به عنوان همتای ناشناس</string>
+    <string name="welcome_restore_backup">بازیابی از پشتیبان‌گیری</string>
+    <string name="welcome_footer">می‌توانید این را در تنظیمات تغییر دهید</string>
 </resources>

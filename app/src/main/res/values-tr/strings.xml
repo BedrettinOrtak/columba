@@ -44,4 +44,38 @@
     <string name="main_state_error">Hata</string>
     <string name="main_initial_hint">Reticulum soyutlama katmanını test etmek için yukarıdaki düğmelere tıklayın.</string>
     <string name="main_footer">Reticulum Ağ Yığını ile çalışır</string>
+
+    <!-- Ortak eylemler -->
+    <string name="action_back">Geri</string>
+    <string name="action_cancel">İptal</string>
+    <string name="action_unblock">Engeli Kaldır</string>
+    <string name="action_skip">Atla</string>
+    <string name="action_continue">Devam Et</string>
+
+    <!-- Kayıtlı kişiler -->
+    <string name="saved_peers_title">Kayıtlı Kişiler</string>
+    <string name="saved_peers_count">%1$d kişi kaydedildi</string>
+    <string name="saved_peers_search_placeholder">İsim veya hash ile ara\u2026</string>
+    <string name="saved_peers_empty_title">Henüz kayıtlı kişi yok</string>
+    <string name="saved_peers_empty_hint">Bildirim Akışı\'ndaki herhangi bir kişinin yıldız simgesine dokunarak hızlı erişim için buraya kaydedin.</string>
+
+    <!-- Engellenen Kullanıcılar -->
+    <string name="blocked_users_title">Engellenen Kullanıcılar</string>
+    <string name="blocked_users_empty">Engellenen kullanıcı yok</string>
+    <string name="blocked_users_unblock_title">%1$s engeli kaldırılsın mı?</string>
+    <string name="blocked_users_unblock_message">Size tekrar mesaj gönderebileceklerdir. Silinmediği takdirde sohbetleri geri dönecektir.</string>
+    <string name="blocked_users_unblocked_toast">%1$s engeli kaldırıldı</string>
+    <string name="blocked_users_blocked_at">%1$s tarihinde engellendi</string>
+    <string name="blocked_users_blackhole_label">Karadelik (bildirimleri iletme)</string>
+
+    <!-- Karşılama ekranı -->
+    <string name="welcome_title">Columba\'ya Hoş Geldiniz</string>
+    <string name="welcome_subtitle">Reticulum üzerinden güvenli mesh mesajlaşma</string>
+    <string name="welcome_choose_name">Görünen Adınızı Seçin</string>
+    <string name="welcome_name_hint">Bu ad, mesaj ve bildirim gönderdiğinizde diğer kişiler tarafından görülecektir.</string>
+    <string name="welcome_name_label">Görünen Ad</string>
+    <string name="welcome_anonymous_placeholder">Anonim Kişi</string>
+    <string name="welcome_continue_anonymous">Anonim Kişi olarak devam et</string>
+    <string name="welcome_restore_backup">Yedekten geri yükle</string>
+    <string name="welcome_footer">Bunu daha sonra Ayarlar\'dan değiştirebilirsiniz</string>
 </resources>

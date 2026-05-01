@@ -44,4 +44,38 @@
     <string name="main_state_error">خطأ</string>
     <string name="main_initial_hint">انقر على الأزرار أعلاه لاختبار طبقة التجريد Reticulum.</string>
     <string name="main_footer">مدعوم بمكدس شبكة Reticulum</string>
+
+    <!-- إجراءات مشتركة -->
+    <string name="action_back">رجوع</string>
+    <string name="action_cancel">إلغاء</string>
+    <string name="action_unblock">إلغاء الحظر</string>
+    <string name="action_skip">تخطي</string>
+    <string name="action_continue">متابعة</string>
+
+    <!-- الأقران المحفوظون -->
+    <string name="saved_peers_title">الأقران المحفوظون</string>
+    <string name="saved_peers_count">%1$d أقران محفوظون</string>
+    <string name="saved_peers_search_placeholder">ابحث بالاسم أو الهاش\u2026</string>
+    <string name="saved_peers_empty_title">لا يوجد أقران محفوظون بعد</string>
+    <string name="saved_peers_empty_hint">انقر على أيقونة النجمة لأي قرين في تدفق الإعلانات لحفظه هنا للوصول السريع.</string>
+
+    <!-- المستخدمون المحظورون -->
+    <string name="blocked_users_title">المستخدمون المحظورون</string>
+    <string name="blocked_users_empty">لا يوجد مستخدمون محظورون</string>
+    <string name="blocked_users_unblock_title">إلغاء حظر %1$s؟</string>
+    <string name="blocked_users_unblock_message">سيكون بإمكانهم إرسال رسائل إليك مرة أخرى. ستظهر محادثتهم مجدداً إذا لم تحذف.</string>
+    <string name="blocked_users_unblocked_toast">تم إلغاء حظر %1$s</string>
+    <string name="blocked_users_blocked_at">تم الحظر في %1$s</string>
+    <string name="blocked_users_blackhole_label">ثقب أسود (لا تعد توجيه الإعلانات)</string>
+
+    <!-- شاشة الترحيب -->
+    <string name="welcome_title">مرحباً بك في Columba</string>
+    <string name="welcome_subtitle">مراسلة ميش آمنة عبر Reticulum</string>
+    <string name="welcome_choose_name">اختر اسمك المعروض</string>
+    <string name="welcome_name_hint">سيظهر هذا الاسم للأقران الآخرين عند إرسال الرسائل والإعلانات.</string>
+    <string name="welcome_name_label">الاسم المعروض</string>
+    <string name="welcome_anonymous_placeholder">قرين مجهول</string>
+    <string name="welcome_continue_anonymous">المتابعة كقرين مجهول</string>
+    <string name="welcome_restore_backup">استعادة من نسخة احتياطية</string>
+    <string name="welcome_footer">يمكنك تغيير هذا لاحقاً في الإعدادات</string>
 </resources>

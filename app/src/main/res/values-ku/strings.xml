@@ -44,4 +44,38 @@
     <string name="main_state_error">Çewtî</string>
     <string name="main_initial_hint">Ji bo testkirina qata abstrakta Reticulum bişkokên jorîn bitikîne.</string>
     <string name="main_footer">Bi Stoka Tora Reticulum dixebite</string>
+
+    <!-- Karên hevbeş -->
+    <string name="action_back">Vegere</string>
+    <string name="action_cancel">Betal bike</string>
+    <string name="action_unblock">Astengiyê rake</string>
+    <string name="action_skip">Bibihure</string>
+    <string name="action_continue">Bidomîne</string>
+
+    <!-- Hevalan tomarkirî -->
+    <string name="saved_peers_title">Hevalan Tomarkirî</string>
+    <string name="saved_peers_count">%1$d heval hatine tomarkirin</string>
+    <string name="saved_peers_search_placeholder">Bi nav an hash bigere\u2026</string>
+    <string name="saved_peers_empty_title">Hêj tu hevalek tomarkirî tune ye</string>
+    <string name="saved_peers_empty_hint">Ji bo gihandina bilez li ser îkona stêrkê ya her hevalekî di Stream a Daxuyaniyê de bitikîne da ku li vir bê tomarkirin.</string>
+
+    <!-- Bikarhênerên Astengkirî -->
+    <string name="blocked_users_title">Bikarhênerên Astengkirî</string>
+    <string name="blocked_users_empty">Tu bikarhênerê astengkirî tune</string>
+    <string name="blocked_users_unblock_title">Astengiya %1$s bê rakirin?</string>
+    <string name="blocked_users_unblock_message">Ew dê dîsa karibin peyaman ji we re bişînin. Eger neyê jêbirin, danûstandinên wan dê ji nû ve diyar bibin.</string>
+    <string name="blocked_users_unblocked_toast">Astengiya %1$s hate rakirin</string>
+    <string name="blocked_users_blocked_at">Di %1$s de hate astengkirin</string>
+    <string name="blocked_users_blackhole_label">Qula Reş (daxuyaniyan venegerîne)</string>
+
+    <!-- Dîmena Pêşwaziyê -->
+    <string name="welcome_title">Bi xêr hatî Columba</string>
+    <string name="welcome_subtitle">Peyamnêra mesh ya ewle li ser Reticulum</string>
+    <string name="welcome_choose_name">Navê Xwe yê Diyar Hilbijêre</string>
+    <string name="welcome_name_hint">Dema ku tu peyaman û daxuyaniyan bişînî, ev nav dê ji bo hevalan diyar bibe.</string>
+    <string name="welcome_name_label">Navê Diyarkirî</string>
+    <string name="welcome_anonymous_placeholder">Hevalê Anonîm</string>
+    <string name="welcome_continue_anonymous">Wek Hevalek Anonîm Bidomîne</string>
+    <string name="welcome_restore_backup">Ji paşnimayê vegerîne</string>
+    <string name="welcome_footer">Tu dikarî vê paştir di Mîhengan de biguherînî</string>
 </resources>
