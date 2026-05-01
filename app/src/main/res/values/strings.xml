@@ -28,4 +28,20 @@
     <string name="view_interface_details">View interface details</string>
     <string name="interface_actions">Interface actions</string>
     <string name="edit_interface">Edit interface</string>
+
+    <!-- Main screen -->
+    <string name="main_app_title">Columba LXMF Messenger</string>
+    <string name="main_network_status_cd">Network status</string>
+    <string name="main_hello">Hello, Reticulum!</string>
+    <string name="main_intro">This is a demonstration of the Kotlin UI layer communicating with the Reticulum abstraction layer.</string>
+    <string name="main_network_status">Network Status</string>
+    <string name="main_initialize_reticulum">Initialize Reticulum</string>
+    <string name="main_create_identity">Create Identity</string>
+    <string name="main_test_send_packet">Test Send Packet</string>
+    <string name="main_state_ready">Ready</string>
+    <string name="main_state_status">Status</string>
+    <string name="main_state_success">Success</string>
+    <string name="main_state_error">Error</string>
+    <string name="main_initial_hint">Click the buttons above to test the Reticulum abstraction layer.</string>
+    <string name="main_footer">Powered by Reticulum Network Stack</string>
 </resources>

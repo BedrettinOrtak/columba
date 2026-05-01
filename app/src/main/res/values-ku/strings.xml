@@ -28,4 +28,20 @@
     <string name="view_interface_details">Hûragahiyên navrûyê nîşan bide</string>
     <string name="interface_actions">Karên navrûyê</string>
     <string name="edit_interface">Navrûyê biguhêre</string>
+
+    <!-- Dîmena sereke -->
+    <string name="main_app_title">Columba Peyamnêra LXMF</string>
+    <string name="main_network_status_cd">Rewşa torê</string>
+    <string name="main_hello">Silav, Reticulum!</string>
+    <string name="main_intro">Ev nimûneyek e ku nîşan dide çawa qata navrûya Kotlin bi qata abstrakta Reticulum re têkilî datîne.</string>
+    <string name="main_network_status">Rewşa Torê</string>
+    <string name="main_initialize_reticulum">Reticulum Bide Destpêkirin</string>
+    <string name="main_create_identity">Nasname Çêbike</string>
+    <string name="main_test_send_packet">Pakêta Test Bişîne</string>
+    <string name="main_state_ready">Amade</string>
+    <string name="main_state_status">Rewş</string>
+    <string name="main_state_success">Serkeftî</string>
+    <string name="main_state_error">Çewtî</string>
+    <string name="main_initial_hint">Ji bo testkirina qata abstrakta Reticulum bişkokên jorîn bitikîne.</string>
+    <string name="main_footer">Bi Stoka Tora Reticulum dixebite</string>
 </resources>

@@ -28,4 +28,20 @@
     <string name="view_interface_details">مشاهده جزئیات رابط</string>
     <string name="interface_actions">عملیات رابط</string>
     <string name="edit_interface">ویرایش رابط</string>
+
+    <!-- صفحه اصلی -->
+    <string name="main_app_title">پیام‌رسان Columba LXMF</string>
+    <string name="main_network_status_cd">وضعیت شبکه</string>
+    <string name="main_hello">سلام، Reticulum!</string>
+    <string name="main_intro">این نمایشی از ارتباط لایه رابط کاربری Kotlin با لایه انتزاعی Reticulum است.</string>
+    <string name="main_network_status">وضعیت شبکه</string>
+    <string name="main_initialize_reticulum">راه‌اندازی Reticulum</string>
+    <string name="main_create_identity">ایجاد هویت</string>
+    <string name="main_test_send_packet">ارسال بسته آزمایشی</string>
+    <string name="main_state_ready">آماده</string>
+    <string name="main_state_status">وضعیت</string>
+    <string name="main_state_success">موفق</string>
+    <string name="main_state_error">خطا</string>
+    <string name="main_initial_hint">برای آزمایش لایه انتزاعی Reticulum روی دکمه‌های بالا کلیک کنید.</string>
+    <string name="main_footer">قدرت گرفته از پشته شبکه Reticulum</string>
 </resources>

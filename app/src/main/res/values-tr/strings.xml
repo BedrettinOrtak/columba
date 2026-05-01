@@ -28,4 +28,20 @@
     <string name="view_interface_details">Arayüz detaylarını göster</string>
     <string name="interface_actions">Arayüz işlemleri</string>
     <string name="edit_interface">Arayüzü düzenle</string>
+
+    <!-- Ana ekran -->
+    <string name="main_app_title">Columba LXMF Mesajlaşma</string>
+    <string name="main_network_status_cd">Ağ durumu</string>
+    <string name="main_hello">Merhaba, Reticulum!</string>
+    <string name="main_intro">Bu, Kotlin arayüz katmanının Reticulum soyutlama katmanıyla iletişimini gösteren bir örnektir.</string>
+    <string name="main_network_status">Ağ Durumu</string>
+    <string name="main_initialize_reticulum">Reticulum\'u Başlat</string>
+    <string name="main_create_identity">Kimlik Oluştur</string>
+    <string name="main_test_send_packet">Test Paketi Gönder</string>
+    <string name="main_state_ready">Hazır</string>
+    <string name="main_state_status">Durum</string>
+    <string name="main_state_success">Başarılı</string>
+    <string name="main_state_error">Hata</string>
+    <string name="main_initial_hint">Reticulum soyutlama katmanını test etmek için yukarıdaki düğmelere tıklayın.</string>
+    <string name="main_footer">Reticulum Ağ Yığını ile çalışır</string>
 </resources>

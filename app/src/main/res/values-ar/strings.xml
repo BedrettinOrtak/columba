@@ -28,4 +28,20 @@
     <string name="view_interface_details">عرض تفاصيل الواجهة</string>
     <string name="interface_actions">إجراءات الواجهة</string>
     <string name="edit_interface">تعديل الواجهة</string>
+
+    <!-- الشاشة الرئيسية -->
+    <string name="main_app_title">مراسل Columba LXMF</string>
+    <string name="main_network_status_cd">حالة الشبكة</string>
+    <string name="main_hello">مرحباً، Reticulum!</string>
+    <string name="main_intro">هذا عرض توضيحي لاتصال طبقة واجهة Kotlin بطبقة التجريد Reticulum.</string>
+    <string name="main_network_status">حالة الشبكة</string>
+    <string name="main_initialize_reticulum">تهيئة Reticulum</string>
+    <string name="main_create_identity">إنشاء هوية</string>
+    <string name="main_test_send_packet">اختبار إرسال حزمة</string>
+    <string name="main_state_ready">جاهز</string>
+    <string name="main_state_status">الحالة</string>
+    <string name="main_state_success">نجح</string>
+    <string name="main_state_error">خطأ</string>
+    <string name="main_initial_hint">انقر على الأزرار أعلاه لاختبار طبقة التجريد Reticulum.</string>
+    <string name="main_footer">مدعوم بمكدس شبكة Reticulum</string>
 </resources>
