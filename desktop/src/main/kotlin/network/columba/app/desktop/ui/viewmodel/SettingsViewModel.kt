@@ -106,4 +106,47 @@ class SettingsViewModel {
     fun cleanup() {
         (scope.coroutineContext[Job] as? Job)?.cancel()
     }
+
+    /**
+     * Export an identity to a JSON file. The format captures everything
+     * needed to reconstruct the row on another desktop install (or any
+     * Columba client that consumes this format).
+     */
+    fun exportIdentityToFile(identityHash: String, file: java.io.File, onResult: (Result<Unit>) -> Unit) {
+        scope.launch {
+            val result = runCatching {
+                val export = identityRepository.exportIdentity(identityHash)
+                    ?: error("Identity not found")
+                val payload = kotlinx.serialization.json.buildJsonObject {
+                    put("schema", kotlinx.serialization.json.JsonPrimitive("columba.identity.v1"))
+                    put("identityHash", kotlinx.serialization.json.JsonPrimitive(export.identityHash))
+                    put("displayName", kotlinx.serialization.json.JsonPrimitive(export.displayName))
+                    put("publicKey", kotlinx.serialization.json.JsonPrimitive(java.util.Base64.getEncoder().encodeToString(export.publicKey)))
+                    put("privateKey", kotlinx.serialization.json.JsonPrimitive(java.util.Base64.getEncoder().encodeToString(export.privateKey)))
+                }
+                file.writeText(kotlinx.serialization.json.Json { prettyPrint = true }.encodeToString(kotlinx.serialization.json.JsonObject.serializer(), payload))
+            }
+            onResult(result)
+        }
+    }
+
+    fun importIdentityFromFile(file: java.io.File, onResult: (Result<Identity>) -> Unit) {
+        scope.launch {
+            val result = runCatching {
+                val parsed = kotlinx.serialization.json.Json.parseToJsonElement(file.readText())
+                    .let { it as? kotlinx.serialization.json.JsonObject ?: error("Invalid JSON") }
+                val schema = parsed["schema"]?.let { (it as? kotlinx.serialization.json.JsonPrimitive)?.content }
+                require(schema == "columba.identity.v1") { "Unsupported identity file format: $schema" }
+                fun str(key: String) = (parsed[key] as? kotlinx.serialization.json.JsonPrimitive)?.content
+                    ?: error("Missing field: $key")
+                identityRepository.importIdentity(
+                    identityHash = str("identityHash"),
+                    displayName = str("displayName"),
+                    publicKey = java.util.Base64.getDecoder().decode(str("publicKey")),
+                    privateKey = java.util.Base64.getDecoder().decode(str("privateKey")),
+                )
+            }
+            onResult(result)
+        }
+    }
 }

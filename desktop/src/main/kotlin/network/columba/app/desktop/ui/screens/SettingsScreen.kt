@@ -81,6 +81,53 @@ fun SettingsScreen(modifier: Modifier = Modifier, appState: AppState) {
                 }
             }
 
+            // Import/Export controls. Uses Swing JFileChooser since we're on
+            // a Compose Desktop window — no separate filepicker dependency.
+            var ioFeedback by remember { mutableStateOf<String?>(null) }
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                OutlinedButton(
+                    onClick = {
+                        val chooser = javax.swing.JFileChooser().apply {
+                            dialogTitle = "Import identity (.json)"
+                            fileFilter = javax.swing.filechooser.FileNameExtensionFilter("Columba identity (*.json)", "json")
+                        }
+                        if (chooser.showOpenDialog(null) == javax.swing.JFileChooser.APPROVE_OPTION) {
+                            viewModel.importIdentityFromFile(chooser.selectedFile) { result ->
+                                ioFeedback = result.fold(
+                                    onSuccess = { "Imported ${it.displayName}" },
+                                    onFailure = { "Import failed: ${it.message}" },
+                                )
+                            }
+                        }
+                    },
+                ) { Text("Import") }
+                OutlinedButton(
+                    enabled = activeIdentity != null,
+                    onClick = {
+                        val active = activeIdentity ?: return@OutlinedButton
+                        val chooser = javax.swing.JFileChooser().apply {
+                            dialogTitle = "Export identity (.json)"
+                            selectedFile = java.io.File("${active.displayName.replace(' ', '_')}.identity.json")
+                        }
+                        if (chooser.showSaveDialog(null) == javax.swing.JFileChooser.APPROVE_OPTION) {
+                            viewModel.exportIdentityToFile(active.identityHash, chooser.selectedFile) { result ->
+                                ioFeedback = result.fold(
+                                    onSuccess = { "Exported to ${chooser.selectedFile.name}" },
+                                    onFailure = { "Export failed: ${it.message}" },
+                                )
+                            }
+                        }
+                    },
+                ) { Text("Export active") }
+            }
+            ioFeedback?.let {
+                Text(it, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+
             if (identities.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(16.dp))
                 identities.forEach { identity ->

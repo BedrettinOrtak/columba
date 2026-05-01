@@ -75,6 +75,18 @@ class DesktopReticulumService(
     )
     val announces: SharedFlow<AnnounceEvent> = _announces.asSharedFlow()
 
+    /**
+     * Outbound delivery state changes (sent/delivered/failed). Mirrors the
+     * Android NativeReticulumProtocol#deliveryStatus stream so the repository
+     * can update message rows once the LXMF router learns the result.
+     */
+    private val _deliveryStatus = MutableSharedFlow<DeliveryStatusUpdate>(
+        replay = 0,
+        extraBufferCapacity = 128,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
+    )
+    val deliveryStatus: SharedFlow<DeliveryStatusUpdate> = _deliveryStatus.asSharedFlow()
+
     enum class State { STOPPED, STARTING, READY, ERROR }
 
     /** Snapshot of an inbound announce, mirroring Android's AnnounceEvent. */
@@ -87,6 +99,13 @@ class DesktopReticulumService(
         val aspect: String,
         val displayName: String?,
         val receivingInterface: String?,
+    )
+
+    /** Outbound message lifecycle update. Status is one of sent/delivered/failed. */
+    data class DeliveryStatusUpdate(
+        val lxmfHashHex: String,
+        val status: String,
+        val timestamp: Long,
     )
 
     /** Resolves the path Reticulum should use for its on-disk state. */
@@ -167,6 +186,9 @@ class DesktopReticulumService(
             }
             r.registerFailedDeliveryCallback { message ->
                 logger.warn("LXMF delivery failed for hash={}", message.hash?.toHex())
+                message.hash?.toHex()?.let { hex ->
+                    _deliveryStatus.tryEmit(DeliveryStatusUpdate(hex, "failed", System.currentTimeMillis()))
+                }
             }
 
             // 6. Subscribe to peer announces so the repo can refresh peer
@@ -257,8 +279,24 @@ class DesktopReticulumService(
             desiredMethod = network.reticulum.lxmf.DeliveryMethod.OPPORTUNISTIC,
         )
 
+        // Per-message delivery callback. LXMRouter invokes this when the
+        // recipient confirms reception (proof packet for opportunistic /
+        // direct ack for link delivery).
+        message.deliveryCallback = { delivered: LXMessage ->
+            delivered.hash?.toHex()?.let { hex ->
+                _deliveryStatus.tryEmit(DeliveryStatusUpdate(hex, "delivered", System.currentTimeMillis()))
+            }
+        }
+
         r.handleOutbound(message)
-        return message.hash ?: ByteArray(0)
+        val hash = message.hash ?: ByteArray(0)
+        // Optimistic "sent" emission so the repo can immediately flip status
+        // from queued/sending to sent the moment the router accepts the
+        // outbound packet. Final delivered/failed comes via the callbacks above.
+        if (hash.isNotEmpty()) {
+            _deliveryStatus.tryEmit(DeliveryStatusUpdate(hash.toHex(), "sent", System.currentTimeMillis()))
+        }
+        return hash
     }
 
     /** Sends an announce so peers can discover us. */
