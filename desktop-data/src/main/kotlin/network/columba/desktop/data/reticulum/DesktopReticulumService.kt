@@ -211,6 +211,13 @@ class DesktopReticulumService(
                 identity.hexHash,
                 deliveryDestination?.hash?.toHex(),
             )
+            // Initial peer announce so anyone listening on the LAN/testnet
+            // learns about this delivery destination immediately, matching
+            // the Android client's startup announce behavior.
+            scope.launch {
+                runCatching { announce(displayName) }
+                    .onFailure { e -> logger.warn("Initial announce failed: ${e.message}") }
+            }
             return
         } catch (e: Exception) {
             logger.error("Failed to start DesktopReticulumService", e)
@@ -299,11 +306,27 @@ class DesktopReticulumService(
         return hash
     }
 
-    /** Sends an announce so peers can discover us. */
-    fun announce(appData: ByteArray? = null) {
-        val r = router ?: return
+    /** Sends an announce so peers can discover us. Defaults to packing the
+     * delivery identity's display name in the same msgpack format Android
+     * uses (array of [nameBytes, nil]) so peer name resolution stays uniform
+     * across the two clients. */
+    fun announce(displayName: String? = null) {
         val dest = deliveryDestination ?: return
-        r.announce(dest, appData ?: ByteArray(0))
+        val payload = if (displayName != null) buildPeerAnnounceAppData(displayName) else null
+        runCatching { dest.announce(payload) }
+            .onFailure { e -> logger.warn("announce() failed: ${e.message}") }
+    }
+
+    /** Mirrors NativeReticulumProtocol.buildPeerAnnounceAppData so Android
+     * peers parse our announces with their existing AppDataParser path. */
+    private fun buildPeerAnnounceAppData(displayName: String): ByteArray {
+        val packer = org.msgpack.core.MessagePack.newDefaultBufferPacker()
+        val nameBytes = displayName.toByteArray(Charsets.UTF_8)
+        packer.packArrayHeader(2)
+        packer.packBinaryHeader(nameBytes.size)
+        packer.writePayload(nameBytes)
+        packer.packNil()
+        return packer.toByteArray()
     }
 
     private suspend fun resolveRecipientIdentity(destinationHash: ByteArray): Identity {
