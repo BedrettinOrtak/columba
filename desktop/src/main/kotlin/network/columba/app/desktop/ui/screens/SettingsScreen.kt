@@ -162,18 +162,55 @@ fun SettingsScreen(modifier: Modifier = Modifier, appState: AppState) {
 
         // Interface Settings
         SettingsSection(title = strings.settingsTab) {
-            var tcpEnabled by remember { mutableStateOf(true) }
+            val rnsService = remember {
+                runCatching {
+                    getKoin().get<network.columba.desktop.data.reticulum.DesktopReticulumService>()
+                }.getOrNull()
+            }
+            var tcpHost by remember { mutableStateOf("") }
+            var tcpPort by remember { mutableStateOf("4242") }
+            var tcpFeedback by remember { mutableStateOf<String?>(null) }
 
             SettingItem(
                 title = strings.tcpInterface,
                 description = strings.connectViaTcp,
-                control = {
-                    Switch(
-                        checked = tcpEnabled,
-                        onCheckedChange = { tcpEnabled = it }
-                    )
-                }
+                control = {}
             )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                OutlinedTextField(
+                    value = tcpHost,
+                    onValueChange = { tcpHost = it },
+                    label = { Text("Host") },
+                    singleLine = true,
+                    modifier = Modifier.weight(2f),
+                )
+                OutlinedTextField(
+                    value = tcpPort,
+                    onValueChange = { tcpPort = it.filter { ch -> ch.isDigit() }.take(5) },
+                    label = { Text("Port") },
+                    singleLine = true,
+                    modifier = Modifier.weight(1f),
+                )
+                Button(
+                    enabled = rnsService != null && tcpHost.isNotBlank() && tcpPort.toIntOrNull() != null,
+                    onClick = {
+                        val port = tcpPort.toIntOrNull() ?: return@Button
+                        tcpFeedback = runCatching {
+                            rnsService?.addTcpClientInterface(tcpHost.trim(), port)
+                        }.fold(
+                            onSuccess = { "Added $tcpHost:$port" },
+                            onFailure = { "Failed: ${it.message}" },
+                        )
+                    },
+                ) { Text("Add") }
+            }
+            tcpFeedback?.let {
+                Text(it, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
             SettingItem(
                 title = strings.i2pInterface,
                 description = strings.connectViaI2p,

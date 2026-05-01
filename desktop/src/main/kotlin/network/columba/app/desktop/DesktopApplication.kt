@@ -1,7 +1,9 @@
 package network.columba.app.desktop
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Message
 import androidx.compose.material.icons.automirrored.outlined.Message
@@ -13,6 +15,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.LayoutDirection
@@ -62,7 +66,11 @@ fun App() {
 
     CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
         ColumbaTheme {
+            val rnsService = remember { runCatching { getKoin().get<DesktopReticulumService>() }.getOrNull() }
+            val rnsState by (rnsService?.state?.collectAsState()
+                ?: remember { mutableStateOf(DesktopReticulumService.State.STOPPED) })
             Scaffold(
+                topBar = { ColumbaTopBar(rnsState) },
                 bottomBar = {
                     NavigationBar {
                         NavigationBarItem(
@@ -112,6 +120,32 @@ fun App() {
             }
         }
     }
+}
+
+@Composable
+private fun ColumbaTopBar(state: DesktopReticulumService.State) {
+    val (label, color) = when (state) {
+        DesktopReticulumService.State.READY -> "READY" to Color(0xFF2E7D32)
+        DesktopReticulumService.State.STARTING -> "STARTING" to Color(0xFFEF6C00)
+        DesktopReticulumService.State.ERROR -> "ERROR" to Color(0xFFC62828)
+        DesktopReticulumService.State.STOPPED -> "OFFLINE" to Color(0xFF616161)
+    }
+    @OptIn(ExperimentalMaterial3Api::class)
+    TopAppBar(
+        title = { Text("Columba Desktop") },
+        actions = {
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(end = 16.dp)) {
+                Box(
+                    modifier = Modifier
+                        .size(10.dp)
+                        .clip(CircleShape)
+                        .background(color),
+                )
+                Spacer(Modifier.width(8.dp))
+                Text(label, style = MaterialTheme.typography.labelMedium)
+            }
+        },
+    )
 }
 
 @Composable

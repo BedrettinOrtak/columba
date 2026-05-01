@@ -3,8 +3,12 @@ package network.columba.desktop.data.reticulum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import network.reticulum.Reticulum
@@ -59,7 +63,31 @@ class DesktopReticulumService(
     private val _inbound = MutableStateFlow<LXMessage?>(null)
     val inbound: StateFlow<LXMessage?> = _inbound.asStateFlow()
 
+    /**
+     * Announces from peers (lxmf.delivery + propagation + nomadnet). The
+     * conversation repository subscribes so peer display names land in the UI
+     * as soon as we hear from a contact, matching the Android behavior.
+     */
+    private val _announces = MutableSharedFlow<AnnounceEvent>(
+        replay = 0,
+        extraBufferCapacity = 64,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
+    )
+    val announces: SharedFlow<AnnounceEvent> = _announces.asSharedFlow()
+
     enum class State { STOPPED, STARTING, READY, ERROR }
+
+    /** Snapshot of an inbound announce, mirroring Android's AnnounceEvent. */
+    data class AnnounceEvent(
+        val destinationHash: ByteArray,
+        val identityHash: String,
+        val appData: ByteArray?,
+        val hops: Int,
+        val timestamp: Long,
+        val aspect: String,
+        val displayName: String?,
+        val receivingInterface: String?,
+    )
 
     /** Resolves the path Reticulum should use for its on-disk state. */
     private val rnsConfigDir: File by lazy {
@@ -141,7 +169,12 @@ class DesktopReticulumService(
                 logger.warn("LXMF delivery failed for hash={}", message.hash?.toHex())
             }
 
-            // 6. Bring up default interfaces. Auto-discovers same-LAN peers
+            // 6. Subscribe to peer announces so the repo can refresh peer
+            //    names. Done before interfaces come up to make sure we never
+            //    drop the very first announce.
+            registerAnnounceHandlers()
+
+            // 7. Bring up default interfaces. Auto-discovers same-LAN peers
             //    via UDP multicast and connects to the well-known public TCP
             //    test net so single-host setups still see traffic.
             startDefaultInterfaces()
@@ -269,6 +302,84 @@ class DesktopReticulumService(
         }
         logger.info("Created new delivery identity {}", fresh.hexHash)
         return fresh
+    }
+
+    /**
+     * Mirrors NativeReticulumProtocol.registerAnnounceHandlers — register the
+     * known LXMF/NomadNet aspects so Transport will resolve them, then attach
+     * a single RichAnnounceHandler that fans every announce into our SharedFlow.
+     */
+    private fun registerAnnounceHandlers() {
+        Transport.registerKnownAspect("lxmf.delivery")
+        Transport.registerKnownAspect("lxmf.propagation")
+        Transport.registerKnownAspect("nomadnetwork.node")
+        Transport.registerKnownAspect("lxst.telephony")
+
+        val handler = object : network.reticulum.transport.RichAnnounceHandler {
+            override fun handleAnnounceWithContext(
+                destinationHash: ByteArray,
+                announcedIdentity: Identity,
+                appData: ByteArray?,
+                hops: Int,
+                receivingInterfaceName: String?,
+                matchedAspect: String?,
+            ): Boolean {
+                val aspect = matchedAspect ?: return false
+                val effectiveHops = if (hops > 0) hops else (Transport.hopsTo(destinationHash) ?: 0)
+                val displayName = parseDisplayName(appData, aspect)
+                _announces.tryEmit(
+                    AnnounceEvent(
+                        destinationHash = destinationHash,
+                        identityHash = announcedIdentity.hexHash,
+                        appData = appData,
+                        hops = effectiveHops,
+                        timestamp = System.currentTimeMillis(),
+                        aspect = aspect,
+                        displayName = displayName,
+                        receivingInterface = receivingInterfaceName,
+                    ),
+                )
+                if (aspect == "lxmf.propagation" && appData != null) {
+                    runCatching { router?.handlePropagationAnnounce(destinationHash, announcedIdentity, appData) }
+                }
+                return true
+            }
+        }
+        Transport.registerAnnounceHandler(handler, null)
+    }
+
+    /**
+     * Best-effort display name extraction. Mirrors AppDataParser on Android
+     * for the simple lxmf.delivery case (msgpack array starting with the
+     * peer name as the first element); falls back to UTF-8 for the rest.
+     */
+    private fun parseDisplayName(appData: ByteArray?, aspect: String): String? {
+        if (appData == null || appData.isEmpty()) return null
+        return runCatching {
+            when (aspect) {
+                "nomadnetwork.node" -> String(appData, Charsets.UTF_8).split(":").firstOrNull()?.takeIf { it.isNotBlank() }
+                else -> {
+                    val first = appData[0].toInt() and 0xFF
+                    if (first in 0x90..0x9f || first == 0xdc) {
+                        val unpacker = org.msgpack.core.MessagePack.newDefaultUnpacker(appData)
+                        val arrayLen = unpacker.unpackArrayHeader()
+                        if (arrayLen < 1) return@runCatching null
+                        val format = unpacker.nextFormat
+                        when (format.valueType) {
+                            org.msgpack.value.ValueType.NIL -> { unpacker.unpackNil(); null }
+                            org.msgpack.value.ValueType.BINARY -> {
+                                val len = unpacker.unpackBinaryHeader()
+                                String(unpacker.readPayload(len), Charsets.UTF_8)
+                            }
+                            org.msgpack.value.ValueType.STRING -> unpacker.unpackString()
+                            else -> null
+                        }
+                    } else {
+                        String(appData, Charsets.UTF_8)
+                    }
+                }
+            }
+        }.getOrNull()
     }
 
     private fun startDefaultInterfaces() {
