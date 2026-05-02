@@ -2,6 +2,7 @@ package network.columba.app.desktop.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -126,6 +127,14 @@ fun SettingsScreen(modifier: Modifier = Modifier, appState: AppState) {
             }
             ioFeedback?.let {
                 Text(it, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+
+            // "My address" share card — only shown if there's an active identity.
+            // The hash is what peers need to type into their "+ New conversation"
+            // dialog to message us.
+            activeIdentity?.let { active ->
+                Spacer(modifier = Modifier.height(12.dp))
+                MyAddressCard(hash = active.identityHash, displayName = active.displayName)
             }
 
             if (identities.isNotEmpty()) {
@@ -564,13 +573,18 @@ private fun IdentityItem(
                     text = identity.displayName,
                     style = MaterialTheme.typography.bodyLarge
                 )
-                Text(
-                    text = identity.identityHash.take(16) + "...",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                SelectionContainer {
+                    Text(
+                        text = identity.identityHash,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
             Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                IconButton(onClick = { copyToClipboard(identity.identityHash) }) {
+                    Icon(Icons.Default.ContentCopy, contentDescription = "Copy hash")
+                }
                 if (isActive) {
                     Icon(
                         imageVector = Icons.Default.CheckCircle,
@@ -643,5 +657,77 @@ private fun SettingItem(
         }
         Spacer(modifier = Modifier.width(16.dp))
         control()
+    }
+}
+
+@Composable
+private fun MyAddressCard(hash: String, displayName: String) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+        ),
+    ) {
+        Column(modifier = Modifier.padding(12.dp)) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Share,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onTertiaryContainer,
+                )
+                Text(
+                    text = "My address (share with peers)",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onTertiaryContainer,
+                )
+            }
+            Spacer(modifier = Modifier.height(6.dp))
+            Text(
+                text = displayName,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onTertiaryContainer,
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                androidx.compose.foundation.text.selection.SelectionContainer(
+                    modifier = Modifier.weight(1f),
+                ) {
+                    Text(
+                        text = hash,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onTertiaryContainer,
+                    )
+                }
+                FilledTonalButton(onClick = { copyToClipboard(hash) }) {
+                    Icon(Icons.Default.ContentCopy, contentDescription = null)
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text("Copy")
+                }
+            }
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = "Give this 32-character hash to your contacts. They can " +
+                    "paste it into Messages \u2192 + (New conversation) on their " +
+                    "Columba (desktop or Android) to message you.",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onTertiaryContainer,
+            )
+        }
+    }
+}
+
+private fun copyToClipboard(text: String) {
+    try {
+        val sel = java.awt.datatransfer.StringSelection(text)
+        java.awt.Toolkit.getDefaultToolkit().systemClipboard.setContents(sel, sel)
+    } catch (_: Throwable) {
+        // Headless or no clipboard \u2014 silently ignore.
     }
 }
