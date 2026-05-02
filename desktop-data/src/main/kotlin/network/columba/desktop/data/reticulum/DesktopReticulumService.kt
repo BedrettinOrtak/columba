@@ -61,9 +61,22 @@ class DesktopReticulumService(
     private val _state = MutableStateFlow(State.STOPPED)
     val state: StateFlow<State> = _state.asStateFlow()
 
-    /** Inbound LXMF messages, observed by the conversation repository. */
-    private val _inbound = MutableStateFlow<LXMessage?>(null)
-    val inbound: StateFlow<LXMessage?> = _inbound.asStateFlow()
+    /**
+     * Inbound LXMF messages, observed by the conversation repository.
+     *
+     * Must be a SharedFlow (not StateFlow) — when two messages arrive in
+     * quick succession, a conflating StateFlow would silently drop the
+     * earlier one before the collector resumes, and identical retransmits
+     * would be suppressed by equals(). Either case manifests as "messages
+     * overwrite each other" on the receiving peer. Buffer is sized so a
+     * burst of inbound traffic during DB I/O cannot lose anything.
+     */
+    private val _inbound = MutableSharedFlow<LXMessage>(
+        replay = 0,
+        extraBufferCapacity = 256,
+        onBufferOverflow = BufferOverflow.SUSPEND,
+    )
+    val inbound: SharedFlow<LXMessage> = _inbound.asSharedFlow()
 
     /**
      * Announces from peers (lxmf.delivery + propagation + nomadnet). The
@@ -184,7 +197,12 @@ class DesktopReticulumService(
             //    repository via the inbound StateFlow.
             r.registerDeliveryCallback { message ->
                 logger.info("LXMF delivery received from {}", message.sourceHash?.toHex())
-                _inbound.value = message
+                // tryEmit cannot fail here because the buffer is large enough
+                // for any realistic burst; if it ever does we log and drop so
+                // the callback returns promptly to the LXMF router thread.
+                if (!_inbound.tryEmit(message)) {
+                    logger.warn("Inbound LXMF buffer full — dropped message hash={}", message.hash?.toHex())
+                }
             }
             r.registerFailedDeliveryCallback { message ->
                 logger.warn("LXMF delivery failed for hash={}", message.hash?.toHex())

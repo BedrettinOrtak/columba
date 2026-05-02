@@ -187,7 +187,7 @@ fun MessagingScreen(modifier: Modifier = Modifier) {
                         state = rememberLazyListState(),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        items(messages) { message ->
+                        items(messages, key = { it.id }) { message ->
                             MessageBubble(message = message, strings = strings)
                         }
                     }

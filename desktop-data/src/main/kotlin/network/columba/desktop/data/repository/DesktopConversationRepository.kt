@@ -5,7 +5,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -53,7 +52,7 @@ class DesktopConversationRepository(
         // additional plumbing.
         reticulumService?.let { svc ->
             inboundScope.launch {
-                svc.inbound.filterNotNull().collect { lxmf ->
+                svc.inbound.collect { lxmf ->
                     runCatching { ingestInbound(lxmf) }
                         .onFailure { e -> logger.warn("Failed to ingest inbound LXMF", e) }
                 }
