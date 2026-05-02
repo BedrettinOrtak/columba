@@ -1,0 +1,150 @@
+name: Multi-Platform Release
+
+# Builds Linux .deb, Windows .exe/.msi, and Android debug APK,
+# then publishes them all to a single GitHub Release.
+#
+# Trigger:
+#   - Push a tag matching "mp-v*" (e.g. mp-v1.0.0)
+#   - Or run manually via "workflow_dispatch" with a tag input.
+
+on:
+  push:
+    tags:
+      - 'mp-v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to create (e.g. mp-v1.0.0)'
+        required: true
+        default: 'mp-v0.0.0-test'
+
+permissions:
+  contents: write
+
+jobs:
+  linux-deb:
+    name: Linux .deb
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Install fakeroot for jpackage
+        run: sudo apt-get update && sudo apt-get install -y fakeroot
+
+      - name: Build .deb
+        run: ./gradlew :desktop:packageDeb --no-daemon
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-deb
+          path: desktop/build/compose/binaries/main/deb/*.deb
+          if-no-files-found: error
+
+  windows-installer:
+    name: Windows .exe + .msi
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build .exe and .msi
+        shell: pwsh
+        run: ./gradlew.bat :desktop:packageExe :desktop:packageMsi --no-daemon
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-installer
+          path: |
+            desktop/build/compose/binaries/main/exe/*.exe
+            desktop/build/compose/binaries/main/msi/*.msi
+          if-no-files-found: error
+
+  android-apk:
+    name: Android debug APK
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build debug APKs
+        run: ./gradlew :app:assembleNoSentryDebug --no-daemon
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-apk
+          path: app/build/outputs/apk/noSentry/debug/*.apk
+          if-no-files-found: error
+
+  publish:
+    name: Publish GitHub Release
+    needs: [linux-deb, windows-installer, android-apk]
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Stage release files
+        run: |
+          mkdir -p release
+          find artifacts -type f \
+            \( -name "*.deb" -o -name "*.exe" -o -name "*.msi" -o -name "*.apk" \) \
+            -exec cp -v {} release/ \;
+          (cd release && sha256sum * > SHA256SUMS.txt)
+          ls -lh release
+
+      - name: Resolve tag name
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "name=${{ github.event.inputs.tag }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "name=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create / update GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.name }}
+          name: ${{ steps.tag.outputs.name }}
+          generate_release_notes: true
+          prerelease: ${{ contains(steps.tag.outputs.name, '-test') || contains(steps.tag.outputs.name, '-rc') || contains(steps.tag.outputs.name, '-beta') }}
+          body: |
+            ## Columba multi-platform build
+
+            **Linux:** install with `sudo dpkg -i columba_*.deb`
+            **Windows:** run the `.exe` setup, or use the `.msi` for unattended installs
+            **Android:** sideload the APK that matches your device's ABI (or use the `universal` one)
+
+            File hashes: see `SHA256SUMS.txt`.
+          files: release/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
