@@ -46,6 +46,12 @@ fun MessagingScreen(modifier: Modifier = Modifier) {
     var pendingAudio by remember { mutableStateOf<Pair<Int, ByteArray>?>(null) }
     val recordingState = remember { VoiceRecordingState() }
 
+    // New-conversation dialog state
+    var showNewConversationDialog by remember { mutableStateOf(false) }
+    var newPeerHash by remember { mutableStateOf("") }
+    var newPeerName by remember { mutableStateOf("") }
+    var newPeerError by remember { mutableStateOf<String?>(null) }
+
     Row(modifier = modifier.fillMaxSize()) {
         // Conversation List
         Card(
@@ -66,7 +72,12 @@ fun MessagingScreen(modifier: Modifier = Modifier) {
                         text = strings.messagesTab,
                         style = MaterialTheme.typography.titleLarge
                     )
-                    FilledTonalIconButton(onClick = { /* TODO: New conversation */ }) {
+                    FilledTonalIconButton(onClick = {
+                        newPeerHash = ""
+                        newPeerName = ""
+                        newPeerError = null
+                        showNewConversationDialog = true
+                    }) {
                         Icon(Icons.Default.Add, contentDescription = strings.newConversation)
                     }
                 }
@@ -293,6 +304,62 @@ fun MessagingScreen(modifier: Modifier = Modifier) {
                 )
             }
         }
+    }
+
+    if (showNewConversationDialog) {
+        AlertDialog(
+            onDismissRequest = { showNewConversationDialog = false },
+            title = { Text(strings.newConversation) },
+            text = {
+                Column {
+                    OutlinedTextField(
+                        value = newPeerHash,
+                        onValueChange = {
+                            newPeerHash = it.trim()
+                            newPeerError = null
+                        },
+                        label = { Text("Peer hash (32 hex)") },
+                        placeholder = { Text("e.g. 4f3a8b...") },
+                        singleLine = true,
+                        isError = newPeerError != null,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = newPeerName,
+                        onValueChange = { newPeerName = it },
+                        label = { Text(strings.displayName) },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    if (newPeerError != null) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = newPeerError!!,
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    val ok = viewModel.startConversation(newPeerHash, newPeerName)
+                    if (ok) {
+                        showNewConversationDialog = false
+                    } else {
+                        newPeerError = "Invalid hash. Need 32 hex chars (16 bytes)."
+                    }
+                }) {
+                    Text(strings.create)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showNewConversationDialog = false }) {
+                    Text(strings.cancel)
+                }
+            },
+        )
     }
 }
 

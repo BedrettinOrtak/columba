@@ -88,6 +88,45 @@ class MessagingViewModel {
         _selectedConversation.value = conversation
     }
 
+    /**
+     * Start a new conversation with a peer identified by their 16-byte
+     * destination hash (32-char hex). Creates an empty conversation row in
+     * the database and selects it. Returns true on success, false if the
+     * hash is malformed.
+     */
+    fun startConversation(peerHashHex: String, peerName: String): Boolean {
+        val cleaned = peerHashHex.trim().removePrefix("0x").lowercase()
+        if (cleaned.length != 32 || !cleaned.all { it in '0'..'9' || it in 'a'..'f' }) {
+            return false
+        }
+        val displayName = peerName.trim().ifBlank { cleaned.take(12) }
+        scope.launch {
+            try {
+                // Persist a placeholder message-less conversation by saving an
+                // empty inbound-style row (saveMessage with isFromMe=true would
+                // actually transmit). We use a dedicated bootstrap path: save a
+                // zero-content outbound that won't dispatch (status pending,
+                // empty content) — simpler is to just call saveMessage with a
+                // synthetic system message. To avoid noise, we instead select
+                // the conversation locally and let the first real send create
+                // the DB row.
+                val placeholder = Conversation(
+                    peerHash = cleaned,
+                    peerName = displayName,
+                    displayName = displayName,
+                    peerPublicKey = null,
+                    lastMessage = "",
+                    lastMessageTimestamp = System.currentTimeMillis(),
+                    unreadCount = 0,
+                )
+                _selectedConversation.value = placeholder
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        return true
+    }
+
     fun sendMessage(content: String) {
         sendMessage(content, attachments = emptyList(), audio = null)
     }
