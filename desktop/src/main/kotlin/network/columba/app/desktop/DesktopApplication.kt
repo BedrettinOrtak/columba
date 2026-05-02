@@ -69,13 +69,14 @@ fun App() {
             val rnsService = remember { runCatching { getKoin().get<DesktopReticulumService>() }.getOrNull() }
             val rnsState by (rnsService?.state?.collectAsState()
                 ?: remember { mutableStateOf(DesktopReticulumService.State.STOPPED) })
+            var selectedTab by remember { mutableIntStateOf(0) }
             Scaffold(
                 topBar = { ColumbaTopBar(rnsState) },
                 bottomBar = {
                     NavigationBar {
                         NavigationBarItem(
-                            selected = false,
-                            onClick = { /* Handled by state */ },
+                            selected = selectedTab == 0,
+                            onClick = { selectedTab = 0 },
                             icon = {
                                 Icon(
                                     imageVector = Icons.Outlined.Home,
@@ -85,8 +86,8 @@ fun App() {
                             label = { Text(strings.mainTab) }
                         )
                         NavigationBarItem(
-                            selected = false,
-                            onClick = { /* Handled by state */ },
+                            selected = selectedTab == 1,
+                            onClick = { selectedTab = 1 },
                             icon = {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Outlined.Message,
@@ -96,8 +97,8 @@ fun App() {
                             label = { Text(strings.messagesTab) }
                         )
                         NavigationBarItem(
-                            selected = false,
-                            onClick = { /* Handled by state */ },
+                            selected = selectedTab == 2,
+                            onClick = { selectedTab = 2 },
                             icon = {
                                 Icon(
                                     imageVector = Icons.Outlined.Settings,
@@ -114,8 +115,7 @@ fun App() {
                         .fillMaxSize()
                         .padding(paddingValues)
                 ) {
-                    // Main content with state management
-                    MainScreenContent(strings, appState = appState)
+                    MainScreenContent(strings, appState = appState, selectedTab = selectedTab)
                 }
             }
         }
@@ -149,9 +149,7 @@ private fun ColumbaTopBar(state: DesktopReticulumService.State) {
 }
 
 @Composable
-private fun MainScreenContent(strings: Strings, appState: AppState) {
-    var selectedTab by remember { mutableIntStateOf(0) }
-
+private fun MainScreenContent(strings: Strings, appState: AppState, selectedTab: Int) {
     Column(modifier = Modifier.fillMaxSize()) {
         // Tab content
         when (selectedTab) {

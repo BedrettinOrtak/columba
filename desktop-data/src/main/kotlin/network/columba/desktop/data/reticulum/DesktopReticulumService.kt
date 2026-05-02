@@ -21,6 +21,8 @@ import network.reticulum.identity.Identity
 import network.reticulum.interfaces.InterfaceAdapter
 import network.reticulum.interfaces.auto.AutoInterface
 import network.reticulum.interfaces.tcp.TCPClientInterface
+import network.reticulum.interfaces.tcp.TCPServerInterface
+import network.reticulum.interfaces.udp.UDPInterface
 import network.reticulum.lxmf.LXMRouter
 import network.reticulum.lxmf.LXMessage
 import network.reticulum.transport.Transport
@@ -243,6 +245,8 @@ class DesktopReticulumService(
             runCatching {
                 when (iface) {
                     is TCPClientInterface -> iface.stop()
+                    is TCPServerInterface -> iface.detach()
+                    is UDPInterface -> iface.stop()
                     is AutoInterface -> iface.detach()
                 }
             }
@@ -259,11 +263,17 @@ class DesktopReticulumService(
     /**
      * Send an LXMF message to a peer. Returns the message hash on enqueue.
      * Throws if the recipient identity isn't known and a path request times out.
+     *
+     * @param fields Optional LXMF fields map. Wire-format values:
+     *   - field 5 (FIELD_FILE_ATTACHMENTS): `List<List<ByteArray>>` of [filenameBytes, dataBytes]
+     *   - field 6 (FIELD_IMAGE): `List(formatString, dataBytes)` e.g. ["webp", ByteArray]
+     *   - field 7 (FIELD_AUDIO): `List(codecId, dataBytes)` e.g. [0, ByteArray]
      */
     suspend fun sendMessage(
         recipientHash: ByteArray,
         content: String,
         title: String = "",
+        fields: Map<Int, Any> = emptyMap(),
     ): ByteArray {
         val r = router ?: error("DesktopReticulumService not started")
         val sourceDest = deliveryDestination ?: error("Delivery destination missing")
@@ -282,7 +292,7 @@ class DesktopReticulumService(
             source = sourceDest,
             content = content,
             title = title,
-            fields = mutableMapOf<Int, Any>(),
+            fields = fields.toMutableMap(),
             desiredMethod = network.reticulum.lxmf.DeliveryMethod.OPPORTUNISTIC,
         )
 
@@ -446,6 +456,10 @@ class DesktopReticulumService(
     private fun startDefaultInterfaces() {
         // AutoInterface: UDP multicast peer discovery on the local segment.
         // Same default the Python RNS reference and the Android client use.
+        // Note: AutoInterface uses IPv6 link-local multicast — if IPv6 is
+        // disabled on this host it will report "0 interfaces" and silently
+        // do nothing, which is why we also bring up an IPv4 UDP broadcast
+        // interface below as a universal LAN fallback.
         runCatching {
             val auto = AutoInterface(
                 name = "Default-Auto",
@@ -457,6 +471,31 @@ class DesktopReticulumService(
             logger.info("Started AutoInterface")
         }.onFailure { e ->
             logger.warn("AutoInterface failed to start", e)
+        }
+
+        // Default IPv4 UDP broadcast interface — peers on the same LAN
+        // running another Columba/Reticulum instance with the same default
+        // (port 4242, broadcast 255.255.255.255) will see each other even
+        // when IPv6 is disabled. Matches the reference RNS UDPInterface
+        // example config (listen 0.0.0.0:4242, forward 255.255.255.255:4242).
+        runCatching {
+            val udp = UDPInterface(
+                /* name = */ "Default-UDP-Broadcast",
+                /* bindIp = */ null,
+                /* bindPort = */ 4242,
+                /* forwardIp = */ "255.255.255.255",
+                /* forwardPort = */ 4242,
+                /* broadcast = */ true,
+                /* multicast = */ false,
+                /* multicastTtl = */ 1,
+                /* parentScope = */ scope,
+            )
+            udp.start()
+            Transport.registerInterface(InterfaceAdapter.Companion.getOrCreate(udp))
+            ownedInterfaces.add(udp)
+            logger.info("Started default UDP broadcast interface on 0.0.0.0:4242")
+        }.onFailure { e ->
+            logger.warn("Default UDP broadcast interface failed to start: ${e.message}")
         }
     }
 
@@ -483,6 +522,71 @@ class DesktopReticulumService(
         Transport.registerInterface(InterfaceAdapter.Companion.getOrCreate(iface))
         ownedInterfaces.add(iface)
         logger.info("Started TCPClientInterface to {}:{}", host, port)
+    }
+
+    /**
+     * Dynamically add a TCPServer interface so other peers can connect to us.
+     * Safe to call after start(). The interface is owned by this service.
+     */
+    fun addTcpServerInterface(
+        bindAddress: String = "0.0.0.0",
+        bindPort: Int = 4242,
+        name: String = "TCP-Server-$bindAddress:$bindPort",
+    ) {
+        check(_state.value == State.READY) { "Service must be READY" }
+        val iface = TCPServerInterface(
+            /* name = */ name,
+            /* bindAddress = */ bindAddress,
+            /* bindPort = */ bindPort,
+        )
+        // Register spawned client interfaces with Transport so path resolution
+        // works for inbound peers — mirrors the conformance bridge wiring.
+        iface.onClientConnected = { spawned ->
+            runCatching {
+                Transport.registerInterface(InterfaceAdapter.Companion.getOrCreate(spawned))
+            }.onFailure { e ->
+                logger.warn("Failed to register spawned TCP client ${spawned.name}: ${e.message}")
+            }
+        }
+        iface.start()
+        Transport.registerInterface(InterfaceAdapter.Companion.getOrCreate(iface))
+        ownedInterfaces.add(iface)
+        logger.info("Started TCPServerInterface on {}:{}", bindAddress, bindPort)
+    }
+
+    /**
+     * Dynamically add a UDP interface (unicast / broadcast / multicast).
+     * Defaults to IPv4 broadcast on port 4242 — the universal LAN fallback
+     * that works without IPv6.
+     */
+    fun addUdpInterface(
+        bindIp: String? = null,
+        bindPort: Int = 4242,
+        forwardIp: String = "255.255.255.255",
+        forwardPort: Int = 4242,
+        broadcast: Boolean = true,
+        multicast: Boolean = false,
+        name: String = "UDP-$forwardIp:$forwardPort",
+    ) {
+        check(_state.value == State.READY) { "Service must be READY" }
+        val iface = UDPInterface(
+            /* name = */ name,
+            /* bindIp = */ bindIp,
+            /* bindPort = */ bindPort,
+            /* forwardIp = */ forwardIp,
+            /* forwardPort = */ forwardPort,
+            /* broadcast = */ broadcast,
+            /* multicast = */ multicast,
+            /* multicastTtl = */ 1,
+            /* parentScope = */ scope,
+        )
+        iface.start()
+        Transport.registerInterface(InterfaceAdapter.Companion.getOrCreate(iface))
+        ownedInterfaces.add(iface)
+        logger.info(
+            "Started UDPInterface bind={}:{} forward={}:{} broadcast={} multicast={}",
+            bindIp ?: "*", bindPort, forwardIp, forwardPort, broadcast, multicast,
+        )
     }
 
     private fun ByteArray.toHex(): String = joinToString("") { "%02x".format(it) }

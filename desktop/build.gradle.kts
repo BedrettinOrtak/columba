@@ -51,26 +51,46 @@ compose.desktop {
     application {
         mainClass = "network.columba.app.desktop.DesktopApplicationKt"
 
-        // TODO: Fix version format for native distributions
-        // nativeDistributions {
-        //     targetFormats(TargetFormat.Deb, TargetFormat.Rpm)
-        //
-        //     packageName = "Columba"
-        //     description = "Columba - Reticulum messaging for desktop"
-        //     copyright = "© 2026 Columba Project"
-        //     licenseFile.set(project.file("../LICENSE.md"))
-        //
-        //     linux {
-        //         iconFile.set(project.file("../desktop/icons/icon.png"))
-        //         shortcut = true
-        //         packageName = "columba"
-        //         debMaintainer = "columba@example.com"
-        //         appCategory = "Network"
-        //     }
-        // }
+        nativeDistributions {
+            targetFormats(TargetFormat.Deb, TargetFormat.Msi, TargetFormat.Exe)
+
+            packageName = "Columba"
+            packageVersion = "1.0.0"
+            description = "Columba - Reticulum messaging for desktop"
+            copyright = "© 2026 Columba Project"
+            vendor = "Columba Project"
+            licenseFile.set(project.file("../LICENSE.md"))
+
+            modules("java.sql", "java.naming", "jdk.crypto.ec", "java.desktop")
+
+            linux {
+                iconFile.set(project.file("icons/icon.png"))
+                shortcut = true
+                menuGroup = "Network"
+                packageName = "columba"
+                debMaintainer = "columba@example.com"
+                appCategory = "Network"
+            }
+
+            windows {
+                iconFile.set(project.file("icons/icon.ico"))
+                menuGroup = "Columba"
+                shortcut = true
+                dirChooser = true
+                perUserInstall = true
+                // Stable upgrade UUID — keep constant across releases.
+                upgradeUuid = "0a3b6c4f-58d5-4d2c-9f0a-3e1f7c2b8e6d"
+            }
+
+            macOS {
+                iconFile.set(project.file("icons/icon.png"))
+                bundleID = "network.columba.app.desktop"
+            }
+        }
 
         buildTypes.release.proguard {
             configurationFiles.from(project.file("proguard-rules.pro"))
+            isEnabled.set(false)
         }
     }
 }

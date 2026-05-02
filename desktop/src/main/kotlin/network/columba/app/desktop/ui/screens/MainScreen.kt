@@ -14,8 +14,19 @@ import network.columba.app.desktop.i18n.Strings
 
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {
-    var isOnline by remember { mutableStateOf(false) }
     val strings by Strings.stringsState.collectAsState()
+
+    // Drive online status from the live Reticulum service state.
+    val rnsService = remember {
+        runCatching {
+            getKoin().get<network.columba.desktop.data.reticulum.DesktopReticulumService>()
+        }.getOrNull()
+    }
+    val rnsState by (rnsService?.state?.collectAsState()
+        ?: remember {
+            mutableStateOf(network.columba.desktop.data.reticulum.DesktopReticulumService.State.STOPPED)
+        })
+    val isOnline = rnsState == network.columba.desktop.data.reticulum.DesktopReticulumService.State.READY
 
     // Check if there's an active identity
     val identityRepository = getKoin().get<network.columba.shared.domain.repository.IdentityRepository>()

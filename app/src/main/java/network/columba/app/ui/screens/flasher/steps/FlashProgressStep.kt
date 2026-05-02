@@ -1,5 +1,7 @@
 package network.columba.app.ui.screens.flasher.steps
 
+import network.columba.app.R
+
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -417,4 +419,3 @@ private fun CancelConfirmationDialog(
         },
     )
 }
-import network.columba.app.R

@@ -16,53 +16,54 @@ class ColumbaDatabase(
     private val databaseFile: File,
 ) {
     private val logger = LoggerFactory.getLogger(ColumbaDatabase::class.java)
-    private val connectionPool = ConcurrentHashMap<String, Connection>()
 
     init {
         ensureTablesExist()
     }
 
     /**
-     * Get or create a database connection.
-     * Thread-safe connection pooling.
+     * Get a fresh database connection. Caller is responsible for closing it
+     * (DAOs use Connection.use { } so pooling here would double-close).
      */
     fun getConnection(): Connection {
-        val threadId = Thread.currentThread().name
-        return connectionPool.getOrPut(threadId) {
-            createConnection().also { conn ->
-                // Configure connection for better performance
-                conn.autoCommit = false
-                conn.createStatement().execute("PRAGMA journal_mode=WAL")
-                conn.createStatement().execute("PRAGMA synchronous=NORMAL")
-                conn.createStatement().execute("PRAGMA foreign_keys=ON")
-                conn.createStatement().execute("PRAGMA busy_timeout=5000")
+        return createConnection().also { conn ->
+            // Pragmas must run with autoCommit=true; SQLite cannot change
+            // journal_mode while a transaction is open. Each PRAGMA must
+            // be fully consumed (close stmt) before the next runs,
+            // otherwise SQLITE_BUSY ("SQL statements in progress").
+            conn.autoCommit = true
+            listOf(
+                "PRAGMA journal_mode=WAL",
+                "PRAGMA synchronous=NORMAL",
+                "PRAGMA foreign_keys=ON",
+                "PRAGMA busy_timeout=5000",
+            ).forEach { sql ->
+                conn.createStatement().use { stmt ->
+                    stmt.execute(sql)
+                    stmt.resultSet?.close()
+                }
             }
+            // Leave autoCommit=true: DAOs use Connection.use { } which only
+            // closes; without auto-commit their writes would silently roll back.
+            // withConnection() flips autoCommit off when it needs a transaction.
         }
     }
 
     private fun createConnection(): Connection {
         val url = "jdbc:sqlite:${databaseFile.absolutePath}"
-        logger.info("Creating database connection: $url")
         return DriverManager.getConnection(url)
     }
 
     /**
-     * Close all open connections.
-     * Call this when the application shuts down.
+     * No-op: connections are short-lived and closed by callers via Connection.use.
      */
     fun close() {
-        connectionPool.values.forEach { conn ->
-            try {
-                conn.close()
-            } catch (e: Exception) {
-                logger.error("Error closing database connection", e)
-            }
-        }
-        connectionPool.clear()
+        // intentionally empty
     }
 
     private fun ensureTablesExist() {
         val conn = getConnection()
+        conn.autoCommit = false
         try {
             // Create local_identities table
             conn.createStatement().execute(
@@ -170,6 +171,7 @@ class ColumbaDatabase(
      */
     suspend fun <T> withConnection(block: (Connection) -> T): T = withContext(Dispatchers.IO) {
         val conn = getConnection()
+        conn.autoCommit = false
         try {
             val result = block(conn)
             conn.commit()
@@ -177,6 +179,8 @@ class ColumbaDatabase(
         } catch (e: Exception) {
             conn.rollback()
             throw e
+        } finally {
+            conn.close()
         }
     }
 

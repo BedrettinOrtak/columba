@@ -258,6 +258,108 @@ fun SettingsScreen(modifier: Modifier = Modifier, appState: AppState) {
             tcpFeedback?.let {
                 Text(it, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
+
+            // UDP broadcast interface — universal IPv4 LAN fallback.
+            // Default port 4242 matches the Python RNS reference config.
+            Spacer(modifier = Modifier.height(16.dp))
+            var udpForward by remember { mutableStateOf("255.255.255.255") }
+            var udpPort by remember { mutableStateOf("4242") }
+            var udpFeedback by remember { mutableStateOf<String?>(null) }
+            SettingItem(
+                title = "UDP Broadcast",
+                description = "Local LAN mesh (IPv4) — default 255.255.255.255:4242",
+                control = {}
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                OutlinedTextField(
+                    value = udpForward,
+                    onValueChange = { udpForward = it },
+                    label = { Text("Forward IP") },
+                    singleLine = true,
+                    modifier = Modifier.weight(2f),
+                )
+                OutlinedTextField(
+                    value = udpPort,
+                    onValueChange = { udpPort = it.filter { ch -> ch.isDigit() }.take(5) },
+                    label = { Text("Port") },
+                    singleLine = true,
+                    modifier = Modifier.weight(1f),
+                )
+                Button(
+                    enabled = rnsService != null && udpForward.isNotBlank() && udpPort.toIntOrNull() != null,
+                    onClick = {
+                        val port = udpPort.toIntOrNull() ?: return@Button
+                        udpFeedback = runCatching {
+                            rnsService?.addUdpInterface(
+                                bindIp = null,
+                                bindPort = port,
+                                forwardIp = udpForward.trim(),
+                                forwardPort = port,
+                                broadcast = true,
+                            )
+                        }.fold(
+                            onSuccess = { "Added UDP $udpForward:$port" },
+                            onFailure = { "Failed: ${it.message}" },
+                        )
+                    },
+                ) { Text("Add") }
+            }
+            udpFeedback?.let {
+                Text(it, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+
+            // TCP server interface — host a Reticulum TCP listener that
+            // remote peers can connect to. Useful when this machine has a
+            // routable address or port-forwarding from the LAN gateway.
+            Spacer(modifier = Modifier.height(16.dp))
+            var tcpsBind by remember { mutableStateOf("0.0.0.0") }
+            var tcpsPort by remember { mutableStateOf("4242") }
+            var tcpsFeedback by remember { mutableStateOf<String?>(null) }
+            SettingItem(
+                title = "TCP Server",
+                description = "Listen for incoming peer connections",
+                control = {}
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                OutlinedTextField(
+                    value = tcpsBind,
+                    onValueChange = { tcpsBind = it },
+                    label = { Text("Bind") },
+                    singleLine = true,
+                    modifier = Modifier.weight(2f),
+                )
+                OutlinedTextField(
+                    value = tcpsPort,
+                    onValueChange = { tcpsPort = it.filter { ch -> ch.isDigit() }.take(5) },
+                    label = { Text("Port") },
+                    singleLine = true,
+                    modifier = Modifier.weight(1f),
+                )
+                Button(
+                    enabled = rnsService != null && tcpsBind.isNotBlank() && tcpsPort.toIntOrNull() != null,
+                    onClick = {
+                        val port = tcpsPort.toIntOrNull() ?: return@Button
+                        tcpsFeedback = runCatching {
+                            rnsService?.addTcpServerInterface(tcpsBind.trim(), port)
+                        }.fold(
+                            onSuccess = { "Listening on $tcpsBind:$port" },
+                            onFailure = { "Failed: ${it.message}" },
+                        )
+                    },
+                ) { Text("Listen") }
+            }
+            tcpsFeedback?.let {
+                Text(it, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+
             SettingItem(
                 title = strings.i2pInterface,
                 description = strings.connectViaI2p,

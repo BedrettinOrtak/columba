@@ -367,6 +367,7 @@ private data class DeliveryMethodInfo(
     val subtitle: String,
 )
 
+@Composable
 private fun getDeliveryMethodInfo(method: String): DeliveryMethodInfo =
     when (method) {
         "opportunistic" ->
@@ -406,6 +407,7 @@ private data class HopCountInfo(
     val subtitle: String,
 )
 
+@Composable
 private fun getHopCountInfo(hops: Int): HopCountInfo =
     when {
         hops < 0 ->

@@ -1,5 +1,7 @@
 package network.columba.app.ui.screens.onboarding.pages
 
+import network.columba.app.R
+
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -281,4 +283,3 @@ private fun PermissionCard(
         }
     }
 }
-import network.columba.app.R

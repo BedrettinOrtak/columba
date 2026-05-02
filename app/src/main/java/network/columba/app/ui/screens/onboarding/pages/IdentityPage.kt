@@ -1,5 +1,7 @@
 package network.columba.app.ui.screens.onboarding.pages
 
+import network.columba.app.R
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -155,4 +157,3 @@ fun IdentityPage(
         Spacer(modifier = Modifier.height(24.dp))
     }
 }
-import network.columba.app.R

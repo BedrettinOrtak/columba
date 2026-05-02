@@ -1506,18 +1506,19 @@ internal fun InterfaceTypeIcon(
         "I2PInterface" -> {
             // Use MDI incognito icon for I2P (anonymity network)
             val codepoint = MaterialDesignIcons.getCodepointOrNull("incognito")
+            val i2pDesc = stringResource(R.string.discovered_interfaces_i2p_network_caa2)
             if (codepoint != null) {
                 Text(
                     text = codepoint,
                     fontFamily = MdiFont,
                     fontSize = (size.value * 1.2f).sp, // MDI icons render slightly smaller
                     color = tint,
-                    modifier = modifier.semantics { contentDescription = stringResource(R.string.discovered_interfaces_i2p_network_caa2) },
+                    modifier = modifier.semantics { contentDescription = i2pDesc },
                 )
             } else {
                 Icon(
                     imageVector = Icons.Default.Settings,
-                    contentDescription = stringResource(R.string.discovered_interfaces_i2p_network_caa2),
+                    contentDescription = i2pDesc,
                     modifier = modifier.size(size),
                     tint = tint,
                 )

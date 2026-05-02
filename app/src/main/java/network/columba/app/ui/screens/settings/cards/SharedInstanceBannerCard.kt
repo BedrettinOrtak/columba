@@ -1,5 +1,7 @@
 package network.columba.app.ui.screens.settings.cards
 
+import network.columba.app.R
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
@@ -333,4 +335,3 @@ fun SharedInstanceBannerCard(
         }
     }
 }
-import network.columba.app.R

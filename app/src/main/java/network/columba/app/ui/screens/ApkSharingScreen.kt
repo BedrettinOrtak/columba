@@ -301,7 +301,7 @@ private fun SharingSection(
                 if (apkSizeBytes > 0) {
                     val sizeMb = apkSizeBytes / (1024.0 * 1024.0)
                     Text(
-                        text = "APK size: ${"%.1f".format(apkInfo.sizeMB)} MB",
+                        text = "APK size: ${"%.1f".format(sizeMb)} MB",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

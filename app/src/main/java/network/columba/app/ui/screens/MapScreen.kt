@@ -1187,6 +1187,7 @@ fun MapScreen(
         }
 
         // Add focus marker for discovered interface location (if provided)
+        val mapLocationLabel = stringResource(R.string.map_location)
         LaunchedEffect(focusLatitude, focusLongitude, focusLabel, mapStyleLoaded) {
             if (!mapStyleLoaded) return@LaunchedEffect
             if (focusLatitude == null || focusLongitude == null) return@LaunchedEffect
@@ -1200,7 +1201,7 @@ fun MapScreen(
             // Create a marker bitmap for the focus location
             val imageId = "focus-marker-image"
             if (style.getImage(imageId) == null) {
-                val label = focusLabel ?: stringResource(R.string.map_location)
+                val label = focusLabel ?: mapLocationLabel
                 val initial = label.firstOrNull() ?: 'L'
                 val bitmap =
                     MarkerBitmapFactory.createInitialMarker(
